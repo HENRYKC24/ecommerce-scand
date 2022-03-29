@@ -1,5 +1,5 @@
 .navBar {
-  width: 95%;
+  width: 90%;
   display: flex;
   flex-direction: row;
   margin: auto;
@@ -44,9 +44,9 @@
 
 .numOfItemsInCat {
   display: inline-block;
-  position: absolute;
-  top: 25px;
-  right: 25px;
+  position: relative;
+  top: -20px;
+  right: 15px;
   min-width: 18px;
   height: 18px;
   line-height: 1.5;
