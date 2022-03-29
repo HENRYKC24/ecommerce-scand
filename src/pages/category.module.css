@@ -1,0 +1,38 @@
+/* listContainer, catName, listItems, listItem, image, dataName, amount, */
+
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Raleway:ital,wght@0,300;1,200&display=swap');
+
+.listContainer {
+  width: 90%;
+  margin: auto;
+}
+
+.catName {
+  color: #1d1f22;
+  font-family: 'Raleway', sans-serif;
+}
+
+.listItems {
+  list-style-type: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  text-align: center;
+  gap: 20px;
+}
+
+.listItem {
+  text-align: center;
+  width: 94%;
+}
+
+.image {
+  width: 100%;
+  align-self: center;
+  margin: auto;
+}
+
+.dataName,
+.amount {
+  text-align: left;
+}
