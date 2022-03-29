@@ -1,0 +1,64 @@
+.navBar {
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+/* navBar, navList, navItem, logo, currency, catCurrency, */
+
+.navList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.navItem {
+  margin-right: 30px;
+  font-size: 16px;
+}
+
+.catCurrency {
+  display: flex;
+  flex-direction: row;
+}
+
+.catCurrency * {
+  margin-left: 10px;
+}
+
+.currency {
+  border: none;
+  background-color: white;
+  font-size: 1.2rem;
+}
+
+.catStyle {
+  width: 25px;
+  height: 25px;
+}
+
+.numOfItemsInCat {
+  display: inline-block;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  min-width: 18px;
+  height: 18px;
+  line-height: 1.5;
+  background-color: black;
+  color: white;
+  font-weight: 900;
+  border-radius: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.logo {
+  position: absolute;
+  left: calc(50% - 15px);
+}
