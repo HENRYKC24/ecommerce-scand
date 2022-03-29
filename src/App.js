@@ -1,5 +1,6 @@
 import { PureComponent } from 'react';
 import Header from './components/Header';
+import Category from './pages/Category';
 import './App.css';
 
 class App extends PureComponent {
@@ -7,7 +8,7 @@ class App extends PureComponent {
     return (
       <div>
         <Header />
-        <div>One of a kind</div>
+        <Category />
 
       </div>
     );
