@@ -20,6 +20,16 @@
 .navItem {
   margin-right: 30px;
   font-size: 16px;
+  cursor: pointer;
+}
+
+.navItem:hover {
+  color: #5ece7b;
+}
+
+.active {
+  border-bottom: solid 2px #5ece7b;
+  color: #5ece7b;
 }
 
 .catCurrency {
@@ -31,10 +41,52 @@
   margin-left: 10px;
 }
 
-.currency {
+.currencyStyle {
+  margin: 0;
   border: none;
   background-color: white;
   font-size: 1.2rem;
+}
+
+.arrow {
+  width: 15px;
+}
+
+.currencyList {
+  position: absolute;
+  margin: 20px 0 0 -25px;
+  list-style: none;
+  padding: 0;
+  width: 114px;
+  box-shadow: 1px 1px 5px 2px rgb(230, 224, 224);
+  text-align: center;
+}
+
+.currencyList button {
+  display: block;
+  margin: 2px auto 0;
+  cursor: pointer;
+  height: 50px;
+  width: 100%;
+  line-height: 50px;
+  border: none;
+  background-color: #fff;
+}
+
+.currencyList button:hover {
+  color: #fff;
+  background-color: #5ece7b;
+}
+
+.dollarDiv {
+  display: inline-block;
+  margin: 0;
+}
+
+.currencyArrow {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
 }
 
 .catStyle {
