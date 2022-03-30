@@ -45,7 +45,6 @@ class Cart extends PureComponent {
       image,
     } = styles;
 
-    console.log(this.state);
     const { items } = this.state;
 
     return (
