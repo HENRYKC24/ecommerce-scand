@@ -1,3 +1,128 @@
-.one {
-  color: red;
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Raleway:ital,wght@0,300;1,200&display=swap');
+
+.cartContainer {
+  width: 90%;
+  margin: auto;
+  font-family: 'Raleway', sans-serif;
 }
+
+.cartContainer p {
+  margin: 0;
+}
+
+p.cartHeading {
+  font-weight: 700;
+  font-size: 32px;
+  margin: 80px 0;
+}
+
+p.name {
+  font-weight: 600;
+  font-size: 30px;
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+p.status {
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.cartList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cartItem {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  justify-content: space-between;
+  border-top: solid 0.5px rgb(214, 207, 207);
+  padding-top: 10px;
+}
+
+p.prize {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.sizeList {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+.sizeItem {
+  height: 45px;
+  width: 63px;
+  border: solid 1px;
+  margin-right: 5px;
+  text-align: center;
+  line-height: 45px;
+}
+
+.right {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  height: 45px;
+  width: 45px;
+  border: solid rgb(214, 207, 207);
+  color: rgb(172, 164, 164);
+  background-color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.button:hover {
+  border: solid #5ece7b;
+  background-color: #5ece7b;
+  color: #fff;
+}
+
+.button:active {
+  border: solid #000;
+  background-color: #000;
+  color: #fff;
+}
+
+.itemCount {
+  font-size: 24px;
+  font-weight: 500;
+  font-family: sans-serif;
+}
+
+.image {
+  height: 193px;
+  margin-left: 12px;
+}
+
+/* ,
+,
+,
+,
+left,
+name,
+status,
+prize,
+sizeList,
+sizeItem,
+right,
+buttonsContainer,
+button,
+itemCount,
+image, */
