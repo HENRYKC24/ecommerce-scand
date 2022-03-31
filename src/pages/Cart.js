@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+// import { useQuery } from 'react-query';
 import OneCartItem from '../components/CartItem';
 import styles from './cart.module.css';
 
