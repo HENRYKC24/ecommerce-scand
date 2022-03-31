@@ -113,7 +113,14 @@ export default class Header extends PureComponent {
             </div>
           </div>
         </nav>
-        {overlayOpen && <ImportedOverlay />}
+        {overlayOpen && (
+        <ImportedOverlay
+          removeOverlay={() => {
+            this.setState({ overlayOpen: false });
+            this.handleBodyScroll();
+          }}
+        />
+        )}
       </section>
     );
   }
