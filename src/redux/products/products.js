@@ -98,7 +98,7 @@ export const fetchProducts = () => async () => {
   const result = await fetchData(getProducts);
   // const { currencies } = result.data;
   // dispatach(addCurrencies(currencies));
-  // console.log(result, 'Result*********');
+  console.log(result, 'Result*********');
 };
 
 export const fetchCurrencies = () => async (dispatach) => {
