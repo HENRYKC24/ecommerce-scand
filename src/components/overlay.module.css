@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Raleway:ital,wght@0,300;1,200&display=swap');
+
+.overlay {
+  position: absolute;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(57, 55, 72, 0.22);
+  font-family: 'Raleway', sans-serif;
+}
+
+.card {
+  position: absolute;
+  right: 7%;
+  background-color: #fff;
+  width: 325px;
+  height: auto;
+  padding: 10px;
+}
+
+.cartList {
+  padding: 0;
+  margin: 0;
+  max-height: 70vh;
+  overflow-y: scroll;
+}
+
+.totalContainer,
+.buttonsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.totalContainer span:nth-child(2) {
+  font-family: sans-serif;
+}
+
+.buttonsContainer {
+  margin-top: 35px;
+}
+
+.buttonsContainer button {
+  height: 43px;
+  width: 46%;
+  cursor: pointer;
+}
+
+.viewBag {
+  color: #1d1f22;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #fff;
+  border: 1px solid grey;
+}
+
+.viewBag:hover {
+  background-color: black;
+  color: white;
+}
+
+.checkOut {
+  background-color: #5ece7b;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+}
+
+.checkOut:hover {
+  background-color: #fff;
+  color: #5ece7b;
+  border: 1px solid gray;
+}

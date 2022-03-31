@@ -1,52 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Cookie&family=Raleway:ital,wght@0,300;1,200&display=swap');
 
-.cartContainer {
-  width: 90%;
-  margin: auto;
-  font-family: 'Raleway', sans-serif;
-}
-
-.cartContainer p {
-  margin: 0;
-}
-
-p.cartHeading {
-  font-weight: 700;
-  font-size: 32px;
-  margin: 80px 0;
-}
-
-p.name {
-  font-weight: 600;
-  font-size: 30px;
-  margin: 0;
-  margin-bottom: 16px;
-}
-
-p.status {
-  font-size: 30px;
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-
-.cartList {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
 .cartItem {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 40% 40%;
   justify-content: space-between;
-  border-top: solid 0.5px rgb(214, 207, 207);
-  padding-top: 10px;
+  margin: 20px 0;
 }
 
 p.prize {
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 900;
+  margin: 10px 0 15px;
+  color: #1d1f22;
 }
 
 .sizeList {
@@ -58,12 +23,21 @@ p.prize {
 }
 
 .sizeItem {
-  height: 45px;
-  width: 63px;
+  height: 24px;
+  width: 24px;
   border: solid 1px;
   margin-right: 5px;
   text-align: center;
-  line-height: 45px;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.name {
+  margin: 0;
+}
+
+.status {
+  margin: 0;
 }
 
 .right {
@@ -79,13 +53,15 @@ p.prize {
 }
 
 .button {
-  height: 45px;
-  width: 45px;
+  height: 24px;
+  width: 24px;
+  line-height: 15px;
   border: solid rgb(214, 207, 207);
   color: rgb(172, 164, 164);
   background-color: #fff;
-  font-size: 30px;
+  font-size: 15px;
   cursor: pointer;
+  text-align: center;
 }
 
 .button:hover {
@@ -101,28 +77,12 @@ p.prize {
 }
 
 .itemCount {
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 500;
   font-family: sans-serif;
 }
 
 .image {
-  max-height: 193px;
+  max-height: 137px;
   margin-left: 12px;
 }
-
-/* ,
-,
-,
-,
-left,
-name,
-status,
-prize,
-sizeList,
-sizeItem,
-right,
-buttonsContainer,
-button,
-itemCount,
-image, */
