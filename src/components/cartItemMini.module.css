@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Cookie&family=Raleway:ital,wght@0,300;1,200&display=swap');
+
+.cartItem {
+  display: grid;
+  grid-template-columns: 40% 40%;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+p.prize {
+  font-size: 16px;
+  font-weight: 900;
+  margin: 10px 0 15px;
+  color: #1d1f22;
+}
+
+.sizeList {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+.sizeItem {
+  height: 24px;
+  width: 24px;
+  border: solid 1px;
+  margin-right: 5px;
+  text-align: center;
+  line-height: 24px;
+  font-size: 14px;
+}
+
+.name {
+  margin: 0;
+}
+
+.status {
+  margin: 0;
+}
+
+.right {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  height: 24px;
+  width: 24px;
+  line-height: 15px;
+  border: solid rgb(214, 207, 207);
+  color: rgb(172, 164, 164);
+  background-color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button:hover {
+  border: solid #5ece7b;
+  background-color: #5ece7b;
+  color: #fff;
+}
+
+.button:active {
+  border: solid #000;
+  background-color: #000;
+  color: #fff;
+}
+
+.itemCount {
+  font-size: 16px;
+  font-weight: 500;
+  font-family: sans-serif;
+}
+
+.image {
+  max-height: 137px;
+  margin-left: 12px;
+}
