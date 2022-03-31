@@ -107,7 +107,7 @@ p.prize {
 }
 
 .image {
-  height: 193px;
+  max-height: 193px;
   margin-left: 12px;
 }
 
