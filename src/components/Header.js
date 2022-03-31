@@ -18,10 +18,21 @@ export default class Header extends PureComponent {
     this.handleChange = this.handleChange.bind(this);
     this.toggleMenuOpen = this.toggleMenuOpen.bind(this);
     this.toggleOverlayOpen = this.toggleOverlayOpen.bind(this);
+    this.handleBodyScroll = this.handleBodyScroll.bind(this);
   }
 
   handleChange(event) {
     this.setState({ currency: event.target.value });
+  }
+
+  handleBodyScroll() {
+    const { overlayOpen } = this.state;
+    const { stopScrolling } = styles;
+    if (overlayOpen) {
+      document.body.classList.remove(stopScrolling);
+    } else {
+      document.body.classList.add(stopScrolling);
+    }
   }
 
   toggleMenuOpen() {
@@ -36,6 +47,7 @@ export default class Header extends PureComponent {
     this.setState({
       overlayOpen: !overlayOpen,
     });
+    this.handleBodyScroll();
   }
 
   updateCurrency(curr) {
@@ -101,7 +113,14 @@ export default class Header extends PureComponent {
             </div>
           </div>
         </nav>
-        {overlayOpen && <ImportedOverlay />}
+        {overlayOpen && (
+        <ImportedOverlay
+          removeOverlay={() => {
+            this.setState({ overlayOpen: false });
+            this.handleBodyScroll();
+          }}
+        />
+        )}
       </section>
     );
   }

@@ -125,3 +125,8 @@
   position: absolute;
   left: calc(50% - 15px);
 }
+
+.stopScrolling {
+  height: 100vh;
+  overflow: hidden;
+}

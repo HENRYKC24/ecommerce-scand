@@ -21,8 +21,9 @@
 .cartList {
   padding: 0;
   margin: 0;
-  max-height: 70vh;
+  max-height: 65vh;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .totalContainer,
@@ -30,6 +31,10 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.totalContainer {
+  padding-top: 10px;
 }
 
 .totalContainer span:nth-child(2) {

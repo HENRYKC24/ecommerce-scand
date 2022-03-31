@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import OneCartItemMini from './CartItemMini';
 import styles from './overlay.module.css';
 
 export class Overlay extends PureComponent {
   render() {
+    const { removeOverlay } = this.props;
     const {
       overlay,
       card,
@@ -15,8 +17,8 @@ export class Overlay extends PureComponent {
       checkOut,
     } = styles;
     return (
-      <div className={overlay}>
-        <div className={card}>
+      <div role="button" tabIndex={0} onClick={removeOverlay} onKeyDown={removeOverlay} className={overlay}>
+        <div role="button" tabIndex={0} onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()} className={card}>
           <div className={top}>
             <span>
               <strong>My Bag:</strong>
@@ -45,5 +47,13 @@ export class Overlay extends PureComponent {
     );
   }
 }
+
+Overlay.defaultProps = {
+  removeOverlay: () => {},
+};
+
+Overlay.propTypes = {
+  removeOverlay: PropTypes.func,
+};
 
 export default Overlay;
