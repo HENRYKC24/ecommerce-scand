@@ -1,44 +1,32 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styles from './header.module.css';
 import appLogo from '../assets/images/logo.svg';
 import cat from '../assets/images/cat.svg';
 import up from '../assets/images/up.svg';
 import down from '../assets/images/down.svg';
 import ImportedOverlay from './Overlay';
-import fetchData from '../utils/fetchData';
+// import fetchData from '../utils/fetchData';
+import { changeCurrency, fetchCurrencies, fetchProducts } from '../redux/products/products';
 
-export default class Header extends PureComponent {
+class Header extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      currency: '$',
-      currencies: [],
       menuOpen: false,
       overlayOpen: false,
     };
-    this.updateCurrency = this.updateCurrency.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.toggle = this.toggle.bind(this);
     this.toggleMenuOpen = this.toggleMenuOpen.bind(this);
     this.toggleOverlayOpen = this.toggleOverlayOpen.bind(this);
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
   }
 
   async componentDidMount() {
-    const getCurrencies = `
-    {
-      currencies {
-        label
-        symbol
-      }
-    }
-  `;
-    const result = await fetchData(getCurrencies);
-    const { currencies } = result.data;
-    this.setState({ currencies });
-  }
-
-  handleChange(event) {
-    this.setState({ currency: event.target.value });
+    const { dispatch } = this.props;
+    dispatch(fetchCurrencies());
+    dispatch(fetchProducts());
   }
 
   handleBodyScroll() {
@@ -66,10 +54,7 @@ export default class Header extends PureComponent {
     this.handleBodyScroll();
   }
 
-  updateCurrency(curr) {
-    this.setState({
-      currency: curr,
-    });
+  toggle() {
     this.toggleMenuOpen();
   }
 
@@ -99,8 +84,12 @@ export default class Header extends PureComponent {
     ];
 
     const {
-      currency, currencies, menuOpen, overlayOpen,
+      menuOpen, overlayOpen,
     } = this.state;
+
+    const state = this.props;
+
+    const { dispatch } = this.props;
 
     return (
       <section className={header}>
@@ -112,13 +101,20 @@ export default class Header extends PureComponent {
           <div className={catCurrency}>
             <div className={dollarDiv}>
               <div role="button" tabIndex={0} onClick={this.toggleMenuOpen} onKeyDown={() => this.toggleMenuOpen} className={currencyArrow}>
-                <p className={currencyStyle}>{currency}</p>
+                <p className={currencyStyle}>{state.activeCurrency}</p>
                 {menuOpen ? <img className={arrow} src={up} alt="up arrow" /> : <img className={arrow} src={down} alt="down arrow" />}
               </div>
               {menuOpen && (
               <div className={currencyList}>
-                {currencies.map((currency) => (
-                  <button key={Math.random()} onClick={() => this.updateCurrency(currency.symbol)} type="button">
+                {state.currencies.map((currency) => (
+                  <button
+                    key={Math.random()}
+                    onClick={() => {
+                      dispatch(changeCurrency(currency.symbol));
+                      this.toggle();
+                    }}
+                    type="button"
+                  >
                     {currency.symbol}
                     {' '}
                     {currency.label}
@@ -147,3 +143,15 @@ export default class Header extends PureComponent {
     );
   }
 }
+
+function mapStateToProps({ state }) {
+  return state;
+}
+
+Header.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  activeCurrency: PropTypes.string.isRequired,
+  currencies: PropTypes.instanceOf(Array).isRequired,
+};
+
+export default connect(mapStateToProps)(Header);
