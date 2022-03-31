@@ -5,12 +5,14 @@ import cat from '../assets/images/cat.svg';
 import up from '../assets/images/up.svg';
 import down from '../assets/images/down.svg';
 import ImportedOverlay from './Overlay';
+import fetchData from '../utils/fetchData';
 
 export default class Header extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       currency: '$',
+      currencies: [],
       menuOpen: false,
       overlayOpen: false,
     };
@@ -19,6 +21,20 @@ export default class Header extends PureComponent {
     this.toggleMenuOpen = this.toggleMenuOpen.bind(this);
     this.toggleOverlayOpen = this.toggleOverlayOpen.bind(this);
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
+  }
+
+  async componentDidMount() {
+    const getCurrencies = `
+    {
+      currencies {
+        label
+        symbol
+      }
+    }
+  `;
+    const result = await fetchData(getCurrencies);
+    const { currencies } = result.data;
+    this.setState({ currencies });
   }
 
   handleChange(event) {
@@ -82,7 +98,9 @@ export default class Header extends PureComponent {
       { text: 'KIDS', active: false, id: 3 },
     ];
 
-    const { currency, menuOpen, overlayOpen } = this.state;
+    const {
+      currency, currencies, menuOpen, overlayOpen,
+    } = this.state;
 
     return (
       <section className={header}>
@@ -99,9 +117,13 @@ export default class Header extends PureComponent {
               </div>
               {menuOpen && (
               <div className={currencyList}>
-                <button onClick={() => this.updateCurrency('$')} type="button">$ USD</button>
-                <button onClick={() => this.updateCurrency('€')} type="button">&euro; EUR</button>
-                <button onClick={() => this.updateCurrency('¥')} type="button">&yen; JPY</button>
+                {currencies.map((currency) => (
+                  <button key={Math.random()} onClick={() => this.updateCurrency(currency.symbol)} type="button">
+                    {currency.symbol}
+                    {' '}
+                    {currency.label}
+                  </button>
+                ))}
               </div>
               )}
             </div>
