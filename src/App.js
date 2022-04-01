@@ -15,7 +15,7 @@ class App extends PureComponent {
           <Header />
           <Routes>
             <Route exact path="/" element={<Category />} />
-            <Route exact path="/details" element={<Detail />} />
+            <Route exact path="/detail" element={<Detail />} />
             <Route exact path="/cart" element={<Cart />} />
           </Routes>
         </Router>

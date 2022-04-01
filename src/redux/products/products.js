@@ -28,7 +28,7 @@ export function changeCurrency(payload) {
 }
 
 const initialState = {
-  cagetories: [{ cat: 'CLOTHES', id: 1 }, { cat: 'TECH', id: 2 }, { cat: 'ALLL', id: 3 }],
+  categories: [],
   currencies: {},
   activeCurrency: '$',
   cart: [],
@@ -53,9 +53,16 @@ export default function state(state = initialState, action = {}) {
       cart.push(payload);
       return { ...state, cart };
     case REMOVE_FROM_CART:
-      return { ...state, cart: cart.fill((product) => product.id !== payload) };
+      return {
+        ...state,
+        cart: cart.fill((product) => product.id !== payload),
+      };
     case ADD_PRODUCTS:
-      return payload;
+      return {
+        ...state,
+        products: payload.products,
+        categories: payload.categories,
+      };
     case CHANGE_CURRENCY:
       return { ...state, activeCurrency: payload };
     default:
@@ -63,7 +70,7 @@ export default function state(state = initialState, action = {}) {
   }
 }
 
-export const fetchProducts = () => async () => {
+export const fetchProducts = () => async (dispatach) => {
   const getProducts = `
     {
       categories {
@@ -96,9 +103,17 @@ export const fetchProducts = () => async () => {
     }
   `;
   const result = await fetchData(getProducts);
-  // const { currencies } = result.data;
-  // dispatach(addCurrencies(currencies));
-  console.log(result, 'Result*********');
+  const { categories } = result.data;
+  const [all, clothes, tech] = categories;
+
+  dispatach(addProducts({
+    products: { all, clothes, tech },
+    categories: [
+      { name: clothes.name.toUpperCase(), id: 1, active: true },
+      { name: tech.name.toUpperCase(), id: 2, action: false },
+      { name: all.name.toUpperCase(), id: 3, action: false },
+    ],
+  }));
 };
 
 export const fetchCurrencies = () => async (dispatach) => {

@@ -1,5 +1,3 @@
-/* listContainer, catName, listItems, listItem, image, dataName, amount, */
-
 @import url('https://fonts.googleapis.com/css2?family=Cookie&family=Raleway:ital,wght@0,300;1,200&display=swap');
 
 .listContainer {
@@ -24,11 +22,13 @@
 .listItem {
   text-align: center;
   width: 94%;
+  margin-bottom: -30%;
 }
 
 .image {
   width: 100%;
   align-self: center;
+  height: 60%;
   margin: auto;
 }
 

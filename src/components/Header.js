@@ -72,16 +72,11 @@ class Header extends PureComponent {
       active,
       dollarDiv,
       currencyArrow,
+      currencyListWrapper,
       currencyList,
       arrow,
       catWrapper,
     } = styles;
-
-    const menuItems = [
-      { text: 'WOMEN', active: true, id: 1 },
-      { text: 'MEN', active: false, id: 2 },
-      { text: 'KIDS', active: false, id: 3 },
-    ];
 
     const {
       menuOpen, overlayOpen,
@@ -89,13 +84,26 @@ class Header extends PureComponent {
 
     const state = this.props;
 
-    const { dispatch } = this.props;
+    console.log(state, 'State......');
+
+    const { dispatch, categories } = this.props;
 
     return (
-      <section className={header}>
+      <section
+        role="button"
+        tabIndex={0}
+        onClick={() => {
+          const { overlayOpen, menuOpen } = this.state;
+          if (overlayOpen) this.setState({ overlayOpen: false });
+          if (menuOpen) this.setState({ menuOpen: false });
+          if (overlayOpen) this.handleBodyScroll();
+        }}
+        onKeyDown={() => this.toggleMenuOpen}
+        className={header}
+      >
         <nav className={navBar}>
           <ul className={navList}>
-            {menuItems.map((item) => <li key={item.id} className={`${navItem} ${item.active ? active : ''}`}>{item.text}</li>)}
+            {categories.map((category) => <li key={category.id} className={`${navItem} ${category.active ? active : ''}`}>{category.name}</li>)}
           </ul>
           <img className={logo} src={appLogo} alt="applogo" />
           <div className={catCurrency}>
@@ -105,21 +113,23 @@ class Header extends PureComponent {
                 {menuOpen ? <img className={arrow} src={up} alt="up arrow" /> : <img className={arrow} src={down} alt="down arrow" />}
               </div>
               {menuOpen && (
-              <div className={currencyList}>
-                {state.currencies.map((currency) => (
-                  <button
-                    key={Math.random()}
-                    onClick={() => {
-                      dispatch(changeCurrency(currency.symbol));
-                      this.toggle();
-                    }}
-                    type="button"
-                  >
-                    {currency.symbol}
-                    {' '}
-                    {currency.label}
-                  </button>
-                ))}
+              <div className={currencyListWrapper}>
+                <div className={currencyList}>
+                  {state.currencies.map((currency) => (
+                    <button
+                      key={Math.random()}
+                      onClick={() => {
+                        dispatch(changeCurrency(currency.symbol));
+                        this.toggle();
+                      }}
+                      type="button"
+                    >
+                      {currency.symbol}
+                      {' '}
+                      {currency.label}
+                    </button>
+                  ))}
+                </div>
               </div>
               )}
             </div>
@@ -152,6 +162,7 @@ Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   activeCurrency: PropTypes.string.isRequired,
   currencies: PropTypes.instanceOf(Array).isRequired,
+  categories: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps)(Header);
