@@ -72,6 +72,7 @@ class Header extends PureComponent {
       active,
       dollarDiv,
       currencyArrow,
+      currencyListWrapper,
       currencyList,
       arrow,
       catWrapper,
@@ -88,7 +89,18 @@ class Header extends PureComponent {
     const { dispatch, categories } = this.props;
 
     return (
-      <section className={header}>
+      <section
+        role="button"
+        tabIndex={0}
+        onClick={() => {
+          const { overlayOpen, menuOpen } = this.state;
+          if (overlayOpen) this.setState({ overlayOpen: false });
+          if (menuOpen) this.setState({ menuOpen: false });
+          if (overlayOpen) this.handleBodyScroll();
+        }}
+        onKeyDown={() => this.toggleMenuOpen}
+        className={header}
+      >
         <nav className={navBar}>
           <ul className={navList}>
             {categories.map((category) => <li key={category.id} className={`${navItem} ${category.active ? active : ''}`}>{category.name}</li>)}
@@ -101,21 +113,23 @@ class Header extends PureComponent {
                 {menuOpen ? <img className={arrow} src={up} alt="up arrow" /> : <img className={arrow} src={down} alt="down arrow" />}
               </div>
               {menuOpen && (
-              <div className={currencyList}>
-                {state.currencies.map((currency) => (
-                  <button
-                    key={Math.random()}
-                    onClick={() => {
-                      dispatch(changeCurrency(currency.symbol));
-                      this.toggle();
-                    }}
-                    type="button"
-                  >
-                    {currency.symbol}
-                    {' '}
-                    {currency.label}
-                  </button>
-                ))}
+              <div className={currencyListWrapper}>
+                <div className={currencyList}>
+                  {state.currencies.map((currency) => (
+                    <button
+                      key={Math.random()}
+                      onClick={() => {
+                        dispatch(changeCurrency(currency.symbol));
+                        this.toggle();
+                      }}
+                      type="button"
+                    >
+                      {currency.symbol}
+                      {' '}
+                      {currency.label}
+                    </button>
+                  ))}
+                </div>
               </div>
               )}
             </div>
