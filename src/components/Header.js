@@ -77,25 +77,21 @@ class Header extends PureComponent {
       catWrapper,
     } = styles;
 
-    const menuItems = [
-      { text: 'WOMEN', active: true, id: 1 },
-      { text: 'MEN', active: false, id: 2 },
-      { text: 'KIDS', active: false, id: 3 },
-    ];
-
     const {
       menuOpen, overlayOpen,
     } = this.state;
 
     const state = this.props;
 
-    const { dispatch } = this.props;
+    console.log(state, 'State......');
+
+    const { dispatch, categories } = this.props;
 
     return (
       <section className={header}>
         <nav className={navBar}>
           <ul className={navList}>
-            {menuItems.map((item) => <li key={item.id} className={`${navItem} ${item.active ? active : ''}`}>{item.text}</li>)}
+            {categories.map((category) => <li key={category.id} className={`${navItem} ${category.active ? active : ''}`}>{category.name}</li>)}
           </ul>
           <img className={logo} src={appLogo} alt="applogo" />
           <div className={catCurrency}>
@@ -152,6 +148,7 @@ Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   activeCurrency: PropTypes.string.isRequired,
   currencies: PropTypes.instanceOf(Array).isRequired,
+  categories: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps)(Header);
