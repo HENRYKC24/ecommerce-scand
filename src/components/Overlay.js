@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import OneCartItemMini from './CartItemMini';
 import styles from './overlay.module.css';
 
@@ -13,6 +14,7 @@ export class Overlay extends PureComponent {
       top,
       totalContainer,
       buttonsContainer,
+      viewBagLink,
       viewBag,
       checkOut,
     } = styles;
@@ -39,7 +41,11 @@ export class Overlay extends PureComponent {
             <span><strong>$ 200.00</strong></span>
           </div>
           <div className={buttonsContainer}>
-            <button type="button" className={viewBag}>View Bag</button>
+            <NavLink onClick={removeOverlay} className={viewBagLink} exact="true" to="/cart">
+              <button className={viewBag} type="button">
+                View Bag
+              </button>
+            </NavLink>
             <button type="button" className={checkOut}>Check Out</button>
           </div>
         </div>

@@ -26,6 +26,8 @@
   margin-right: 30px;
   font-size: 16px;
   cursor: pointer;
+  text-decoration: none;
+  color: unset;
 }
 
 .navItem:hover {
