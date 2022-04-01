@@ -1,14 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import styles from './header.module.css';
 import appLogo from '../assets/images/logo.svg';
 import cat from '../assets/images/cat.svg';
 import up from '../assets/images/up.svg';
 import down from '../assets/images/down.svg';
 import ImportedOverlay from './Overlay';
-// import fetchData from '../utils/fetchData';
-import { changeCurrency, fetchCurrencies, fetchProducts } from '../redux/products/products';
+import {
+  changeCurrency, fetchCurrencies, fetchProducts, setActiveCategory,
+} from '../redux/products/products';
 
 class Header extends PureComponent {
   constructor(props) {
@@ -23,7 +25,7 @@ class Header extends PureComponent {
     this.handleBodyScroll = this.handleBodyScroll.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchCurrencies());
     dispatch(fetchProducts());
@@ -37,6 +39,11 @@ class Header extends PureComponent {
     } else {
       document.body.classList.add(stopScrolling);
     }
+  }
+
+  changeActiveCategory = (name) => {
+    const { dispatch } = this.props;
+    dispatch(setActiveCategory(name));
   }
 
   toggleMenuOpen() {
@@ -84,8 +91,6 @@ class Header extends PureComponent {
 
     const state = this.props;
 
-    console.log(state, 'State......');
-
     const { dispatch, categories } = this.props;
 
     return (
@@ -103,7 +108,11 @@ class Header extends PureComponent {
       >
         <nav className={navBar}>
           <ul className={navList}>
-            {categories.map((category) => <li key={category.id} className={`${navItem} ${category.active ? active : ''}`}>{category.name}</li>)}
+            {categories.map((category) => (
+              <NavLink onClick={() => this.changeActiveCategory(category.name)} className={`${navItem} ${category.active ? active : ''}`} key={category.id} exact="true" to="/">
+                <li>{category.name}</li>
+              </NavLink>
+            ))}
           </ul>
           <img className={logo} src={appLogo} alt="applogo" />
           <div className={catCurrency}>
