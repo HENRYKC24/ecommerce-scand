@@ -5,6 +5,7 @@ const ADD_CURRENCIES = 'ecommerce_scandi/product/ADD_CURRENCIES';
 const ADD_TO_CART = 'ecommerce_scandi/product/ADD_TO_CART';
 const REMOVE_FROM_CART = 'ecommerce_scandi/product/REMOVE_FROM_CART';
 const CHANGE_CURRENCY = 'ecommerce_scandi/product/CHANGE_CURRENCY';
+const SET_ACTIVE_CATEGORY = 'ecommerce_scandi/product/SET_ACTIVE_CATEGORY';
 
 // Create actions
 export function addToCart(payload) {
@@ -23,12 +24,17 @@ export function addCurrencies(payload) {
   return { type: ADD_CURRENCIES, payload };
 }
 
+export function setActiveCategory(payload) {
+  return { type: SET_ACTIVE_CATEGORY, payload };
+}
+
 export function changeCurrency(payload) {
   return { type: CHANGE_CURRENCY, payload };
 }
 
 const initialState = {
   categories: [],
+  activeCategory: 'clothes',
   currencies: {},
   activeCurrency: '$',
   cart: [],
@@ -65,6 +71,16 @@ export default function state(state = initialState, action = {}) {
       };
     case CHANGE_CURRENCY:
       return { ...state, activeCurrency: payload };
+    case SET_ACTIVE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.map((category) => {
+          if (category.name.toLowerCase() === payload.toLowerCase()) {
+            return { ...category, active: true };
+          }
+          return { ...category, active: false };
+        }),
+      };
     default:
       return state;
   }
@@ -107,11 +123,11 @@ export const fetchProducts = () => async (dispatach) => {
   const [all, clothes, tech] = categories;
 
   dispatach(addProducts({
-    products: { all, clothes, tech },
+    products: { all: all.products, clothes: clothes.products, tech: tech.products },
     categories: [
       { name: clothes.name.toUpperCase(), id: 1, active: true },
-      { name: tech.name.toUpperCase(), id: 2, action: false },
-      { name: all.name.toUpperCase(), id: 3, action: false },
+      { name: tech.name.toUpperCase(), id: 2, active: false },
+      { name: all.name.toUpperCase(), id: 3, active: false },
     ],
   }));
 };
