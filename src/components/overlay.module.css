@@ -51,7 +51,15 @@
   cursor: pointer;
 }
 
-.viewBag {
+.viewBagLink {
+  display: inline-block;
+  width: 50%;
+  background-color: green;
+}
+
+.viewBagLink .viewBag {
+  display: inline-block;
+  width: 100%;
   color: #1d1f22;
   font-weight: 600;
   font-size: 14px;
