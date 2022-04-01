@@ -25,6 +25,11 @@
   margin-bottom: -30%;
 }
 
+.link {
+  text-decoration: none;
+  color: black;
+}
+
 .image {
   width: 100%;
   align-self: center;
