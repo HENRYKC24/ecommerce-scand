@@ -22,8 +22,8 @@ class Details extends PureComponent {
       prizeHeading,
       prize,
       addToCat,
+      addToCat2,
       descriptionStyle,
-      grey,
     } = styles;
 
     const { selectedProduct, activeCurrency } = this.props;
@@ -46,7 +46,7 @@ class Details extends PureComponent {
               (picture) => <li key={Math.random()} className={thumbnail}><img src={picture} alt="thumbnail" /></li>,
             )}
           </ul>
-          <img className={`${image} ${inStock ? grey : ''}`} src={gallery[0]} alt="thumbnail" />
+          <img className={image} src={gallery[0]} alt="thumbnail" />
         </div>
         <div className={rightSection}>
           <h2 className={nameStyle}>{name}</h2>
@@ -61,7 +61,15 @@ class Details extends PureComponent {
                   :
                 </h5>
                 <ul className={sizeList}>
-                  {items.map((item) => <li key={Math.random()} style={{ backgroundColor: isSwatch ? item.value : '' }} className={sizeItem}>{ isSwatch ? '' : item.value }</li>)}
+                  {items.map((item) => (
+                    <li
+                      key={Math.random()}
+                      style={{ backgroundColor: isSwatch ? item.value : '' }}
+                      className={sizeItem}
+                    >
+                      { isSwatch ? '' : item.value }
+                    </li>
+                  ))}
                 </ul>
               </div>
             );
@@ -76,7 +84,7 @@ class Details extends PureComponent {
               )[0].amount}
             </p>
           </div>
-          <button className={addToCat} type="button">ADD TO CAT</button>
+          <button style={{ opacity: inStock ? '' : 0.5 }} className={inStock ? addToCat : addToCat2} type="button">{inStock ? 'ADD TO CAT' : 'OUT OF STOCK'}</button>
           <div className={descriptionStyle} dangerouslySetInnerHTML={{ __html: description }} />
         </div>
       </section>

@@ -24,7 +24,17 @@ class Category extends PureComponent {
 
   render() {
     const {
-      listContainer, catName, listItems, listItem, image, dataName, amount, link,
+      listContainer,
+      catName,
+      listItems,
+      listItem,
+      image,
+      imageOut,
+      dataName,
+      amount,
+      link,
+      grey,
+      outOfStock,
     } = styles;
 
     const state = this.props;
@@ -36,7 +46,7 @@ class Category extends PureComponent {
     if (all[0]) {
       category = state.categories.filter((cat) => cat.active)[0].name;
       currentProducts = state.products[category.toLowerCase()];
-      console.log(currentProducts);
+      console.log(currentProducts, '&&&&&&&&&&&');
       const currency = state.activeCurrency;
       activeCurrency = currency;
     }
@@ -49,14 +59,17 @@ class Category extends PureComponent {
             <ul className={listItems}>
               {state.categories[0] ? currentProducts.map((singleData) => (
 
-                <li className={listItem} key={Math.random()}>
+                <li className={`${listItem} ${singleData.inStock ? '' : grey}`} key={Math.random()}>
                   <NavLink onClick={() => this.updateReduxWithSelectedProduct(singleData)} className={link} exact="true" to="/detail">
-                    <img
-                      onError={this.addDefaultSrc}
-                      className={image}
-                      src={singleData.gallery[0]}
-                      alt={singleData.name}
-                    />
+                    <div className={imageOut}>
+                      <p className={outOfStock}>OUT OF STOCK</p>
+                      <img
+                        onError={this.addDefaultSrc}
+                        className={image}
+                        src={singleData.gallery[0]}
+                        alt={singleData.name}
+                      />
+                    </div>
                     <p className={dataName}>{singleData.name}</p>
                     <p className={amount}>
                       <strong>

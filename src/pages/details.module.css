@@ -26,19 +26,27 @@
 }
 
 .thumbnail {
-  height: 22%;
-  margin-bottom: 10px;
+  height: auto;
+  margin-bottom: 0;
   overflow-y: hidden;
+  border: 1px solid;
+  padding: 0;
+  margin: 5px;
+}
+
+.thumbnail img {
+  height: 100%;
+  margin-bottom: -5px;
 }
 
 .size {
   font-weight: 700;
   color: #1d1f22;
   font-size: 18px;
-  margin: 0;
+  margin: 10px 0 0;
 }
 
-.name {
+.nameStyle {
   margin-top: 0;
   font-size: 30px;
   color: #1d1f22;
@@ -72,6 +80,16 @@
 }
 
 .addToCat {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #5ece7b;
+  border: none;
+  color: #fff;
+  height: 52px;
+  width: 100%;
+}
+
+.addToCat2 {
   font-size: 16px;
   font-weight: 600;
   background-color: #5ece7b;
