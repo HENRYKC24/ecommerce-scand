@@ -51,20 +51,21 @@ class Details extends PureComponent {
         <div className={rightSection}>
           <h2 className={nameStyle}>{name}</h2>
           <p className={status}>{brand}</p>
-          { attributes.map((attr) => (
-            <div key={Math.random()} className={sizeContainer}>
-              <h5 className={size}>
-                {attr.name}
-                :
-              </h5>
-              <ul className={sizeList}>
-                <li className={sizeItem}>XL</li>
-                <li className={sizeItem}>S</li>
-                <li className={sizeItem}>M</li>
-                <li className={sizeItem}>L</li>
-              </ul>
-            </div>
-          ))}
+          { attributes.map((attr) => {
+            const { name, type, items } = attr;
+            const isSwatch = type === 'swatch';
+            return (
+              <div key={Math.random()} className={sizeContainer}>
+                <h5 className={size}>
+                  {name}
+                  :
+                </h5>
+                <ul className={sizeList}>
+                  {items.map((item) => <li key={Math.random()} style={{ backgroundColor: isSwatch ? item.value : '' }} className={sizeItem}>{ isSwatch ? '' : item.value }</li>)}
+                </ul>
+              </div>
+            );
+          })}
           <div className={prizeContainer}>
             <h5 className={prizeHeading}>Prize:</h5>
             <p className={prize}>
