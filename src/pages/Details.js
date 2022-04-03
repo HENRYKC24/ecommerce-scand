@@ -4,6 +4,40 @@ import { connect } from 'react-redux';
 import styles from './details.module.css';
 
 class Details extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: [],
+    };
+  }
+
+  componentDidMount() {
+    const { selectedProduct: { attributes } } = this.props;
+    const choices = [];
+    choices.length = attributes.length;
+    attributes.forEach((attribute, index) => {
+      const { type, name } = attribute;
+      choices[index] = { name, type, value: '' };
+    });
+    this.setState({ content: choices });
+    // const { content } = this.state;
+  }
+
+  setSelectedValue = (index, value) => {
+    const { state: { content } } = this;
+    const updatedContent = content.map((eachChoice, ind) => {
+      if (index === ind) {
+        const updatedChoice = {
+          ...eachChoice,
+        };
+        updatedChoice.value = value;
+        return updatedChoice;
+      }
+      return eachChoice;
+    });
+    this.setState({ content: updatedContent });
+  }
+
   render() {
     const {
       detailsContainer,
@@ -24,6 +58,8 @@ class Details extends PureComponent {
       addToCat,
       addToCat2,
       descriptionStyle,
+      pointer,
+      greyedOut,
     } = styles;
 
     const { selectedProduct, activeCurrency } = this.props;
@@ -37,7 +73,7 @@ class Details extends PureComponent {
       name,
       prices,
     } = selectedProduct;
-    console.log(selectedProduct, 'state from details');
+
     return (
       <section className={detailsContainer}>
         <div className={leftSection}>
@@ -51,7 +87,7 @@ class Details extends PureComponent {
         <div className={rightSection}>
           <h2 className={nameStyle}>{name}</h2>
           <p className={status}>{brand}</p>
-          { attributes.map((attr) => {
+          { attributes.map((attr, index) => {
             const { name, type, items } = attr;
             const isSwatch = type === 'swatch';
             return (
@@ -60,17 +96,25 @@ class Details extends PureComponent {
                   {name}
                   :
                 </h5>
-                <ul className={sizeList}>
-                  {items.map((item) => (
-                    <li
-                      key={Math.random()}
-                      style={{ backgroundColor: isSwatch ? item.value : '' }}
-                      className={sizeItem}
-                    >
-                      { isSwatch ? '' : item.value }
-                    </li>
-                  ))}
-                </ul>
+                <div className={sizeList}>
+                  {items.map((item) => {
+                    const { content } = this.state;
+                    const currentChoices = content[index] || { value: '*****' };
+                    const currentValue = currentChoices.value;
+                    const isSelected = currentValue === item.value;
+                    return (
+                      <button
+                        type="button"
+                        onClick={() => this.setSelectedValue(index, item.value)}
+                        key={Math.random()}
+                        style={{ backgroundColor: isSwatch ? item.value : '' }}
+                        className={`${sizeItem} ${isSelected ? '' : pointer} ${isSelected ? '' : greyedOut}`}
+                      >
+                        { isSwatch ? '' : item.value }
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             );
           })}

@@ -46,7 +46,6 @@ class Category extends PureComponent {
     if (all[0]) {
       category = state.categories.filter((cat) => cat.active)[0].name;
       currentProducts = state.products[category.toLowerCase()];
-      console.log(currentProducts, '&&&&&&&&&&&');
       const currency = state.activeCurrency;
       activeCurrency = currency;
     }

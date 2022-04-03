@@ -66,6 +66,21 @@
   margin-right: 5px;
   text-align: center;
   line-height: 45px;
+  border: 4px double;
+  box-sizing: content-box;
+}
+
+.sizeItem:hover {
+  opacity: 1;
+}
+
+.pointer {
+  cursor: pointer;
+  border: 0.5px solid;
+}
+
+.greyedOut {
+  opacity: 0.5;
 }
 
 .prizeHeading {
