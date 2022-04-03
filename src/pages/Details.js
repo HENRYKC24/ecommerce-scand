@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import styles from './details.module.css';
 
-export default class Details extends PureComponent {
+class Details extends PureComponent {
   render() {
     const {
       detailsContainer,
@@ -10,7 +12,7 @@ export default class Details extends PureComponent {
       thumbnail,
       image,
       rightSection,
-      name,
+      nameStyle,
       status,
       sizeContainer,
       size,
@@ -20,43 +22,74 @@ export default class Details extends PureComponent {
       prizeHeading,
       prize,
       addToCat,
-      description,
+      descriptionStyle,
+      grey,
     } = styles;
+
+    const { selectedProduct, activeCurrency } = this.props;
+    const {
+      attributes,
+      brand,
+      description,
+      gallery,
+      // id,
+      inStock,
+      name,
+      prices,
+    } = selectedProduct;
+    console.log(selectedProduct, 'state from details');
     return (
       <section className={detailsContainer}>
         <div className={leftSection}>
           <ul className={thumbnailList}>
-            <li className={thumbnail}><img src="https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016108/product-image/2409L_61_b.jpg" alt="thumbnail" /></li>
-            <li className={thumbnail}><img src="https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016108/product-image/2409L_61_b.jpg" alt="thumbnail" /></li>
-            <li className={thumbnail}><img src="https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016108/product-image/2409L_61_b.jpg" alt="thumbnail" /></li>
+            {gallery.map(
+              (picture) => <li key={Math.random()} className={thumbnail}><img src={picture} alt="thumbnail" /></li>,
+            )}
           </ul>
-          <img className={image} src="https://images.canadagoose.com/image/upload/w_480,c_scale,f_auto,q_auto:best/v1576016108/product-image/2409L_61_b.jpg" alt="thumbnail" />
+          <img className={`${image} ${inStock ? grey : ''}`} src={gallery[0]} alt="thumbnail" />
         </div>
         <div className={rightSection}>
-          <h2 className={name}>Apollo</h2>
-          <p className={status}>Running short</p>
-          <div className={sizeContainer}>
-            <h5 className={size}>Size:</h5>
-            <ul className={sizeList}>
-              <li className={sizeItem}>XL</li>
-              <li className={sizeItem}>S</li>
-              <li className={sizeItem}>M</li>
-              <li className={sizeItem}>L</li>
-            </ul>
-          </div>
+          <h2 className={nameStyle}>{name}</h2>
+          <p className={status}>{brand}</p>
+          { attributes.map((attr) => (
+            <div key={Math.random()} className={sizeContainer}>
+              <h5 className={size}>
+                {attr.name}
+                :
+              </h5>
+              <ul className={sizeList}>
+                <li className={sizeItem}>XL</li>
+                <li className={sizeItem}>S</li>
+                <li className={sizeItem}>M</li>
+                <li className={sizeItem}>L</li>
+              </ul>
+            </div>
+          ))}
           <div className={prizeContainer}>
             <h5 className={prizeHeading}>Prize:</h5>
-            <p className={prize}>$ 50.00</p>
+            <p className={prize}>
+              {activeCurrency}
+              {' '}
+              {prices.filter(
+                (price) => price.currency.symbol === activeCurrency,
+              )[0].amount}
+            </p>
           </div>
           <button className={addToCat} type="button">ADD TO CAT</button>
-          <p className={description}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus
-            illo voluptate aliquid molestiae accusantium sequi beatae placeat. Earum
-            facilis deserunt laborum, accusantium est incidunt qui atque, expedita totam
-            vel nemo?
-          </p>
+          <div className={descriptionStyle} dangerouslySetInnerHTML={{ __html: description }} />
         </div>
       </section>
     );
   }
 }
+
+function mapStateToProps({ state }) {
+  return state;
+}
+
+Details.propTypes = {
+  selectedProduct: propTypes.func.isRequired,
+  activeCurrency: propTypes.string.isRequired,
+};
+
+export default connect(mapStateToProps)(Details);
