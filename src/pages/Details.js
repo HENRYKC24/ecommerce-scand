@@ -10,6 +10,9 @@ class Details extends PureComponent {
     this.state = {
       content: [],
       buttonContent: 'ADD TO CART',
+      info: '',
+      display: true,
+      queue: '',
     };
   }
 
@@ -45,6 +48,16 @@ class Details extends PureComponent {
     dispatch(removeFromCart(id));
   };
 
+  showStatus = (text) => {
+    const { queue } = this.state;
+    clearTimeout(queue);
+    this.setState({ info: text, display: true });
+    const cancel = setTimeout(() => {
+      this.setState({ display: false });
+    }, 3000);
+    this.setState({ queue: cancel });
+  }
+
   setSelectedValue = (index, value) => {
     const {
       state: { content },
@@ -68,6 +81,7 @@ class Details extends PureComponent {
 
   render() {
     const {
+      statusBar,
       detailsContainer,
       leftSection,
       thumbnailList,
@@ -105,10 +119,12 @@ class Details extends PureComponent {
     } = selectedProduct;
 
     const isInCart = cart.find((each) => each.id === id) !== undefined;
-    const { buttonContent } = this.state;
+    const { buttonContent, info, display } = this.state;
 
     return (
       <section className={detailsContainer}>
+
+        <p className={statusBar} style={{ display: display ? 'block' : 'none', padding: display ? '10px' : '0px' }}>{info}</p>
         <div className={leftSection}>
           <ul className={thumbnailList}>
             {gallery.map((picture) => (
@@ -188,12 +204,14 @@ class Details extends PureComponent {
                   };
                   this.addProductToCart(cartItem);
                   this.changeButtonContent('REMOVE ITEM');
+                  this.showStatus('Product successfully added to cart!');
                 }
                 : () => {
                   if (inStock) {
                     const { id } = selectedProduct;
                     this.removeProductFromCart(id);
                     this.changeButtonContent('ADD TO CART');
+                    this.showStatus('Product successfully removed from cart!');
                   }
                 }
             }

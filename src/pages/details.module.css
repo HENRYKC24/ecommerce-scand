@@ -1,3 +1,18 @@
+.statusBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #5ece7b;
+  color: white;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  z-index: 500;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
 .detailsContainer {
   width: 90%;
   margin: 30px auto;
