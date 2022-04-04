@@ -12,6 +12,7 @@
 .header {
   position: sticky;
   top: -2px;
+  z-index: 20;
 }
 
 .navList {

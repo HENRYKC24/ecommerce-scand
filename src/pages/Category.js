@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styles from './category.module.css';
 import noImage from '../assets/images/no_image.webp';
-import { fetchCurrencies, fetchProducts } from '../redux/products/products';
+import { addSelectedProduct, fetchCurrencies, fetchProducts } from '../redux/products/products';
 
 class Category extends PureComponent {
   componentDidMount() {
@@ -13,13 +13,29 @@ class Category extends PureComponent {
     dispatch(fetchProducts());
   }
 
+  updateReduxWithSelectedProduct = (product) => {
+    const productWithBtnText = { ...product, btnContent: 'ADD TO CART' };
+    const { dispatch } = this.props;
+    dispatch(addSelectedProduct(productWithBtnText));
+  }
+
   addDefaultSrc = (e) => {
     e.target.src = noImage;
   }
 
   render() {
     const {
-      listContainer, catName, listItems, listItem, image, dataName, amount, link,
+      listContainer,
+      catName,
+      listItems,
+      listItem,
+      image,
+      imageOut,
+      dataName,
+      amount,
+      link,
+      grey,
+      outOfStock,
     } = styles;
 
     const state = this.props;
@@ -31,7 +47,6 @@ class Category extends PureComponent {
     if (all[0]) {
       category = state.categories.filter((cat) => cat.active)[0].name;
       currentProducts = state.products[category.toLowerCase()];
-      console.log(currentProducts);
       const currency = state.activeCurrency;
       activeCurrency = currency;
     }
@@ -44,14 +59,17 @@ class Category extends PureComponent {
             <ul className={listItems}>
               {state.categories[0] ? currentProducts.map((singleData) => (
 
-                <li className={listItem} key={Math.random()}>
-                  <NavLink className={link} exact="true" to="/detail">
-                    <img
-                      onError={this.addDefaultSrc}
-                      className={image}
-                      src={singleData.gallery[0]}
-                      alt={singleData.name}
-                    />
+                <li className={`${listItem} ${singleData.inStock ? '' : grey}`} key={Math.random()}>
+                  <NavLink onClick={() => this.updateReduxWithSelectedProduct(singleData)} className={link} exact="true" to="/detail">
+                    <div className={imageOut}>
+                      {!singleData.inStock && <p className={outOfStock}>OUT OF STOCK</p>}
+                      <img
+                        onError={this.addDefaultSrc}
+                        className={image}
+                        src={singleData.gallery[0]}
+                        alt={singleData.name}
+                      />
+                    </div>
                     <p className={dataName}>{singleData.name}</p>
                     <p className={amount}>
                       <strong>

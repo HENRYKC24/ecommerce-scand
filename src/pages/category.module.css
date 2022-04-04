@@ -22,7 +22,7 @@
 .listItem {
   text-align: center;
   width: 94%;
-  margin-bottom: -30%;
+  margin: 50px 0 -30%;
 }
 
 .link {
@@ -30,11 +30,27 @@
   color: black;
 }
 
+.outOfStock {
+  position: absolute;
+  padding: 2px;
+  margin: 0;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.grey {
+  opacity: 0.3;
+}
+
+.imageOut {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60%;
+}
+
 .image {
   width: 100%;
-  align-self: center;
-  height: 60%;
-  margin: auto;
+  height: 100%;
 }
 
 .dataName,

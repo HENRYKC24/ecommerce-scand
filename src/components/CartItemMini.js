@@ -41,7 +41,6 @@ export class CartItemMini extends PureComponent {
       itemCount,
       image,
     } = styles;
-
     const { items } = this.state;
     return (
       <li className={cartItem}>

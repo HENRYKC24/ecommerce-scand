@@ -1,6 +1,7 @@
 import fetchData from '../../utils/fetchData';
 
 const ADD_PRODUCTS = 'ecommerce_scandi/product/ADD_PRODUCTS';
+const ADD_SELECTED_PRODUCT = 'ecommerce_scandi/product/ADD_SELECTED_PRODUCT';
 const ADD_CURRENCIES = 'ecommerce_scandi/product/ADD_CURRENCIES';
 const ADD_TO_CART = 'ecommerce_scandi/product/ADD_TO_CART';
 const REMOVE_FROM_CART = 'ecommerce_scandi/product/REMOVE_FROM_CART';
@@ -12,7 +13,7 @@ export function addToCart(payload) {
   return { type: ADD_TO_CART, payload };
 }
 
-export function removeBook(payload) {
+export function removeFromCart(payload) {
   return { type: REMOVE_FROM_CART, payload };
 }
 
@@ -32,6 +33,10 @@ export function changeCurrency(payload) {
   return { type: CHANGE_CURRENCY, payload };
 }
 
+export function addSelectedProduct(payload) {
+  return { type: ADD_SELECTED_PRODUCT, payload };
+}
+
 const initialState = {
   categories: [],
   activeCategory: 'clothes',
@@ -43,6 +48,7 @@ const initialState = {
     techs: [],
     all: [],
   },
+  selectedProduct: {},
 };
 
 // Define reducer
@@ -61,7 +67,7 @@ export default function state(state = initialState, action = {}) {
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: cart.fill((product) => product.id !== payload),
+        cart: cart.filter((product) => product.id !== payload),
       };
     case ADD_PRODUCTS:
       return {
@@ -71,6 +77,8 @@ export default function state(state = initialState, action = {}) {
       };
     case CHANGE_CURRENCY:
       return { ...state, activeCurrency: payload };
+    case ADD_SELECTED_PRODUCT:
+      return { ...state, selectedProduct: payload };
     case SET_ACTIVE_CATEGORY:
       return {
         ...state,
@@ -86,7 +94,7 @@ export default function state(state = initialState, action = {}) {
   }
 }
 
-export const fetchProducts = () => async (dispatach) => {
+export const fetchProducts = () => async (dispatch) => {
   const getProducts = `
     {
       categories {
@@ -122,7 +130,7 @@ export const fetchProducts = () => async (dispatach) => {
   const { categories } = result.data;
   const [all, clothes, tech] = categories;
 
-  dispatach(addProducts({
+  dispatch(addProducts({
     products: { all: all.products, clothes: clothes.products, tech: tech.products },
     categories: [
       { name: clothes.name.toUpperCase(), id: 1, active: true },
@@ -132,7 +140,7 @@ export const fetchProducts = () => async (dispatach) => {
   }));
 };
 
-export const fetchCurrencies = () => async (dispatach) => {
+export const fetchCurrencies = () => async (dispatch) => {
   const getCurrencies = `
     {
       currencies {
@@ -143,5 +151,5 @@ export const fetchCurrencies = () => async (dispatach) => {
   `;
   const result = await fetchData(getCurrencies);
   const { currencies } = result.data;
-  dispatach(addCurrencies(currencies));
+  dispatch(addCurrencies(currencies));
 };
