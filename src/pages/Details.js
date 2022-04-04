@@ -100,8 +100,8 @@ class Details extends PureComponent {
       prizeContainer,
       prizeHeading,
       prize,
-      addToCat,
-      addToCat2,
+      addToCart,
+      addToCart2,
       remove,
       descriptionStyle,
       pointer,
@@ -161,6 +161,7 @@ class Details extends PureComponent {
                 </h5>
                 <div className={sizeList}>
                   {items.map((item) => {
+                    console.log(item, 'item');
                     const { content } = this.state;
                     const currentChoices = content[index] || { value: '*****' };
                     const currentValue = currentChoices.value;
@@ -197,8 +198,8 @@ class Details extends PureComponent {
           </div>
           <button
             className={`${isInCart && inStock && remove} ${
-              inStock && !isInCart && addToCat
-            } ${!inStock && addToCat2}`}
+              inStock && !isInCart && addToCart
+            } ${!inStock && addToCart2}`}
             type="button"
             onClick={
               !isInCart && inStock
@@ -222,7 +223,7 @@ class Details extends PureComponent {
                     return false;
                   }
                   const {
-                    brand, id, name, prices,
+                    brand, id, name, prices, gallery,
                   } = selectedProduct;
                   const cartItem = {
                     id,
@@ -230,6 +231,8 @@ class Details extends PureComponent {
                     brand,
                     prices,
                     choices: content,
+                    image: gallery[0],
+                    quantity: 1,
                   };
                   this.addProductToCart(cartItem);
                   this.changeButtonContent('REMOVE ITEM');
