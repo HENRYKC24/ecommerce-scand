@@ -11,8 +11,9 @@ class Details extends PureComponent {
       content: [],
       buttonContent: 'ADD TO CART',
       info: '',
-      display: true,
+      display: false,
       queue: '',
+      isSuccess: true,
     };
   }
 
@@ -34,7 +35,7 @@ class Details extends PureComponent {
     if (isInCart) {
       this.changeButtonContent('REMOVE ITEM');
     } else {
-      this.changeButtonContent(inStock ? btnContent : 'NOT IN STOCK');
+      this.changeButtonContent(inStock ? btnContent : 'OUT OF STOCK');
     }
   }
 
@@ -48,15 +49,15 @@ class Details extends PureComponent {
     dispatch(removeFromCart(id));
   };
 
-  showStatus = (text) => {
+  showStatus = (text, minutes, isSuccess) => {
     const { queue } = this.state;
     clearTimeout(queue);
-    this.setState({ info: text, display: true });
+    this.setState({ info: text, display: true, isSuccess });
     const cancel = setTimeout(() => {
-      this.setState({ display: false });
-    }, 3000);
+      this.setState({ display: false, isSuccess: false });
+    }, minutes * 1000);
     this.setState({ queue: cancel });
-  }
+  };
 
   setSelectedValue = (index, value) => {
     const {
@@ -82,6 +83,8 @@ class Details extends PureComponent {
   render() {
     const {
       statusBar,
+      success,
+      failure,
       detailsContainer,
       leftSection,
       thumbnailList,
@@ -119,12 +122,21 @@ class Details extends PureComponent {
     } = selectedProduct;
 
     const isInCart = cart.find((each) => each.id === id) !== undefined;
-    const { buttonContent, info, display } = this.state;
+    const {
+      buttonContent, info, display, isSuccess,
+    } = this.state;
 
     return (
       <section className={detailsContainer}>
-
-        <p className={statusBar} style={{ display: display ? 'block' : 'none', padding: display ? '10px' : '0px' }}>{info}</p>
+        <p
+          className={`${statusBar} ${isSuccess ? success : failure}`}
+          style={{
+            display: display ? 'block' : 'none',
+            padding: display ? '5px' : '0',
+          }}
+        >
+          {info}
+        </p>
         <div className={leftSection}>
           <ul className={thumbnailList}>
             {gallery.map((picture) => (
@@ -191,10 +203,26 @@ class Details extends PureComponent {
             onClick={
               !isInCart && inStock
                 ? () => {
+                  const { content } = this.state;
+                  if (!content.every((each) => each.value !== '')) {
+                    const notSelected = content.filter((each) => each.value === '');
+                    const names = notSelected.map((each) => each.name);
+                    let namesString = 'Please, select one of the options under ';
+                    names.forEach((name, index) => {
+                      if (index + 1 < names.length && names.length - index > 2) {
+                        namesString += `"${name}", `;
+                      } else if (index + 1 < names.length && names.length - index === 2) {
+                        namesString += `"${name}" and `;
+                      } else if (index + 1 === names.length) {
+                        namesString += `"${name}".`;
+                      }
+                    });
+                    this.showStatus(namesString, 5, false);
+                    return false;
+                  }
                   const {
                     brand, id, name, prices,
                   } = selectedProduct;
-                  const { content } = this.state;
                   const cartItem = {
                     id,
                     name,
@@ -204,14 +232,19 @@ class Details extends PureComponent {
                   };
                   this.addProductToCart(cartItem);
                   this.changeButtonContent('REMOVE ITEM');
-                  this.showStatus('Product successfully added to cart!');
+                  this.showStatus('Product successfully added to cart!', 3, true);
+                  return true;
                 }
                 : () => {
                   if (inStock) {
                     const { id } = selectedProduct;
                     this.removeProductFromCart(id);
                     this.changeButtonContent('ADD TO CART');
-                    this.showStatus('Product successfully removed from cart!');
+                    this.showStatus(
+                      'Product successfully removed from cart!',
+                      3,
+                      true,
+                    );
                   }
                 }
             }

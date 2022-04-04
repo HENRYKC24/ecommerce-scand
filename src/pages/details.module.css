@@ -2,15 +2,22 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #5ece7b;
   color: white;
   margin: 0;
   width: 100%;
   text-align: center;
-  padding: 10px;
+  padding: 5px;
   z-index: 500;
   font-size: 1.2rem;
   font-weight: 800;
+}
+
+.success {
+  background-color: #5ece7b;
+}
+
+.failure {
+  background-color: rgb(192, 33, 33);
 }
 
 .detailsContainer {
