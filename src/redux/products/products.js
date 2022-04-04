@@ -13,7 +13,7 @@ export function addToCart(payload) {
   return { type: ADD_TO_CART, payload };
 }
 
-export function removeBook(payload) {
+export function removeFromCart(payload) {
   return { type: REMOVE_FROM_CART, payload };
 }
 
@@ -65,9 +65,10 @@ export default function state(state = initialState, action = {}) {
       cart.push(payload);
       return { ...state, cart };
     case REMOVE_FROM_CART:
+      console.log('We came here');
       return {
         ...state,
-        cart: cart.fill((product) => product.id !== payload),
+        cart: cart.filter((product) => product.id !== payload),
       };
     case ADD_PRODUCTS:
       return {

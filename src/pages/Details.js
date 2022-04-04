@@ -2,12 +2,14 @@ import React, { PureComponent } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from './details.module.css';
+import { addToCart, removeFromCart } from '../redux/products/products';
 
 class Details extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       content: [],
+      buttonContent: 'ADD TO CART',
     };
   }
 
@@ -20,7 +22,16 @@ class Details extends PureComponent {
       choices[index] = { name, type, value: '' };
     });
     this.setState({ content: choices });
-    // const { content } = this.state;
+  }
+
+  addProductToCart = (product) => {
+    const { dispatch } = this.props;
+    dispatch(addToCart(product));
+  }
+
+  removeProductFromCart = (id) => {
+    const { dispatch } = this.props;
+    dispatch(removeFromCart(id));
   }
 
   setSelectedValue = (index, value) => {
@@ -37,6 +48,21 @@ class Details extends PureComponent {
     });
     this.setState({ content: updatedContent });
   }
+
+  changeButtonContent = (inStock, isInCart) => {
+    console.log(inStock, isInCart, 'instock isincart');
+    let result;
+    if (!inStock) {
+      result = 'NOT IN STOCK';
+    }
+    if (inStock && isInCart) {
+      result = 'ADD TO CART';
+    }
+    if (inStock && !isInCart) {
+      result = 'REMOVE ITEM';
+    }
+    this.setState({ buttonContent: result });
+  };
 
   render() {
     const {
@@ -62,17 +88,27 @@ class Details extends PureComponent {
       greyedOut,
     } = styles;
 
-    const { selectedProduct, activeCurrency } = this.props;
+    const {
+      selectedProduct, activeCurrency, cart,
+    } = this.props;
+
+    console.log(cart, ' => cart');
     const {
       attributes,
       brand,
       description,
       gallery,
-      // id,
       inStock,
       name,
+      id,
       prices,
     } = selectedProduct;
+
+    const isInCart = cart.find((each) => each.id === id) !== undefined;
+    console.log(isInCart, ' => in cart status');
+    // let buttonContent;
+    const { buttonContent } = this.state;
+    console.log(this.state, 'btn cont');
 
     return (
       <section className={detailsContainer}>
@@ -132,8 +168,29 @@ class Details extends PureComponent {
             style={{ backgroundColor: inStock ? '' : '#a2deba' }}
             className={inStock ? addToCat : addToCat2}
             type="button"
+            onClick={!isInCart ? () => {
+              const {
+                brand,
+                id,
+                name,
+                prices,
+              } = selectedProduct;
+              // const { name, brand, prices } = attributes;
+              const { content } = this.state;
+              const cartItem = {
+                id, name, brand, prices, choices: content,
+              };
+              this.addProductToCart(cartItem);
+              this.changeButtonContent(inStock, isInCart);
+            } : () => {
+              const {
+                id,
+              } = selectedProduct;
+              this.removeProductFromCart(id);
+              this.changeButtonContent(inStock, isInCart);
+            }}
           >
-            {inStock ? 'ADD TO CAT' : 'OUT OF STOCK'}
+            {buttonContent}
 
           </button>
           <div
@@ -152,7 +209,9 @@ function mapStateToProps({ state }) {
 
 Details.propTypes = {
   selectedProduct: propTypes.func.isRequired,
+  dispatch: propTypes.func.isRequired,
   activeCurrency: propTypes.string.isRequired,
+  cart: propTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps)(Details);
