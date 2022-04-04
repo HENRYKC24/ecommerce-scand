@@ -100,8 +100,8 @@ class Details extends PureComponent {
       prizeContainer,
       prizeHeading,
       prize,
-      addToCat,
-      addToCat2,
+      addToCart,
+      addToCart2,
       remove,
       descriptionStyle,
       pointer,
@@ -161,6 +161,7 @@ class Details extends PureComponent {
                 </h5>
                 <div className={sizeList}>
                   {items.map((item) => {
+                    console.log(item, 'item');
                     const { content } = this.state;
                     const currentChoices = content[index] || { value: '*****' };
                     const currentValue = currentChoices.value;
@@ -197,8 +198,8 @@ class Details extends PureComponent {
           </div>
           <button
             className={`${isInCart && inStock && remove} ${
-              inStock && !isInCart && addToCat
-            } ${!inStock && addToCat2}`}
+              inStock && !isInCart && addToCart
+            } ${!inStock && addToCart2}`}
             type="button"
             onClick={
               !isInCart && inStock
@@ -207,21 +208,22 @@ class Details extends PureComponent {
                   if (!content.every((each) => each.value !== '')) {
                     const notSelected = content.filter((each) => each.value === '');
                     const names = notSelected.map((each) => each.name);
+                    const len = names.length;
                     let namesString = 'Please, select one of the options under ';
                     names.forEach((name, index) => {
-                      if (index + 1 < names.length && names.length - index > 2) {
+                      if (index + 1 < len && len - index > 2) {
                         namesString += `"${name}", `;
-                      } else if (index + 1 < names.length && names.length - index === 2) {
+                      } else if (index + 1 < len && len - index === 2) {
                         namesString += `"${name}" and `;
-                      } else if (index + 1 === names.length) {
-                        namesString += `"${name}".`;
+                      } else if (index + 1 === len) {
+                        namesString += `"${name}" attribute${len > 1 ? 's' : ''}.`;
                       }
                     });
                     this.showStatus(namesString, 5, false);
                     return false;
                   }
                   const {
-                    brand, id, name, prices,
+                    brand, id, name, prices, gallery,
                   } = selectedProduct;
                   const cartItem = {
                     id,
@@ -229,6 +231,8 @@ class Details extends PureComponent {
                     brand,
                     prices,
                     choices: content,
+                    image: gallery[0],
+                    quantity: 1,
                   };
                   this.addProductToCart(cartItem);
                   this.changeButtonContent('REMOVE ITEM');

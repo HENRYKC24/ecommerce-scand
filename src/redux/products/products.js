@@ -7,8 +7,13 @@ const ADD_TO_CART = 'ecommerce_scandi/product/ADD_TO_CART';
 const REMOVE_FROM_CART = 'ecommerce_scandi/product/REMOVE_FROM_CART';
 const CHANGE_CURRENCY = 'ecommerce_scandi/product/CHANGE_CURRENCY';
 const SET_ACTIVE_CATEGORY = 'ecommerce_scandi/product/SET_ACTIVE_CATEGORY';
+const UPDATE_PRODUCT_QUANTITY = 'ecommerce_scandi/product/UPDATE_PRODUCT_QUANTITY';
 
 // Create actions
+export function updateProductQuantity(payload) {
+  return { type: UPDATE_PRODUCT_QUANTITY, payload };
+}
+
 export function addToCart(payload) {
   return { type: ADD_TO_CART, payload };
 }
@@ -87,6 +92,20 @@ export default function state(state = initialState, action = {}) {
             return { ...category, active: true };
           }
           return { ...category, active: false };
+        }),
+      };
+    case UPDATE_PRODUCT_QUANTITY:
+      return {
+        ...state,
+        cart: cart.map((each) => {
+          if (each.id === payload.id) {
+            const copy = {
+              ...each,
+              quantity: payload.quantity,
+            };
+            return copy;
+          }
+          return each;
         }),
       };
     default:

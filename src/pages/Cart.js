@@ -1,9 +1,23 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 // import { useQuery } from 'react-query';
+import PropTypes from 'prop-types';
 import OneCartItem from '../components/CartItem';
 import styles from './cart.module.css';
 
 class Cart extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cart: [],
+    };
+  }
+
+  componentDidMount() {
+    const { cart } = this.props;
+    this.setState({ cart });
+  }
+
   render() {
     const {
       cartContainer,
@@ -11,20 +25,25 @@ class Cart extends PureComponent {
       cartList,
     } = styles;
 
+    const { cart } = this.state;
+
     return (
       <section className={cartContainer}>
         <p className={cartHeading}>Cart</p>
         <ul className={cartList}>
-          <OneCartItem />
-          <OneCartItem />
-          <OneCartItem />
-          <OneCartItem />
-          <OneCartItem />
-          <OneCartItem />
+          {cart.map((each) => <OneCartItem key={Math.random()} data={each} />)}
         </ul>
       </section>
     );
   }
 }
 
-export default Cart;
+Cart.propTypes = {
+  cart: PropTypes.instanceOf(Array).isRequired,
+};
+
+function mapStateToProps({ state }) {
+  return state;
+}
+
+export default connect(mapStateToProps)(Cart);
