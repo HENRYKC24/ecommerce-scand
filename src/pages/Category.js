@@ -14,8 +14,9 @@ class Category extends PureComponent {
   }
 
   updateReduxWithSelectedProduct = (product) => {
+    const productWithBtnText = { ...product, btnContent: 'ADD TO CART' };
     const { dispatch } = this.props;
-    dispatch(addSelectedProduct(product));
+    dispatch(addSelectedProduct(productWithBtnText));
   }
 
   addDefaultSrc = (e) => {

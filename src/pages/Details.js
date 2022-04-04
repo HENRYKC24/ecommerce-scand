@@ -15,8 +15,12 @@ class Details extends PureComponent {
 
   componentDidMount() {
     const {
-      selectedProduct: { attributes, inStock },
+      selectedProduct: {
+        attributes, inStock, btnContent, id,
+      },
+      cart,
     } = this.props;
+    const isInCart = cart.find((each) => each.id === id) !== undefined;
     const choices = [];
     choices.length = attributes.length;
     attributes.forEach((attribute, index) => {
@@ -24,8 +28,10 @@ class Details extends PureComponent {
       choices[index] = { name, type, value: '' };
     });
     this.setState({ content: choices });
-    if (!inStock) {
-      this.changeButtonContent(inStock);
+    if (isInCart) {
+      this.changeButtonContent('REMOVE ITEM');
+    } else {
+      this.changeButtonContent(inStock ? btnContent : 'NOT IN STOCK');
     }
   }
 
@@ -56,18 +62,8 @@ class Details extends PureComponent {
     this.setState({ content: updatedContent });
   };
 
-  changeButtonContent = (inStock, isInCart) => {
-    let result;
-    if (!inStock) {
-      result = 'NOT IN STOCK';
-    }
-    if (inStock && isInCart) {
-      result = 'ADD TO CART';
-    }
-    if (inStock && !isInCart) {
-      result = 'REMOVE ITEM';
-    }
-    this.setState({ buttonContent: result });
+  changeButtonContent = (text) => {
+    this.setState({ buttonContent: text });
   };
 
   render() {
@@ -191,13 +187,13 @@ class Details extends PureComponent {
                     choices: content,
                   };
                   this.addProductToCart(cartItem);
-                  this.changeButtonContent(inStock, isInCart);
+                  this.changeButtonContent('REMOVE ITEM');
                 }
                 : () => {
                   if (inStock) {
                     const { id } = selectedProduct;
                     this.removeProductFromCart(id);
-                    this.changeButtonContent(inStock, isInCart);
+                    this.changeButtonContent('ADD TO CART');
                   }
                 }
             }
