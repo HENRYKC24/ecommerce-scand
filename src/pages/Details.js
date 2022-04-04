@@ -207,14 +207,15 @@ class Details extends PureComponent {
                   if (!content.every((each) => each.value !== '')) {
                     const notSelected = content.filter((each) => each.value === '');
                     const names = notSelected.map((each) => each.name);
+                    const len = names.length;
                     let namesString = 'Please, select one of the options under ';
                     names.forEach((name, index) => {
-                      if (index + 1 < names.length && names.length - index > 2) {
+                      if (index + 1 < len && len - index > 2) {
                         namesString += `"${name}", `;
-                      } else if (index + 1 < names.length && names.length - index === 2) {
+                      } else if (index + 1 < len && len - index === 2) {
                         namesString += `"${name}" and `;
-                      } else if (index + 1 === names.length) {
-                        namesString += `"${name}".`;
+                      } else if (index + 1 === len) {
+                        namesString += `"${name}" attribute${len > 1 ? 's' : ''}.`;
                       }
                     });
                     this.showStatus(namesString, 5, false);
