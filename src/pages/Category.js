@@ -61,7 +61,7 @@ class Category extends PureComponent {
                 <li className={`${listItem} ${singleData.inStock ? '' : grey}`} key={Math.random()}>
                   <NavLink onClick={() => this.updateReduxWithSelectedProduct(singleData)} className={link} exact="true" to="/detail">
                     <div className={imageOut}>
-                      <p className={outOfStock}>OUT OF STOCK</p>
+                      {!singleData.inStock && <p className={outOfStock}>OUT OF STOCK</p>}
                       <img
                         onError={this.addDefaultSrc}
                         className={image}

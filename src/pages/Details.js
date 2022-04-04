@@ -128,8 +128,18 @@ class Details extends PureComponent {
               )[0].amount}
             </p>
           </div>
-          <button style={{ opacity: inStock ? '' : 0.5 }} className={inStock ? addToCat : addToCat2} type="button">{inStock ? 'ADD TO CAT' : 'OUT OF STOCK'}</button>
-          <div className={descriptionStyle} dangerouslySetInnerHTML={{ __html: description }} />
+          <button
+            style={{ backgroundColor: inStock ? '' : '#a2deba' }}
+            className={inStock ? addToCat : addToCat2}
+            type="button"
+          >
+            {inStock ? 'ADD TO CAT' : 'OUT OF STOCK'}
+
+          </button>
+          <div
+            className={descriptionStyle}
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         </div>
       </section>
     );
