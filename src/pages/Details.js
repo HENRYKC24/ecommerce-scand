@@ -14,7 +14,9 @@ class Details extends PureComponent {
   }
 
   componentDidMount() {
-    const { selectedProduct: { attributes } } = this.props;
+    const {
+      selectedProduct: { attributes, inStock },
+    } = this.props;
     const choices = [];
     choices.length = attributes.length;
     attributes.forEach((attribute, index) => {
@@ -22,20 +24,25 @@ class Details extends PureComponent {
       choices[index] = { name, type, value: '' };
     });
     this.setState({ content: choices });
+    if (!inStock) {
+      this.changeButtonContent(inStock);
+    }
   }
 
   addProductToCart = (product) => {
     const { dispatch } = this.props;
     dispatch(addToCart(product));
-  }
+  };
 
   removeProductFromCart = (id) => {
     const { dispatch } = this.props;
     dispatch(removeFromCart(id));
-  }
+  };
 
   setSelectedValue = (index, value) => {
-    const { state: { content } } = this;
+    const {
+      state: { content },
+    } = this;
     const updatedContent = content.map((eachChoice, ind) => {
       if (index === ind) {
         const updatedChoice = {
@@ -47,10 +54,9 @@ class Details extends PureComponent {
       return eachChoice;
     });
     this.setState({ content: updatedContent });
-  }
+  };
 
   changeButtonContent = (inStock, isInCart) => {
-    console.log(inStock, isInCart, 'instock isincart');
     let result;
     if (!inStock) {
       result = 'NOT IN STOCK';
@@ -83,16 +89,14 @@ class Details extends PureComponent {
       prize,
       addToCat,
       addToCat2,
+      remove,
       descriptionStyle,
       pointer,
       greyedOut,
     } = styles;
 
-    const {
-      selectedProduct, activeCurrency, cart,
-    } = this.props;
+    const { selectedProduct, activeCurrency, cart } = this.props;
 
-    console.log(cart, ' => cart');
     const {
       attributes,
       brand,
@@ -105,25 +109,24 @@ class Details extends PureComponent {
     } = selectedProduct;
 
     const isInCart = cart.find((each) => each.id === id) !== undefined;
-    console.log(isInCart, ' => in cart status');
-    // let buttonContent;
     const { buttonContent } = this.state;
-    console.log(this.state, 'btn cont');
 
     return (
       <section className={detailsContainer}>
         <div className={leftSection}>
           <ul className={thumbnailList}>
-            {gallery.map(
-              (picture) => <li key={Math.random()} className={thumbnail}><img src={picture} alt="thumbnail" /></li>,
-            )}
+            {gallery.map((picture) => (
+              <li key={Math.random()} className={thumbnail}>
+                <img src={picture} alt="thumbnail" />
+              </li>
+            ))}
           </ul>
           <img className={image} src={gallery[0]} alt="thumbnail" />
         </div>
         <div className={rightSection}>
           <h2 className={nameStyle}>{name}</h2>
           <p className={status}>{brand}</p>
-          { attributes.map((attr, index) => {
+          {attributes.map((attr, index) => {
             const { name, type, items } = attr;
             const isSwatch = type === 'swatch';
             return (
@@ -144,9 +147,11 @@ class Details extends PureComponent {
                         onClick={() => this.setSelectedValue(index, item.value)}
                         key={Math.random()}
                         style={{ backgroundColor: isSwatch ? item.value : '' }}
-                        className={`${sizeItem} ${isSelected ? '' : pointer} ${isSelected ? '' : greyedOut}`}
+                        className={`${sizeItem} ${isSelected ? '' : pointer} ${
+                          isSelected ? '' : greyedOut
+                        }`}
                       >
-                        { isSwatch ? '' : item.value }
+                        {isSwatch ? '' : item.value}
                       </button>
                     );
                   })}
@@ -159,39 +164,45 @@ class Details extends PureComponent {
             <p className={prize}>
               {activeCurrency}
               {' '}
-              {prices.filter(
-                (price) => price.currency.symbol === activeCurrency,
-              )[0].amount}
+              {
+                prices.filter(
+                  (price) => price.currency.symbol === activeCurrency,
+                )[0].amount
+              }
             </p>
           </div>
           <button
-            style={{ backgroundColor: inStock ? '' : '#a2deba' }}
-            className={inStock ? addToCat : addToCat2}
+            className={`${isInCart && inStock && remove} ${
+              inStock && !isInCart && addToCat
+            } ${!inStock && addToCat2}`}
             type="button"
-            onClick={!isInCart ? () => {
-              const {
-                brand,
-                id,
-                name,
-                prices,
-              } = selectedProduct;
-              // const { name, brand, prices } = attributes;
-              const { content } = this.state;
-              const cartItem = {
-                id, name, brand, prices, choices: content,
-              };
-              this.addProductToCart(cartItem);
-              this.changeButtonContent(inStock, isInCart);
-            } : () => {
-              const {
-                id,
-              } = selectedProduct;
-              this.removeProductFromCart(id);
-              this.changeButtonContent(inStock, isInCart);
-            }}
+            onClick={
+              !isInCart && inStock
+                ? () => {
+                  const {
+                    brand, id, name, prices,
+                  } = selectedProduct;
+                  const { content } = this.state;
+                  const cartItem = {
+                    id,
+                    name,
+                    brand,
+                    prices,
+                    choices: content,
+                  };
+                  this.addProductToCart(cartItem);
+                  this.changeButtonContent(inStock, isInCart);
+                }
+                : () => {
+                  if (inStock) {
+                    const { id } = selectedProduct;
+                    this.removeProductFromCart(id);
+                    this.changeButtonContent(inStock, isInCart);
+                  }
+                }
+            }
           >
             {buttonContent}
-
           </button>
           <div
             className={descriptionStyle}

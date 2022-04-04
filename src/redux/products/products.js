@@ -65,7 +65,6 @@ export default function state(state = initialState, action = {}) {
       cart.push(payload);
       return { ...state, cart };
     case REMOVE_FROM_CART:
-      console.log('We came here');
       return {
         ...state,
         cart: cart.filter((product) => product.id !== payload),

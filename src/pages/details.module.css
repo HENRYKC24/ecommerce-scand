@@ -109,11 +109,24 @@
 .addToCat2 {
   font-size: 16px;
   font-weight: 600;
-  background-color: #5ece7b;
+  background-color: #7a8c70;
   border: none;
   color: #fff;
   height: 52px;
   width: 100%;
+  margin-bottom: 10px;
+}
+
+.remove {
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  color: #fff;
+  height: 52px;
+  width: 100%;
+  background-color: rgb(192, 33, 33);
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .addToCat:hover {
