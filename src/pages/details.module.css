@@ -1,5 +1,5 @@
 .statusBar {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   color: white;
@@ -114,7 +114,7 @@
   margin-top: 0;
 }
 
-.addToCat {
+.addToCart {
   font-size: 16px;
   font-weight: 600;
   background-color: #5ece7b;
@@ -125,7 +125,7 @@
   margin-bottom: 10px;
 }
 
-.addToCat2 {
+.addToCart2 {
   font-size: 16px;
   font-weight: 600;
   background-color: #7a8c70;
@@ -148,13 +148,13 @@
   margin-bottom: 10px;
 }
 
-.addToCat:hover {
+.addToCart:hover {
   color: #5ece7b;
   background-color: #000;
   cursor: pointer;
 }
 
-.addToCat:active {
+.addToCart:active {
   background-color: #fff;
   color: #000;
 }
