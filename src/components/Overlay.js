@@ -1,10 +1,24 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 import OneCartItemMini from './CartItemMini';
 import styles from './overlay.module.css';
 
 export class Overlay extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cart: [],
+    };
+  }
+
+  componentDidMount() {
+    console.log(this.props, 'this.props from overlay');
+    const { cart } = this.props;
+    this.setState({ cart });
+  }
+
   render() {
     const { removeOverlay } = this.props;
     const {
@@ -18,6 +32,10 @@ export class Overlay extends PureComponent {
       viewBag,
       checkOut,
     } = styles;
+
+    const { cart } = this.state;
+    console.log(cart, 'cart from overlay');
+
     return (
       <div role="button" tabIndex={0} onClick={removeOverlay} onKeyDown={removeOverlay} className={overlay}>
         <div role="button" tabIndex={0} onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()} className={card}>
@@ -26,15 +44,15 @@ export class Overlay extends PureComponent {
               <strong>My Bag:</strong>
               {' '}
             </span>
-            <span>2 items</span>
+            <span>
+              {cart.length}
+              {' '}
+              item
+              {cart.length > 1 ? 's' : ''}
+            </span>
           </div>
           <ul className={cartList}>
-            <OneCartItemMini />
-            <OneCartItemMini />
-            <OneCartItemMini />
-            <OneCartItemMini />
-            <OneCartItemMini />
-            <OneCartItemMini />
+            {cart.map((each) => <OneCartItemMini key={Math.random()} data={each} />)}
           </ul>
           <div className={totalContainer}>
             <span><strong>Total</strong></span>
@@ -54,12 +72,13 @@ export class Overlay extends PureComponent {
   }
 }
 
-Overlay.defaultProps = {
-  removeOverlay: () => {},
-};
-
 Overlay.propTypes = {
-  removeOverlay: PropTypes.func,
+  removeOverlay: PropTypes.func.isRequired,
+  cart: PropTypes.instanceOf(Array).isRequired,
 };
 
-export default Overlay;
+function mapStateToProps({ state }) {
+  return state;
+}
+
+export default connect(mapStateToProps)(Overlay);

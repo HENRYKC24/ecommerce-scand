@@ -2,7 +2,7 @@
 
 .cartItem {
   display: grid;
-  grid-template-columns: 40% 40%;
+  grid-template-columns: 40% 55%;
   justify-content: space-between;
   margin: 20px 0;
 }
@@ -32,7 +32,7 @@ p.prize {
   font-size: 14px;
 }
 
-.name {
+.nameStyle {
   margin: 0;
 }
 
@@ -82,7 +82,7 @@ p.prize {
   font-family: sans-serif;
 }
 
-.image {
+.imageStyle {
   max-height: 137px;
   margin-left: 12px;
 }
