@@ -41,8 +41,6 @@ export class CartItem extends Component {
       cart,
     } = this.props;
 
-    console.log(choices, 'choices');
-
     const currentProduct = cart.filter((each) => each.id === id)[0];
     const { quantity } = currentProduct;
 
@@ -62,9 +60,7 @@ export class CartItem extends Component {
           </p>
           <ul className={sizeList}>
             {choices.map((choice) => {
-              console.log(1);
               const { value, type } = choice;
-              console.log(value);
               const notSwart = type !== 'swatch';
               return (
                 <li style={{ backgroundColor: notSwart ? '' : value }} key={Math.random()} className={sizeItem}>

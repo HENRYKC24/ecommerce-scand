@@ -9,7 +9,10 @@ import up from '../assets/images/up.svg';
 import down from '../assets/images/down.svg';
 import ImportedOverlay from './Overlay';
 import {
-  changeCurrency, fetchCurrencies, fetchProducts, setActiveCategory,
+  changeCurrency,
+  fetchCurrencies,
+  fetchProducts,
+  setActiveCategory,
 } from '../redux/products/products';
 
 class Header extends PureComponent {
@@ -19,10 +22,6 @@ class Header extends PureComponent {
       menuOpen: false,
       overlayOpen: false,
     };
-    this.toggle = this.toggle.bind(this);
-    this.toggleMenuOpen = this.toggleMenuOpen.bind(this);
-    this.toggleOverlayOpen = this.toggleOverlayOpen.bind(this);
-    this.handleBodyScroll = this.handleBodyScroll.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +30,7 @@ class Header extends PureComponent {
     dispatch(fetchProducts());
   }
 
-  handleBodyScroll() {
+  handleBodyScroll = () => {
     const { overlayOpen } = this.state;
     const { stopScrolling } = styles;
     if (overlayOpen) {
@@ -44,16 +43,16 @@ class Header extends PureComponent {
   changeActiveCategory = (name) => {
     const { dispatch } = this.props;
     dispatch(setActiveCategory(name));
-  }
+  };
 
-  toggleMenuOpen() {
+  toggleMenuOpen = () => {
     const { menuOpen } = this.state;
     this.setState({
       menuOpen: !menuOpen,
     });
   }
 
-  toggleOverlayOpen() {
+  toggleOverlayOpen = () => {
     const { overlayOpen } = this.state;
     this.setState({
       overlayOpen: !overlayOpen,
@@ -61,7 +60,7 @@ class Header extends PureComponent {
     this.handleBodyScroll();
   }
 
-  toggle() {
+  toggle = () => {
     this.toggleMenuOpen();
   }
 
@@ -85,13 +84,11 @@ class Header extends PureComponent {
       catWrapper,
     } = styles;
 
-    const {
-      menuOpen, overlayOpen,
-    } = this.state;
+    const { menuOpen, overlayOpen } = this.state;
 
     const state = this.props;
 
-    const { dispatch, categories } = this.props;
+    const { dispatch, categories, cart } = this.props;
 
     return (
       <section
@@ -109,54 +106,76 @@ class Header extends PureComponent {
         <nav className={navBar}>
           <ul className={navList}>
             {categories.map((category) => (
-              <NavLink onClick={() => this.changeActiveCategory(category.name)} className={`${navItem} ${category.active ? active : ''}`} key={category.id} exact="true" to="/">
+              <NavLink
+                onClick={() => this.changeActiveCategory(category.name)}
+                className={`${navItem} ${category.active ? active : ''}`}
+                key={category.id}
+                exact="true"
+                to="/"
+              >
                 <li>{category.name}</li>
               </NavLink>
             ))}
           </ul>
-          <img className={logo} src={appLogo} alt="applogo" />
+          <img className={logo} src={appLogo} alt="app logo" />
           <div className={catCurrency}>
             <div className={dollarDiv}>
-              <div role="button" tabIndex={0} onClick={this.toggleMenuOpen} onKeyDown={() => this.toggleMenuOpen} className={currencyArrow}>
+              <div
+                role="button"
+                tabIndex={0}
+                onClick={this.toggleMenuOpen}
+                onKeyDown={() => this.toggleMenuOpen}
+                className={currencyArrow}
+              >
                 <p className={currencyStyle}>{state.activeCurrency}</p>
-                {menuOpen ? <img className={arrow} src={up} alt="up arrow" /> : <img className={arrow} src={down} alt="down arrow" />}
+                {menuOpen ? (
+                  <img className={arrow} src={up} alt="up arrow" />
+                ) : (
+                  <img className={arrow} src={down} alt="down arrow" />
+                )}
               </div>
               {menuOpen && (
-              <div className={currencyListWrapper}>
-                <div className={currencyList}>
-                  {state.currencies.map((currency) => (
-                    <button
-                      key={Math.random()}
-                      onClick={() => {
-                        dispatch(changeCurrency(currency.symbol));
-                        this.toggle();
-                      }}
-                      type="button"
-                    >
-                      {currency.symbol}
-                      {' '}
-                      {currency.label}
-                    </button>
-                  ))}
+                <div className={currencyListWrapper}>
+                  <div className={currencyList}>
+                    {state.currencies.map((currency) => (
+                      <button
+                        key={Math.random()}
+                        onClick={() => {
+                          dispatch(changeCurrency(currency.symbol));
+                          this.toggle();
+                        }}
+                        type="button"
+                      >
+                        {currency.symbol}
+                        {' '}
+                        {currency.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
               )}
             </div>
             <div>
-              <div className={catWrapper} role="button" tabIndex={0} onClick={this.toggleOverlayOpen} onKeyDown={() => this.toggleOverlayOpen}>
-                <img className={cartStyle} src={cat} alt="applogo" />
+              <div
+                className={catWrapper}
+                role="button"
+                tabIndex={0}
+                onClick={this.toggleOverlayOpen}
+                onKeyDown={() => this.toggleOverlayOpen}
+              >
+                <img className={cartStyle} src={cat} alt="app logo" />
               </div>
-              <span className={numOfItemsInCat}>9</span>
+              <span className={numOfItemsInCat}>{cart.length}</span>
             </div>
           </div>
         </nav>
         {overlayOpen && (
-        <ImportedOverlay
-          removeOverlay={() => {
-            this.setState({ overlayOpen: false });
-            this.handleBodyScroll();
-          }}
-        />
+          <ImportedOverlay
+            removeOverlay={() => {
+              this.setState({ overlayOpen: false });
+              this.handleBodyScroll();
+            }}
+          />
         )}
       </section>
     );
@@ -172,6 +191,7 @@ Header.propTypes = {
   activeCurrency: PropTypes.string.isRequired,
   currencies: PropTypes.instanceOf(Array).isRequired,
   categories: PropTypes.instanceOf(Array).isRequired,
+  cart: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

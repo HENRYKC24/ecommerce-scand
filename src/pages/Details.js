@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from './details.module.css';
-import { addToCart, removeFromCart } from '../redux/products/products';
+import { addToCart, fetchProducts, removeFromCart } from '../redux/products/products';
 
 class Details extends PureComponent {
   constructor(props) {
@@ -42,6 +42,7 @@ class Details extends PureComponent {
   addProductToCart = (product) => {
     const { dispatch } = this.props;
     dispatch(addToCart(product));
+    dispatch(fetchProducts());
   };
 
   removeProductFromCart = (id) => {
@@ -161,7 +162,6 @@ class Details extends PureComponent {
                 </h5>
                 <div className={sizeList}>
                   {items.map((item) => {
-                    console.log(item, 'item');
                     const { content } = this.state;
                     const currentChoices = content[index] || { value: '*****' };
                     const currentValue = currentChoices.value;

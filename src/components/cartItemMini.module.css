@@ -2,7 +2,7 @@
 
 .cartItem {
   display: grid;
-  grid-template-columns: 40% 40%;
+  grid-template-columns: 40% 55%;
   justify-content: space-between;
   margin: 20px 0;
 }
@@ -24,15 +24,16 @@ p.prize {
 
 .sizeItem {
   height: 24px;
-  width: 24px;
+  min-width: 24px;
   border: solid 1px;
   margin-right: 5px;
   text-align: center;
   line-height: 24px;
   font-size: 14px;
+  padding: 1px;
 }
 
-.name {
+.nameStyle {
   margin: 0;
 }
 
@@ -82,7 +83,7 @@ p.prize {
   font-family: sans-serif;
 }
 
-.image {
+.imageStyle {
   max-height: 137px;
   margin-left: 12px;
 }
