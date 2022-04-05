@@ -24,12 +24,13 @@ p.prize {
 
 .sizeItem {
   height: 24px;
-  width: 24px;
+  min-width: 24px;
   border: solid 1px;
   margin-right: 5px;
   text-align: center;
   line-height: 24px;
   font-size: 14px;
+  padding: 1px;
 }
 
 .nameStyle {

@@ -6,19 +6,6 @@ import OneCartItemMini from './CartItemMini';
 import styles from './overlay.module.css';
 
 export class Overlay extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cart: [],
-    };
-  }
-
-  componentDidMount() {
-    console.log(this.props, 'this.props from overlay');
-    const { cart } = this.props;
-    this.setState({ cart });
-  }
-
   render() {
     const { removeOverlay } = this.props;
     const {
@@ -33,8 +20,11 @@ export class Overlay extends PureComponent {
       checkOut,
     } = styles;
 
-    const { cart } = this.state;
-    console.log(cart, 'cart from overlay');
+    const { cart, activeCurrency } = this.props;
+
+    const total = cart.reduce((total, item) => total + (item.prices.filter(
+      (price) => price.currency.symbol === activeCurrency,
+    )[0].amount * item.quantity), 0);
 
     return (
       <div role="button" tabIndex={0} onClick={removeOverlay} onKeyDown={removeOverlay} className={overlay}>
@@ -56,7 +46,13 @@ export class Overlay extends PureComponent {
           </ul>
           <div className={totalContainer}>
             <span><strong>Total</strong></span>
-            <span><strong>$ 200.00</strong></span>
+            <span>
+              <strong>
+                {activeCurrency}
+                {' '}
+                { total.toFixed(2) }
+              </strong>
+            </span>
           </div>
           <div className={buttonsContainer}>
             <NavLink onClick={removeOverlay} className={viewBagLink} exact="true" to="/cart">
@@ -75,6 +71,7 @@ export class Overlay extends PureComponent {
 Overlay.propTypes = {
   removeOverlay: PropTypes.func.isRequired,
   cart: PropTypes.instanceOf(Array).isRequired,
+  activeCurrency: PropTypes.string.isRequired,
 };
 
 function mapStateToProps({ state }) {
