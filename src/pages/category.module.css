@@ -57,3 +57,26 @@
 .amount {
   text-align: left;
 }
+
+.amount {
+  margin-bottom: 0;
+}
+
+.under {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.addToCart {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #5ece7b;
+  border: none;
+  color: #fff;
+  height: 30px;
+  width: 100%;
+  margin-bottom: 10px;
+  cursor: pointer;
+}

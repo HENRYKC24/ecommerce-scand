@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-// import { useQuery } from 'react-query';
 import PropTypes from 'prop-types';
 import OneCartItem from '../components/CartItem';
 import styles from './cart.module.css';
@@ -19,11 +18,7 @@ class Cart extends PureComponent {
   }
 
   render() {
-    const {
-      cartContainer,
-      cartHeading,
-      cartList,
-    } = styles;
+    const { cartContainer, cartHeading, cartList } = styles;
 
     const { cart } = this.state;
 
@@ -31,7 +26,9 @@ class Cart extends PureComponent {
       <section className={cartContainer}>
         <p className={cartHeading}>Cart</p>
         <ul className={cartList}>
-          {cart.map((each) => <OneCartItem key={Math.random()} data={each} />)}
+          {cart.map((each) => (
+            <OneCartItem key={Math.random()} data={each} />
+          ))}
         </ul>
       </section>
     );

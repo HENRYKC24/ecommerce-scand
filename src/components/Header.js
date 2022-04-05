@@ -38,7 +38,7 @@ class Header extends PureComponent {
     } else {
       document.body.classList.add(stopScrolling);
     }
-  }
+  };
 
   changeActiveCategory = (name) => {
     const { dispatch } = this.props;
@@ -50,7 +50,7 @@ class Header extends PureComponent {
     this.setState({
       menuOpen: !menuOpen,
     });
-  }
+  };
 
   toggleOverlayOpen = () => {
     const { overlayOpen } = this.state;
@@ -58,11 +58,11 @@ class Header extends PureComponent {
       overlayOpen: !overlayOpen,
     });
     this.handleBodyScroll();
-  }
+  };
 
   toggle = () => {
     this.toggleMenuOpen();
-  }
+  };
 
   render() {
     const {
@@ -109,7 +109,9 @@ class Header extends PureComponent {
             {categories.map((category) => (
               <NavLink
                 onClick={() => this.changeActiveCategory(category.name)}
-                className={`${navItem} ${category.name.toLowerCase() === activeCategory ? active : ''}`}
+                className={`${navItem} ${
+                  category.name.toLowerCase() === activeCategory ? active : ''
+                }`}
                 key={category.id}
                 exact="true"
                 to="/"

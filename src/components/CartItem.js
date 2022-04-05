@@ -63,7 +63,11 @@ export class CartItem extends Component {
               const { value, type } = choice;
               const notSwart = type !== 'swatch';
               return (
-                <li style={{ backgroundColor: notSwart ? '' : value }} key={Math.random()} className={sizeItem}>
+                <li
+                  style={{ backgroundColor: notSwart ? '' : value }}
+                  key={Math.random()}
+                  className={sizeItem}
+                >
                   {notSwart ? value : ''}
                 </li>
               );

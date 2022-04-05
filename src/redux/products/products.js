@@ -58,10 +58,7 @@ const initialState = {
 
 // Define reducer
 export default function state(state = initialState, action = {}) {
-  const {
-    payload,
-    type,
-  } = action;
+  const { payload, type } = action;
   const { cart } = state;
   switch (type) {
     case ADD_CURRENCIES:
@@ -150,14 +147,20 @@ export const fetchProducts = () => async (dispatch) => {
   const { categories } = result.data;
   const [all, clothes, tech] = categories;
 
-  dispatch(addProducts({
-    products: { all: all.products, clothes: clothes.products, tech: tech.products },
-    categories: [
-      { name: clothes.name.toUpperCase(), id: 1, active: true },
-      { name: tech.name.toUpperCase(), id: 2, active: false },
-      { name: all.name.toUpperCase(), id: 3, active: false },
-    ],
-  }));
+  dispatch(
+    addProducts({
+      products: {
+        all: all.products,
+        clothes: clothes.products,
+        tech: tech.products,
+      },
+      categories: [
+        { name: clothes.name.toUpperCase(), id: 1, active: true },
+        { name: tech.name.toUpperCase(), id: 2, active: false },
+        { name: all.name.toUpperCase(), id: 3, active: false },
+      ],
+    }),
+  );
 };
 
 export const fetchCurrencies = () => async (dispatch) => {

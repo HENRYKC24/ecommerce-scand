@@ -40,6 +40,8 @@ class Category extends PureComponent {
       link,
       grey,
       outOfStock,
+      under,
+      addToCart,
     } = styles;
 
     const state = this.props;
@@ -85,18 +87,33 @@ class Category extends PureComponent {
                           alt={singleData.name}
                         />
                       </div>
-                      <p className={dataName}>{singleData.name}</p>
-                      <p className={amount}>
-                        <strong>
-                          {activeCurrency}
-                          {' '}
-                          {
-                              singleData.prices.filter(
-                                (price) => price.currency.symbol === activeCurrency,
-                              )[0].amount
-                            }
-                        </strong>
-                      </p>
+                      <div className={under}>
+                        <div>
+                          <p className={dataName}>{singleData.name}</p>
+                          <p className={amount}>
+                            <strong>
+                              {activeCurrency}
+                              {' '}
+                              {
+                                  singleData.prices.filter(
+                                    (price) => price.currency.symbol === activeCurrency,
+                                  )[0].amount
+                                }
+                            </strong>
+                          </p>
+                        </div>
+                        <div>
+                          {singleData.inStock && (
+                          <button
+                            onClick={() => this.addToCart(singleData)}
+                            className={addToCart}
+                            type="button"
+                          >
+                            Add To Cart
+                          </button>
+                          )}
+                        </div>
+                      </div>
                     </NavLink>
                   </li>
                 ))
