@@ -14,17 +14,16 @@ class Details extends PureComponent {
       display: false,
       queue: '',
       isSuccess: true,
+      isInCart: false,
     };
   }
 
   componentDidMount() {
     const {
       selectedProduct: {
-        attributes, inStock, btnContent, id,
+        attributes,
       },
-      cart,
     } = this.props;
-    const isInCart = cart.find((each) => each.id === id) !== undefined;
     const choices = [];
     choices.length = attributes.length;
     attributes.forEach((attribute, index) => {
@@ -32,8 +31,25 @@ class Details extends PureComponent {
       choices[index] = { name, type, value: '' };
     });
     this.setState({ content: choices });
+  }
+
+  checkProductInCart = (allChoices) => {
+    const {
+      selectedProduct: {
+        inStock, btnContent, id,
+      },
+      cart,
+    } = this.props;
+
+    const isInCart = cart.find((each) => {
+      const attributesString = allChoices.map((choice) => choice.value).join('');
+      return each.id === id + attributesString;
+    }) !== undefined;
+
+    this.setState({ isInCart });
+
     if (isInCart) {
-      this.changeButtonContent('REMOVE ITEM');
+      this.changeButtonContent('REMOVE ITEM(S)');
     } else {
       this.changeButtonContent(inStock ? btnContent : 'OUT OF STOCK');
     }
@@ -74,6 +90,13 @@ class Details extends PureComponent {
       }
       return eachChoice;
     });
+
+    const allAreSelected = updatedContent.every((each) => each.value !== '');
+
+    if (allAreSelected) {
+      this.checkProductInCart(updatedContent);
+    }
+
     this.setState({ content: updatedContent });
   };
 
@@ -109,7 +132,7 @@ class Details extends PureComponent {
       greyedOut,
     } = styles;
 
-    const { selectedProduct, activeCurrency, cart } = this.props;
+    const { selectedProduct, activeCurrency } = this.props;
 
     const {
       attributes,
@@ -118,11 +141,10 @@ class Details extends PureComponent {
       gallery,
       inStock,
       name,
-      id,
       prices,
     } = selectedProduct;
 
-    const isInCart = cart.find((each) => each.id === id) !== undefined;
+    const { isInCart } = this.state;
     const {
       buttonContent, info, display, isSuccess,
     } = this.state;
@@ -225,8 +247,9 @@ class Details extends PureComponent {
                   const {
                     brand, id, name, prices, gallery,
                   } = selectedProduct;
+                  const attributesString = content.map((choice) => choice.value).join('');
                   const cartItem = {
-                    id,
+                    id: `${id}${attributesString}`,
                     name,
                     brand,
                     prices,
@@ -235,14 +258,18 @@ class Details extends PureComponent {
                     quantity: 1,
                   };
                   this.addProductToCart(cartItem);
-                  this.changeButtonContent('REMOVE ITEM');
+                  this.setState({ isInCart: true });
+                  this.changeButtonContent('REMOVE ITEM(S)');
                   this.showStatus('Product successfully added to cart!', 3, true);
                   return true;
                 }
                 : () => {
                   if (inStock) {
                     const { id } = selectedProduct;
-                    this.removeProductFromCart(id);
+                    const { content } = this.state;
+                    const attributesString = content.map((choice) => choice.value).join('');
+                    this.removeProductFromCart(id + attributesString);
+                    this.setState({ isInCart: false });
                     this.changeButtonContent('ADD TO CART');
                     this.showStatus(
                       'Product successfully removed from cart!',
