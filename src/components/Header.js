@@ -87,6 +87,7 @@ class Header extends PureComponent {
     const { menuOpen, overlayOpen } = this.state;
 
     const state = this.props;
+    const { activeCategory } = state;
 
     const { dispatch, categories, cart } = this.props;
 
@@ -108,7 +109,7 @@ class Header extends PureComponent {
             {categories.map((category) => (
               <NavLink
                 onClick={() => this.changeActiveCategory(category.name)}
-                className={`${navItem} ${category.active ? active : ''}`}
+                className={`${navItem} ${category.name.toLowerCase() === activeCategory ? active : ''}`}
                 key={category.id}
                 exact="true"
                 to="/"
@@ -189,6 +190,7 @@ function mapStateToProps({ state }) {
 Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   activeCurrency: PropTypes.string.isRequired,
+  activeCategory: PropTypes.string.isRequired,
   currencies: PropTypes.instanceOf(Array).isRequired,
   categories: PropTypes.instanceOf(Array).isRequired,
   cart: PropTypes.instanceOf(Array).isRequired,

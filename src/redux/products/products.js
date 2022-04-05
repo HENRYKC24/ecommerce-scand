@@ -87,6 +87,7 @@ export default function state(state = initialState, action = {}) {
     case SET_ACTIVE_CATEGORY:
       return {
         ...state,
+        activeCategory: payload.toLowerCase(),
         categories: state.categories.map((category) => {
           if (category.name.toLowerCase() === payload.toLowerCase()) {
             return { ...category, active: true };
