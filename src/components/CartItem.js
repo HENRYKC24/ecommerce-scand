@@ -29,6 +29,7 @@ export class CartItem extends Component {
       right,
       buttonsContainer,
       button,
+      remove,
       itemCount,
       imageStyle,
     } = styles;
@@ -39,10 +40,16 @@ export class CartItem extends Component {
       },
       activeCurrency,
       cart,
+      removeThisItemFromCart,
+      itemId,
     } = this.props;
+    const currentProduct = cart.filter((each) => each.id === itemId)[0];
 
-    const currentProduct = cart.filter((each) => each.id === id)[0];
-    const { quantity } = currentProduct;
+    let quant;
+    if (currentProduct) {
+      const { quantity } = currentProduct;
+      quant = quantity;
+    }
 
     return (
       <li className={cartItem}>
@@ -63,23 +70,42 @@ export class CartItem extends Component {
               const { value, type } = choice;
               const notSwart = type !== 'swatch';
               return (
-                <li style={{ backgroundColor: notSwart ? '' : value }} key={Math.random()} className={sizeItem}>
+                <li
+                  style={{ backgroundColor: notSwart ? '' : value }}
+                  key={Math.random()}
+                  className={sizeItem}
+                >
                   {notSwart ? value : ''}
                 </li>
               );
             })}
           </ul>
+          <button
+            onClick={() => {
+              removeThisItemFromCart();
+            }}
+            className={remove}
+            type="button"
+          >
+            Remove Item
+            {' '}
+            {quant > 1 && 's'}
+
+          </button>
         </div>
         <div className={right}>
           <div className={buttonsContainer}>
             <button
-              onClick={() => this.updateQuantity(id, 'add')}
+              onClick={() => {
+                const { id } = currentProduct;
+                return this.updateQuantity(id, 'add');
+              }}
               className={button}
               type="button"
             >
               +
             </button>
-            <p className={itemCount}>{quantity}</p>
+            <p className={itemCount}>{quant}</p>
             <button
               onClick={() => this.updateQuantity(id, 'subtract')}
               className={button}
@@ -99,7 +125,9 @@ CartItem.propTypes = {
   data: PropTypes.instanceOf(Array).isRequired,
   cart: PropTypes.instanceOf(Array).isRequired,
   activeCurrency: PropTypes.string.isRequired,
+  itemId: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
+  removeThisItemFromCart: PropTypes.func.isRequired,
 };
 
 function mapStateToProps({ state }) {

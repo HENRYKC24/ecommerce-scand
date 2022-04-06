@@ -22,13 +22,30 @@ export class Overlay extends PureComponent {
 
     const { cart, activeCurrency } = this.props;
 
-    const total = cart.reduce((total, item) => total + (item.prices.filter(
-      (price) => price.currency.symbol === activeCurrency,
-    )[0].amount * item.quantity), 0);
+    const total = cart.reduce(
+      (total, item) => total
+        + item.prices.filter(
+          (price) => price.currency.symbol === activeCurrency,
+        )[0].amount
+          * item.quantity,
+      0,
+    );
 
     return (
-      <div role="button" tabIndex={0} onClick={removeOverlay} onKeyDown={removeOverlay} className={overlay}>
-        <div role="button" tabIndex={0} onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()} className={card}>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={removeOverlay}
+        onKeyDown={removeOverlay}
+        className={overlay}
+      >
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+          className={card}
+        >
           <div className={top}>
             <span>
               <strong>My Bag:</strong>
@@ -42,25 +59,36 @@ export class Overlay extends PureComponent {
             </span>
           </div>
           <ul className={cartList}>
-            {cart.map((each) => <OneCartItemMini key={Math.random()} data={each} />)}
+            {cart.map((each) => (
+              <OneCartItemMini key={Math.random()} data={each} />
+            ))}
           </ul>
           <div className={totalContainer}>
-            <span><strong>Total</strong></span>
+            <span>
+              <strong>Total</strong>
+            </span>
             <span>
               <strong>
                 {activeCurrency}
                 {' '}
-                { total.toFixed(2) }
+                {total.toFixed(2)}
               </strong>
             </span>
           </div>
           <div className={buttonsContainer}>
-            <NavLink onClick={removeOverlay} className={viewBagLink} exact="true" to="/cart">
+            <NavLink
+              onClick={removeOverlay}
+              className={viewBagLink}
+              exact="true"
+              to="/cart"
+            >
               <button className={viewBag} type="button">
                 View Bag
               </button>
             </NavLink>
-            <button type="button" className={checkOut}>Check Out</button>
+            <button type="button" className={checkOut}>
+              Check Out
+            </button>
           </div>
         </div>
       </div>

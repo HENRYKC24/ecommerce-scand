@@ -22,43 +22,23 @@
 }
 
 .detailsContainer {
-  width: 90%;
-  margin: 30px auto;
-  display: grid;
-  grid-template-columns: 60% 25%;
-}
-
-.thumbnailList img {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  z-index: 100;
   width: 100%;
-}
-
-.image {
-  width: 100%;
-}
-
-.leftSection {
-  display: grid;
-  grid-template-columns: 20% 70%;
-  gap: 20px;
-}
-
-.thumbnailList {
-  list-style-type: none;
+  height: 100vh;
   margin: 0;
-  padding: 0;
 }
 
-.thumbnail {
-  height: auto;
-  overflow-y: hidden;
-  border: 1px solid;
-  padding: 0;
-  margin: 5px;
-}
-
-.thumbnail img {
-  height: 100%;
-  margin-bottom: -5px;
+.inner {
+  text-align: center;
+  background-color: white;
+  padding: 10px;
 }
 
 .size {
@@ -66,17 +46,12 @@
   color: #1d1f22;
   font-size: 18px;
   margin: 15px 0 3px;
-}
-
-.nameStyle {
-  margin-top: 0;
-  font-size: 30px;
-  color: #1d1f22;
+  text-align: center;
 }
 
 .sizeList {
   display: flex;
-  list-style-type: none;
+  justify-content: center;
   margin: 0;
   padding: 0;
 }
@@ -122,7 +97,7 @@
   color: #fff;
   height: 52px;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
 .addToCart2 {
@@ -133,7 +108,7 @@
   color: #fff;
   height: 52px;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
 }
 
 .remove {
@@ -145,42 +120,7 @@
   width: 100%;
   background-color: rgb(105, 33, 33);
   cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.buttonsContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button {
-  height: 45px;
-  width: 45px;
-  border: solid rgb(214, 207, 207);
-  color: rgb(172, 164, 164);
-  background-color: #fff;
-  font-size: 30px;
-  cursor: pointer;
-}
-
-.button:hover {
-  border: solid #5ece7b;
-  background-color: #5ece7b;
-  color: #fff;
-}
-
-.button:active {
-  border: solid #000;
-  background-color: #000;
-  color: #fff;
-}
-
-.itemCount {
-  font-size: 24px;
-  font-weight: 500;
-  font-family: sans-serif;
+  margin: 10px 0;
 }
 
 .addToCart:hover {

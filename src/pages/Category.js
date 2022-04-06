@@ -9,8 +9,16 @@ import {
   fetchCurrencies,
   fetchProducts,
 } from '../redux/products/products';
+import PLPAddToCartOverlay from '../components/PLPAddToCartOverlay';
 
 class Category extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showAddToCartOverlay: false,
+    };
+  }
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchCurrencies());
@@ -40,6 +48,8 @@ class Category extends PureComponent {
       link,
       grey,
       outOfStock,
+      under,
+      addToCart,
     } = styles;
 
     const state = this.props;
@@ -53,6 +63,8 @@ class Category extends PureComponent {
       const currency = state.activeCurrency;
       activeCurrency = currency;
     }
+
+    const { showAddToCartOverlay } = this.state;
 
     return (
       <section className={listContainer}>
@@ -68,42 +80,77 @@ class Category extends PureComponent {
                     }`}
                     key={Math.random()}
                   >
-                    <NavLink
+
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={() => this.updateReduxWithSelectedProduct(singleData)}
                       onClick={() => this.updateReduxWithSelectedProduct(singleData)}
-                      className={link}
-                      exact="true"
-                      to="/detail"
+                      className={imageOut}
                     >
-                      <div className={imageOut}>
-                        {!singleData.inStock && (
+
+                      {!singleData.inStock && (
                         <p className={outOfStock}>OUT OF STOCK</p>
-                        )}
-                        <img
-                          onError={this.addDefaultSrc}
-                          className={image}
-                          src={singleData.gallery[0]}
-                          alt={singleData.name}
-                        />
+                      )}
+                      <div className={image}>
+                        <NavLink
+                          className={link}
+                          exact="true"
+                          to="/detail"
+                        >
+                          <img
+                            onError={this.addDefaultSrc}
+                            className={image}
+                            src={singleData.gallery[0]}
+                            alt={singleData.name}
+                          />
+                        </NavLink>
                       </div>
-                      <p className={dataName}>{singleData.name}</p>
-                      <p className={amount}>
-                        <strong>
-                          {activeCurrency}
-                          {' '}
-                          {
-                              singleData.prices.filter(
-                                (price) => price.currency.symbol === activeCurrency,
-                              )[0].amount
-                            }
-                        </strong>
-                      </p>
-                    </NavLink>
+
+                    </div>
+                    <div className={under}>
+                      <div>
+                        <p className={dataName}>{singleData.name}</p>
+                        <p className={amount}>
+                          <strong>
+                            {activeCurrency}
+                            {' '}
+                            {
+                                singleData.prices.filter(
+                                  (price) => price.currency.symbol === activeCurrency,
+                                )[0].amount
+                              }
+                          </strong>
+                        </p>
+                      </div>
+                      <div>
+                        {singleData.inStock && (
+                        <button
+                          onClick={() => {
+                            this.updateReduxWithSelectedProduct(singleData);
+                            this.setState({ showAddToCartOverlay: true });
+                          }}
+                          className={addToCart}
+                          type="button"
+                        >
+                          Add To Cart
+                        </button>
+                        )}
+                      </div>
+                    </div>
+                    {/* </NavLink> */}
                   </li>
                 ))
                 : null}
             </ul>
           </>
         ) : null}
+        {showAddToCartOverlay && (
+        <PLPAddToCartOverlay setState={() => {
+          this.setState({ showAddToCartOverlay: false });
+        }}
+        />
+        )}
       </section>
     );
   }
