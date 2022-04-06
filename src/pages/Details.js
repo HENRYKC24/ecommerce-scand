@@ -55,7 +55,6 @@ class Details extends PureComponent {
       dispatch(updateProductQuantity({ id: neededId, quantity: quantity - 1 }));
     }
     this.setState({ productId: neededId });
-    // dispatch(fetchProducts());
   };
 
   checkProductInCart = (allChoices) => {
@@ -64,7 +63,6 @@ class Details extends PureComponent {
       cart,
     } = this.props;
 
-    // let quant;
     let productId;
 
     const isInCart = cart.find((each) => {
@@ -72,7 +70,6 @@ class Details extends PureComponent {
         .map((choice) => choice.value)
         .join('');
       if (each.id === id + attributesString) {
-        // quant = each.quantity;
         productId = each.id;
         return true;
       }
@@ -189,8 +186,6 @@ class Details extends PureComponent {
       const { quantity } = currentProduct;
       quant = quantity || 1;
     }
-
-    // const { productId } = this.state;
 
     return (
       <section className={detailsContainer}>
@@ -374,7 +369,6 @@ Details.propTypes = {
   selectedProduct: propTypes.func.isRequired,
   dispatch: propTypes.func.isRequired,
   activeCurrency: propTypes.string.isRequired,
-  // itemId: propTypes.string.isRequired,
   cart: propTypes.instanceOf(Array).isRequired,
 };
 

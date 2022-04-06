@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updateProductQuantity } from '../redux/products/products';
+import { removeFromCart, updateProductQuantity } from '../redux/products/products';
 import styles from './cartItemMini.module.css';
 
 export class CartItemMini extends PureComponent {
@@ -31,6 +31,7 @@ export class CartItemMini extends PureComponent {
       button,
       itemCount,
       imageStyle,
+      removeBtn,
     } = styles;
 
     const {
@@ -72,6 +73,17 @@ export class CartItemMini extends PureComponent {
               );
             })}
           </ul>
+          <button
+            onClick={() => {
+              const { dispatch } = this.props;
+              dispatch(removeFromCart(currentProduct.id));
+            }}
+            className={removeBtn}
+            type="button"
+          >
+            Remove
+
+          </button>
         </div>
         <div className={right}>
           <div className={buttonsContainer}>
