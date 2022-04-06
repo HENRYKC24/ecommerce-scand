@@ -4,8 +4,8 @@
   display: grid;
   grid-template-columns: 70% 30%;
   justify-content: space-between;
-  border-top: solid 0.5px rgb(214, 207, 207);
-  padding-top: 10px;
+  border-top: solid 0.5px rgb(159, 149, 149);
+  padding-top: 20px;
   margin: 20px 0;
 }
 
