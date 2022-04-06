@@ -2,7 +2,11 @@ import React, { PureComponent } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from './PLPAddToCartOverlay.module.css';
-import { addToCart, fetchProducts, removeFromCart } from '../redux/products/products';
+import {
+  addToCart,
+  fetchProducts,
+  removeFromCart,
+} from '../redux/products/products';
 
 class PLPAddToCartOverlay extends PureComponent {
   constructor(props) {
@@ -20,9 +24,7 @@ class PLPAddToCartOverlay extends PureComponent {
 
   componentDidMount() {
     const {
-      selectedProduct: {
-        attributes,
-      },
+      selectedProduct: { attributes },
     } = this.props;
     const choices = [];
     choices.length = attributes.length;
@@ -35,25 +37,25 @@ class PLPAddToCartOverlay extends PureComponent {
 
   checkProductInCart = (allChoices) => {
     const {
-      selectedProduct: {
-        inStock, btnContent, id,
-      },
+      selectedProduct: { inStock, btnContent, id },
       cart,
     } = this.props;
 
     const isInCart = cart.find((each) => {
-      const attributesString = allChoices.map((choice) => choice.value).join('');
+      const attributesString = allChoices
+        .map((choice) => choice.value)
+        .join('');
       return each.id === id + attributesString;
     }) !== undefined;
 
     this.setState({ isInCart });
 
     if (isInCart) {
-      this.changeButtonContent('REMOVE ITEM(S)');
+      this.changeButtonContent('REMOVE ITEM');
     } else {
       this.changeButtonContent(inStock ? btnContent : 'OUT OF STOCK');
     }
-  }
+  };
 
   addProductToCart = (product) => {
     const { dispatch } = this.props;
@@ -125,10 +127,7 @@ class PLPAddToCartOverlay extends PureComponent {
 
     const { selectedProduct, setState } = this.props;
 
-    const {
-      attributes,
-      inStock,
-    } = selectedProduct;
+    const { attributes, inStock } = selectedProduct;
 
     const { isInCart } = this.state;
     const {
@@ -172,7 +171,9 @@ class PLPAddToCartOverlay extends PureComponent {
                   <div className={sizeList}>
                     {items.map((item) => {
                       const { content } = this.state;
-                      const currentChoices = content[index] || { value: '*****' };
+                      const currentChoices = content[index] || {
+                        value: '*****',
+                      };
                       const currentValue = currentChoices.value;
                       const isSelected = currentValue === item.value;
                       return (
@@ -180,10 +181,12 @@ class PLPAddToCartOverlay extends PureComponent {
                           type="button"
                           onClick={() => this.setSelectedValue(index, item.value)}
                           key={Math.random()}
-                          style={{ backgroundColor: isSwatch ? item.value : '' }}
-                          className={`${sizeItem} ${isSelected ? '' : pointer} ${
-                            isSelected ? '' : greyedOut
-                          }`}
+                          style={{
+                            backgroundColor: isSwatch ? item.value : '',
+                          }}
+                          className={`${sizeItem} ${
+                            isSelected ? '' : pointer
+                          } ${isSelected ? '' : greyedOut}`}
                         >
                           {isSwatch ? '' : item.value}
                         </button>
@@ -199,61 +202,73 @@ class PLPAddToCartOverlay extends PureComponent {
               } ${!inStock && addToCart2}`}
               type="button"
               onClick={
-              !isInCart && inStock
-                ? () => {
-                  const { content } = this.state;
-                  if (!content.every((each) => each.value !== '')) {
-                    const notSelected = content.filter((each) => each.value === '');
-                    const names = notSelected.map((each) => each.name);
-                    const len = names.length;
-                    let namesString = 'Please, select one of the options under ';
-                    names.forEach((name, index) => {
-                      if (index + 1 < len && len - index > 2) {
-                        namesString += `"${name}", `;
-                      } else if (index + 1 < len && len - index === 2) {
-                        namesString += `"${name}" and `;
-                      } else if (index + 1 === len) {
-                        namesString += `"${name}" attribute${len > 1 ? 's' : ''}.`;
-                      }
-                    });
-                    this.showStatus(namesString, 5, false);
-                    return false;
-                  }
-                  const {
-                    brand, id, name, prices, gallery,
-                  } = selectedProduct;
-                  const attributesString = content.map((choice) => choice.value).join('');
-                  const cartItem = {
-                    id: `${id}${attributesString}`,
-                    name,
-                    brand,
-                    prices,
-                    choices: content,
-                    image: gallery[0],
-                    quantity: 1,
-                  };
-                  this.addProductToCart(cartItem);
-                  this.setState({ isInCart: true });
-                  this.changeButtonContent('REMOVE ITEM(S)');
-                  this.showStatus('Product successfully added to cart!', 3, true);
-                  return true;
-                }
-                : () => {
-                  if (inStock) {
-                    const { id } = selectedProduct;
+                !isInCart && inStock
+                  ? () => {
                     const { content } = this.state;
-                    const attributesString = content.map((choice) => choice.value).join('');
-                    this.removeProductFromCart(id + attributesString);
-                    this.setState({ isInCart: false });
-                    this.changeButtonContent('ADD TO CART');
+                    if (!content.every((each) => each.value !== '')) {
+                      const notSelected = content.filter(
+                        (each) => each.value === '',
+                      );
+                      const names = notSelected.map((each) => each.name);
+                      const len = names.length;
+                      let namesString = 'Please, select one of the options under ';
+                      names.forEach((name, index) => {
+                        if (index + 1 < len && len - index > 2) {
+                          namesString += `"${name}", `;
+                        } else if (index + 1 < len && len - index === 2) {
+                          namesString += `"${name}", and `;
+                        } else if (index + 1 === len) {
+                          namesString += `"${name}" attribute${
+                            len > 1 ? 's' : ''
+                          }.`;
+                        }
+                      });
+                      this.showStatus(namesString, 5, false);
+                      return false;
+                    }
+                    const {
+                      brand, id, name, prices, gallery,
+                    } = selectedProduct;
+                    const attributesString = content
+                      .map((choice) => choice.value)
+                      .join('');
+                    const cartItem = {
+                      id: `${id}${attributesString}`,
+                      name,
+                      brand,
+                      prices,
+                      choices: content,
+                      image: gallery[0],
+                      quantity: 1,
+                    };
+                    this.addProductToCart(cartItem);
+                    this.setState({ isInCart: true });
+                    this.changeButtonContent('REMOVE ITEM');
                     this.showStatus(
-                      'Product successfully removed from cart!',
+                      'Product successfully added to cart!',
                       3,
                       true,
                     );
+                    return true;
                   }
-                }
-            }
+                  : () => {
+                    if (inStock) {
+                      const { id } = selectedProduct;
+                      const { content } = this.state;
+                      const attributesString = content
+                        .map((choice) => choice.value)
+                        .join('');
+                      this.removeProductFromCart(id + attributesString);
+                      this.setState({ isInCart: false });
+                      this.changeButtonContent('ADD TO CART');
+                      this.showStatus(
+                        'Product successfully removed from cart!',
+                        3,
+                        true,
+                      );
+                    }
+                  }
+              }
             >
               {buttonContent}
             </button>

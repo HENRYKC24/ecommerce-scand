@@ -112,18 +112,15 @@ p.prize {
   margin-left: 12px;
 }
 
-/* ,
-,
-,
-,
-left,
-name,
-status,
-prize,
-sizeList,
-sizeItem,
-right,
-buttonsContainer,
-button,
-itemCount,
-image, */
+.noProductContainer {
+  display: flex;
+  flex-direction: column;
+  /* width: 80%; */
+  justify-content: center;
+  height: 80vh;
+}
+
+.noProduct {
+  font-size: 2rem;
+  text-align: center;
+}

@@ -37,10 +37,10 @@
   }
 
   .inner {
-      width: 30%;
-      display: flex;
-      justify-content:center;
+      /* width: 50%; */
+      text-align: center;
       background-color: white;
+      padding: 10px;
   }
   
   .size {

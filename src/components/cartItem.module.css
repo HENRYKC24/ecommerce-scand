@@ -107,3 +107,18 @@ p.prize {
   margin-left: 12px;
   width: 200px;
 }
+
+.remove {
+  font-size: 16px;
+  border: none;
+  color: #fff;
+  height: 23px;
+  width: 100px;
+  background-color: rgb(105, 33, 33);
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.remove:hover {
+  background-color: rgb(199, 58, 58);
+}

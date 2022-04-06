@@ -2,7 +2,12 @@ import React, { PureComponent } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styles from './details.module.css';
-import { addToCart, fetchProducts, removeFromCart } from '../redux/products/products';
+import {
+  addToCart,
+  fetchProducts,
+  removeFromCart,
+  updateProductQuantity,
+} from '../redux/products/products';
 
 class Details extends PureComponent {
   constructor(props) {
@@ -15,14 +20,13 @@ class Details extends PureComponent {
       queue: '',
       isSuccess: true,
       isInCart: false,
+      productId: '',
     };
   }
 
   componentDidMount() {
     const {
-      selectedProduct: {
-        attributes,
-      },
+      selectedProduct: { attributes },
     } = this.props;
     const choices = [];
     choices.length = attributes.length;
@@ -33,27 +37,56 @@ class Details extends PureComponent {
     this.setState({ content: choices });
   }
 
+  updateQuantity = (type) => {
+    const {
+      selectedProduct: { id },
+    } = this.props;
+    const { content } = this.state;
+    const attributesString = content.map((choice) => choice.value).join('');
+    const neededId = id + attributesString;
+
+    const { cart, dispatch } = this.props;
+    const currentProduct = cart.filter((each) => each.id === neededId)[0];
+    const { quantity } = currentProduct;
+    if (type === 'add') {
+      dispatch(updateProductQuantity({ id: neededId, quantity: quantity + 1 }));
+    } else {
+      if (quantity === 1) return;
+      dispatch(updateProductQuantity({ id: neededId, quantity: quantity - 1 }));
+    }
+    this.setState({ productId: neededId });
+    // dispatch(fetchProducts());
+  };
+
   checkProductInCart = (allChoices) => {
     const {
-      selectedProduct: {
-        inStock, btnContent, id,
-      },
+      selectedProduct: { inStock, btnContent, id },
       cart,
     } = this.props;
 
+    // let quant;
+    let productId;
+
     const isInCart = cart.find((each) => {
-      const attributesString = allChoices.map((choice) => choice.value).join('');
-      return each.id === id + attributesString;
+      const attributesString = allChoices
+        .map((choice) => choice.value)
+        .join('');
+      if (each.id === id + attributesString) {
+        // quant = each.quantity;
+        productId = each.id;
+        return true;
+      }
+      return false;
     }) !== undefined;
 
-    this.setState({ isInCart });
+    this.setState({ isInCart, productId });
 
     if (isInCart) {
-      this.changeButtonContent('REMOVE ITEM(S)');
+      this.changeButtonContent('REMOVE ITEM');
     } else {
       this.changeButtonContent(inStock ? btnContent : 'OUT OF STOCK');
     }
-  }
+  };
 
   addProductToCart = (product) => {
     const { dispatch } = this.props;
@@ -130,24 +163,34 @@ class Details extends PureComponent {
       descriptionStyle,
       pointer,
       greyedOut,
+      buttonsContainer,
+      button,
+      itemCount,
     } = styles;
 
-    const { selectedProduct, activeCurrency } = this.props;
+    const { selectedProduct, activeCurrency, cart } = this.props;
 
     const {
-      attributes,
-      brand,
-      description,
-      gallery,
-      inStock,
-      name,
-      prices,
+      attributes, brand, description, gallery, inStock, name, prices,
     } = selectedProduct;
 
     const { isInCart } = this.state;
     const {
       buttonContent, info, display, isSuccess,
     } = this.state;
+
+    const currentProduct = cart.filter((each) => {
+      const { productId } = this.state;
+      return each.id === productId;
+    })[0];
+
+    let quant;
+    if (currentProduct) {
+      const { quantity } = currentProduct;
+      quant = quantity || 1;
+    }
+
+    // const { productId } = this.state;
 
     return (
       <section className={detailsContainer}>
@@ -218,6 +261,25 @@ class Details extends PureComponent {
               }
             </p>
           </div>
+          {isInCart && (
+            <div className={buttonsContainer}>
+              <button
+                onClick={() => this.updateQuantity('subtract')}
+                className={button}
+                type="button"
+              >
+                -
+              </button>
+              <p className={itemCount}>{quant || 1}</p>
+              <button
+                onClick={() => this.updateQuantity('add')}
+                className={button}
+                type="button"
+              >
+                +
+              </button>
+            </div>
+          )}
           <button
             className={`${isInCart && inStock && remove} ${
               inStock && !isInCart && addToCart
@@ -228,7 +290,9 @@ class Details extends PureComponent {
                 ? () => {
                   const { content } = this.state;
                   if (!content.every((each) => each.value !== '')) {
-                    const notSelected = content.filter((each) => each.value === '');
+                    const notSelected = content.filter(
+                      (each) => each.value === '',
+                    );
                     const names = notSelected.map((each) => each.name);
                     const len = names.length;
                     let namesString = 'Please, select one of the options under ';
@@ -238,7 +302,9 @@ class Details extends PureComponent {
                       } else if (index + 1 < len && len - index === 2) {
                         namesString += `"${name}" and `;
                       } else if (index + 1 === len) {
-                        namesString += `"${name}" attribute${len > 1 ? 's' : ''}.`;
+                        namesString += `"${name}" attribute${
+                          len > 1 ? 's' : ''
+                        }.`;
                       }
                     });
                     this.showStatus(namesString, 5, false);
@@ -247,7 +313,9 @@ class Details extends PureComponent {
                   const {
                     brand, id, name, prices, gallery,
                   } = selectedProduct;
-                  const attributesString = content.map((choice) => choice.value).join('');
+                  const attributesString = content
+                    .map((choice) => choice.value)
+                    .join('');
                   const cartItem = {
                     id: `${id}${attributesString}`,
                     name,
@@ -259,15 +327,21 @@ class Details extends PureComponent {
                   };
                   this.addProductToCart(cartItem);
                   this.setState({ isInCart: true });
-                  this.changeButtonContent('REMOVE ITEM(S)');
-                  this.showStatus('Product successfully added to cart!', 3, true);
+                  this.changeButtonContent('REMOVE ITEM');
+                  this.showStatus(
+                    'Product successfully added to cart!',
+                    3,
+                    true,
+                  );
                   return true;
                 }
                 : () => {
                   if (inStock) {
                     const { id } = selectedProduct;
                     const { content } = this.state;
-                    const attributesString = content.map((choice) => choice.value).join('');
+                    const attributesString = content
+                      .map((choice) => choice.value)
+                      .join('');
                     this.removeProductFromCart(id + attributesString);
                     this.setState({ isInCart: false });
                     this.changeButtonContent('ADD TO CART');
@@ -280,7 +354,7 @@ class Details extends PureComponent {
                 }
             }
           >
-            {buttonContent}
+            {buttonContent + (quant > '1' ? 'S' : '')}
           </button>
           <div
             className={descriptionStyle}
@@ -300,6 +374,7 @@ Details.propTypes = {
   selectedProduct: propTypes.func.isRequired,
   dispatch: propTypes.func.isRequired,
   activeCurrency: propTypes.string.isRequired,
+  // itemId: propTypes.string.isRequired,
   cart: propTypes.instanceOf(Array).isRequired,
 };
 
