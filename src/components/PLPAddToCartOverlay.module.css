@@ -23,7 +23,6 @@
   
   .detailsContainer {
     position: fixed;
-    /* text-align: center; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +36,6 @@
   }
 
   .inner {
-      /* width: 50%; */
       text-align: center;
       background-color: white;
       padding: 10px;
