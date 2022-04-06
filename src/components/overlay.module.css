@@ -35,6 +35,8 @@
 
 .totalContainer {
   padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid rgb(165, 148, 148);
 }
 
 .totalContainer span:nth-child(2) {

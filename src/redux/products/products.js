@@ -8,6 +8,7 @@ const REMOVE_FROM_CART = 'ecommerce_scandi/product/REMOVE_FROM_CART';
 const CHANGE_CURRENCY = 'ecommerce_scandi/product/CHANGE_CURRENCY';
 const SET_ACTIVE_CATEGORY = 'ecommerce_scandi/product/SET_ACTIVE_CATEGORY';
 const UPDATE_PRODUCT_QUANTITY = 'ecommerce_scandi/product/UPDATE_PRODUCT_QUANTITY';
+const EMPTY_CART = 'ecommerce_scandi/product/EMPTY_CART';
 
 // Create actions
 export function updateProductQuantity(payload) {
@@ -40,6 +41,10 @@ export function changeCurrency(payload) {
 
 export function addSelectedProduct(payload) {
   return { type: ADD_SELECTED_PRODUCT, payload };
+}
+
+export function emptyCart() {
+  return { type: EMPTY_CART };
 }
 
 const initialState = {
@@ -105,6 +110,11 @@ export default function state(state = initialState, action = {}) {
           }
           return each;
         }),
+      };
+    case EMPTY_CART:
+      return {
+        ...state,
+        cart: [],
       };
     default:
       return state;

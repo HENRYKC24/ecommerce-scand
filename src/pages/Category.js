@@ -10,6 +10,7 @@ import {
   fetchProducts,
 } from '../redux/products/products';
 import PLPAddToCartOverlay from '../components/PLPAddToCartOverlay';
+import formatFigure from '../utils/formatFigure';
 
 class Category extends PureComponent {
   constructor(props) {
@@ -116,9 +117,11 @@ class Category extends PureComponent {
                             {activeCurrency}
                             {' '}
                             {
-                                singleData.prices.filter(
-                                  (price) => price.currency.symbol === activeCurrency,
-                                )[0].amount
+                               formatFigure(
+                                 singleData.prices.filter(
+                                   (price) => price.currency.symbol === activeCurrency,
+                                 )[0].amount,
+                               )
                               }
                           </strong>
                         </p>
@@ -138,7 +141,6 @@ class Category extends PureComponent {
                         )}
                       </div>
                     </div>
-                    {/* </NavLink> */}
                   </li>
                 ))
                 : null}
