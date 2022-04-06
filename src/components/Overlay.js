@@ -73,7 +73,7 @@ export class Overlay extends PureComponent {
             </span>
           </div>
           <ul className={cartList}>
-            {cart.map((each) => (
+            {cart.reverse().map((each) => (
               <OneCartItemMini key={Math.random()} data={each} />
             ))}
           </ul>

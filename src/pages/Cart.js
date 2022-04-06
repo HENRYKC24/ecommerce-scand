@@ -35,7 +35,7 @@ class Cart extends PureComponent {
           <>
             <p className={cartHeading}>Cart</p>
             <ul className={cartList}>
-              {cart.map((each) => (
+              {cart.reverse().map((each) => (
                 <OneCartItem
                   key={Math.random()}
                   removeThisItemFromCart={() => {
