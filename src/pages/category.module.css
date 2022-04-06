@@ -82,7 +82,7 @@
   cursor: pointer;
 }
 
-@media only screen and ( max-width: 756px ) {
+@media only screen and (max-width: 756px) {
   .listItems {
     padding: 0;
     display: grid;

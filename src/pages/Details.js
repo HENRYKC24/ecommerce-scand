@@ -27,8 +27,14 @@ class Details extends PureComponent {
 
   componentDidMount() {
     const {
-      selectedProduct: { attributes },
+      selectedProduct,
     } = this.props;
+
+    const { inStock, attributes } = selectedProduct;
+
+    if (!inStock) {
+      this.changeButtonContent('OUT OF STOCK');
+    }
     const choices = [];
     choices.length = attributes.length;
     attributes.forEach((attribute, index) => {
@@ -251,9 +257,11 @@ class Details extends PureComponent {
               {activeCurrency}
               {' '}
               {
-                formatFigure(prices.filter(
-                  (price) => price.currency.symbol === activeCurrency,
-                )[0].amount)
+                formatFigure(
+                  prices.filter(
+                    (price) => price.currency.symbol === activeCurrency,
+                  )[0].amount,
+                )
               }
             </p>
           </div>

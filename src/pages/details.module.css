@@ -193,3 +193,38 @@
   background-color: #fff;
   color: #000;
 }
+
+@media only screen and (max-width: 756px) {
+  .detailsContainer {
+    width: 90%;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: 100%;
+  }
+
+  .thumbnailList img {
+    width: 100%;
+  }
+
+  .image {
+    width: 100%;
+  }
+
+  .leftSection {
+    display: grid;
+    grid-template-columns: 100%;
+    gap: 20px;
+  }
+
+  .leftSection > img {
+    display: none;
+  }
+
+  .rightSection {
+    order: -1;
+  }
+
+  .greyedOut {
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+}
