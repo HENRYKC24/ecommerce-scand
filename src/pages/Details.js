@@ -8,6 +8,7 @@ import {
   removeFromCart,
   updateProductQuantity,
 } from '../redux/products/products';
+import formatFigure from '../utils/formatFigure';
 
 class Details extends PureComponent {
   constructor(props) {
@@ -250,9 +251,9 @@ class Details extends PureComponent {
               {activeCurrency}
               {' '}
               {
-                prices.filter(
+                formatFigure(prices.filter(
                   (price) => price.currency.symbol === activeCurrency,
-                )[0].amount
+                )[0].amount)
               }
             </p>
           </div>

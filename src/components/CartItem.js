@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './cartItem.module.css';
 import { updateProductQuantity } from '../redux/products/products';
+import formatFigure from '../utils/formatFigure';
 
 export class CartItem extends Component {
   updateQuantity = (id, type) => {
@@ -60,9 +61,11 @@ export class CartItem extends Component {
             {activeCurrency}
             {' '}
             {
-              prices.filter(
-                (price) => price.currency.symbol === activeCurrency,
-              )[0].amount
+              formatFigure(
+                prices.filter(
+                  (price) => price.currency.symbol === activeCurrency,
+                )[0].amount,
+              )
             }
           </p>
           <ul className={sizeList}>

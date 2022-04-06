@@ -168,12 +168,15 @@ class Header extends PureComponent {
               >
                 <img className={cartStyle} src={cat} alt="app logo" />
               </div>
-              <span className={numOfItemsInCat}>{cart.length}</span>
+              <span className={numOfItemsInCat}>{cart.length.toLocaleString()}</span>
             </div>
           </div>
         </nav>
         {overlayOpen && (
           <ImportedOverlay
+            setState={() => {
+              this.setState({ overlayOpen: true });
+            }}
             removeOverlay={() => {
               this.setState({ overlayOpen: false });
               this.handleBodyScroll();

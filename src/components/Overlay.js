@@ -3,11 +3,19 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import OneCartItemMini from './CartItemMini';
+import CartCheckout from './Checkout';
 import styles from './overlay.module.css';
+import formatFigure from '../utils/formatFigure';
 
 export class Overlay extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkout: false,
+    };
+  }
+
   render() {
-    const { removeOverlay } = this.props;
     const {
       overlay,
       card,
@@ -20,16 +28,22 @@ export class Overlay extends PureComponent {
       checkOut,
     } = styles;
 
-    const { cart, activeCurrency } = this.props;
+    const {
+      cart, activeCurrency, removeOverlay, setState,
+    } = this.props;
+    const { checkout } = this.state;
 
-    const total = cart.reduce(
-      (total, item) => total
-        + item.prices.filter(
-          (price) => price.currency.symbol === activeCurrency,
-        )[0].amount
-          * item.quantity,
-      0,
-    );
+    let total = 0;
+    if (cart[0]) {
+      total = cart.reduce(
+        (total, item) => total
+          + item.prices.filter(
+            (price) => price.currency.symbol === activeCurrency,
+          )[0].amount
+            * item.quantity,
+        0,
+      );
+    }
 
     return (
       <div
@@ -71,7 +85,7 @@ export class Overlay extends PureComponent {
               <strong>
                 {activeCurrency}
                 {' '}
-                {total.toFixed(2)}
+                {formatFigure(total)}
               </strong>
             </span>
           </div>
@@ -86,11 +100,24 @@ export class Overlay extends PureComponent {
                 View Bag
               </button>
             </NavLink>
-            <button type="button" className={checkOut}>
+            <button
+              onClick={() => {
+                if (cart.length > 0) {
+                  setState();
+                  this.setState({ checkout: true });
+                }
+              }}
+              type="button"
+              className={checkOut}
+            >
               Check Out
             </button>
           </div>
         </div>
+
+        {checkout && (
+          <CartCheckout />
+        )}
       </div>
     );
   }
@@ -98,6 +125,7 @@ export class Overlay extends PureComponent {
 
 Overlay.propTypes = {
   removeOverlay: PropTypes.func.isRequired,
+  setState: PropTypes.func.isRequired,
   cart: PropTypes.instanceOf(Array).isRequired,
   activeCurrency: PropTypes.string.isRequired,
 };
