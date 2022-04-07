@@ -171,8 +171,8 @@
   }
   
   .navItem {
-    margin-right: 10px;
-    font-size: 16px;
+    margin-right: 20px;
+    font-size: 1.2rem;
     font-weight: 900;
     cursor: pointer;
     text-decoration: none;
@@ -283,7 +283,7 @@
   
   .logo {
     position: relative;
-    left: calc(-13%);
+    left: calc(-20%);
     top: -40px;
     margin-top: 5px;
   }
