@@ -109,11 +109,27 @@ class Details extends PureComponent {
     const { dispatch } = this.props;
     dispatch(addToCart(product));
     dispatch(fetchProducts());
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      const updatedData = {
+        ...data,
+        cart: [...data.cart, product],
+      };
+      localStorage.setItem('data', JSON.stringify(updatedData));
+    }
   };
 
   removeProductFromCart = (id) => {
     const { dispatch } = this.props;
     dispatch(removeFromCart(id));
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      const updatedData = {
+        ...data,
+        cart: data.cart.filter((item) => item.id !== id),
+      };
+      localStorage.setItem('data', JSON.stringify(updatedData));
+    }
   };
 
   showStatus = (text, minutes, isSuccess) => {
