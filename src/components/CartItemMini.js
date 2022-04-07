@@ -80,6 +80,14 @@ export class CartItemMini extends PureComponent {
             onClick={() => {
               const { dispatch } = this.props;
               dispatch(removeFromCart(currentProduct.id));
+              if (localStorage.getItem('data')) {
+                const data = JSON.parse(localStorage.getItem('data'));
+                const updatedData = {
+                  ...data,
+                  cart: data.cart.filter((item) => item.id !== currentProduct.id),
+                };
+                localStorage.setItem('data', JSON.stringify(updatedData));
+              }
             }}
             className={removeBtn}
             type="button"
