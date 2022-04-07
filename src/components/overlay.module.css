@@ -142,3 +142,11 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 400px) {
+  
+  .buttonsContainer {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}

@@ -172,7 +172,7 @@
   
   .navItem {
     margin-right: 20px;
-    font-size: 1.2rem;
+    font-size: 0.5rem;
     font-weight: 900;
     cursor: pointer;
     text-decoration: none;
@@ -286,5 +286,31 @@
     left: calc(-20%);
     top: -40px;
     margin-top: 5px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .currencyArrow {
+    width: 30px;
+  }
+
+  .currencyStyle {
+    font-size: 1rem;
+  }
+
+  .navItem {
+    margin-right: 16px;
+    font-size: 0.6rem;
+  }
+
+  .numOfItemsInCat {
+    top: -40px;
+    right: -9px;
+    min-width: 18px;
+    font-size: 0.8rem;
+  }
+
+  .logo {
+    left: calc(-15%);
   }
 }
