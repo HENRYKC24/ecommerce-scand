@@ -186,11 +186,6 @@ p.prize {
     font-family: sans-serif;
   }
   
-  .right {
-    /* display: flex; */
-    /* flex-direction: row; */
-  }
-  
   .buttonsContainer {
     display: flex;
     flex-direction: column;

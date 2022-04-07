@@ -101,3 +101,9 @@ p.prize {
   max-height: 137px;
   margin-left: 12px;
 }
+
+@media screen and (max-width: 800px) {
+  .cartItem {
+    padding: 10px 0 0 10px;
+  }
+}
