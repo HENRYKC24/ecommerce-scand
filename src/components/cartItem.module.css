@@ -139,6 +139,10 @@ p.prize {
   .buttonsContainer {
     flex-direction: row-reverse;
   }
+
+  .cartContainer {
+    width: 100%;
+  }
     
   .imageStyle {
     max-height: 90%;
