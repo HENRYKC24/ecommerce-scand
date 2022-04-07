@@ -172,7 +172,7 @@
   
   .navItem {
     margin-right: 20px;
-    font-size: 0.5rem;
+    font-size: 0.9rem;
     font-weight: 900;
     cursor: pointer;
     text-decoration: none;
@@ -245,12 +245,6 @@
     margin: 0;
   }
   
-  .currencyArrow {
-    display: flex;
-    flex-direction: row;
-    cursor: pointer;
-  }
-  
   .cartStyle {
     position: relative;
     top: 5px;
@@ -283,13 +277,14 @@
   
   .logo {
     position: relative;
-    left: calc(-20%);
+    left: calc(-15%);
     top: -40px;
     margin-top: 5px;
   }
 }
 
-@media screen and (max-width: 400px) {
+
+@media screen and (max-width: 370px) {
   .currencyArrow {
     width: 30px;
   }
