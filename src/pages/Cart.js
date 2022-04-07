@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import OneCartItem from '../components/CartItem';
 import styles from './cart.module.css';
-import { removeFromCart } from '../redux/products/products';
+import { fetchLocally, removeFromCart } from '../redux/products/products';
 
 class Cart extends PureComponent {
   constructor(props) {
@@ -14,8 +14,14 @@ class Cart extends PureComponent {
   }
 
   componentDidMount() {
-    const { cart } = this.props;
-    this.setState({ cart });
+    const { cart, dispatch } = this.props;
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      dispatch(fetchLocally(data));
+      this.setState(data.cart);
+    } else {
+      this.setState({ cart });
+    }
   }
 
   render() {
@@ -28,14 +34,19 @@ class Cart extends PureComponent {
     } = styles;
 
     const { cart } = this.state;
+    let useableCart = cart;
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      useableCart = data.cart;
+    }
 
     return (
       <section className={cartContainer}>
-        {cart.length > 0 ? (
+        {useableCart.length > 0 ? (
           <>
             <p className={cartHeading}>Cart</p>
             <ul className={cartList}>
-              {cart.reverse().map((each) => (
+              {useableCart.reverse().map((each) => (
                 <OneCartItem
                   key={Math.random()}
                   removeThisItemFromCart={() => {
@@ -45,6 +56,14 @@ class Cart extends PureComponent {
                       const { cart } = this.props;
                       this.setState({ cart });
                     }, 50);
+                    if (localStorage.getItem('data')) {
+                      const data = JSON.parse(localStorage.getItem('data'));
+                      const updatedData = {
+                        ...data,
+                        cart: data.cart.filter((item) => item.id !== each.id),
+                      };
+                      localStorage.setItem('data', JSON.stringify(updatedData));
+                    }
                   }}
                   itemId={each.id}
                   data={each}

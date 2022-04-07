@@ -28,10 +28,7 @@ class Header extends PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchCurrencies());
     dispatch(fetchProducts());
-  }
-
-  componentWillUnmount() {
-    localStorage.setItem('e-commerce-scandi', JSON.stringify(this.props));
+    window.onbeforeunload = () => localStorage.setItem('data', JSON.stringify(this.props));
   }
 
   handleBodyScroll = () => {
@@ -46,6 +43,14 @@ class Header extends PureComponent {
 
   changeActiveCategory = (name) => {
     const { dispatch } = this.props;
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      const updatedData = {
+        ...data,
+        activeCategory: name.toLowerCase(),
+      };
+      localStorage.setItem('data', JSON.stringify(updatedData));
+    }
     dispatch(setActiveCategory(name));
   };
 
