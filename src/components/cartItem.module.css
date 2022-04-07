@@ -122,3 +122,39 @@ p.prize {
 .remove:hover {
   background-color: rgb(199, 58, 58);
 }
+
+@media only screen and (max-width: 756px) {
+  .cartItem {
+    grid-template-columns: 100%;
+    justify-content: space-between;
+    padding-top: 20px;
+    margin: 20px 0;
+  }
+
+  .right {
+    flex-direction: column;
+    order: -1;
+  }
+
+  .buttonsContainer {
+    flex-direction: row-reverse;
+  }
+
+  .cartContainer {
+    width: 100%;
+  }
+
+  .imageStyle {
+    max-height: 90%;
+    margin: auto;
+    width: 100%;
+  }
+
+  .remove {
+    font-size: 1.5rem;
+    height: 50px;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 50px;
+  }
+}

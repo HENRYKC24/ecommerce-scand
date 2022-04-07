@@ -1,5 +1,6 @@
 import fetchData from '../../utils/fetchData';
 
+const FETCH_LOCALLY = 'ecommerce_scandi/product/FETCH_LOCALLY';
 const ADD_PRODUCTS = 'ecommerce_scandi/product/ADD_PRODUCTS';
 const ADD_SELECTED_PRODUCT = 'ecommerce_scandi/product/ADD_SELECTED_PRODUCT';
 const ADD_CURRENCIES = 'ecommerce_scandi/product/ADD_CURRENCIES';
@@ -11,6 +12,10 @@ const UPDATE_PRODUCT_QUANTITY = 'ecommerce_scandi/product/UPDATE_PRODUCT_QUANTIT
 const EMPTY_CART = 'ecommerce_scandi/product/EMPTY_CART';
 
 // Create actions
+export function fetchLocally(payload) {
+  return { type: FETCH_LOCALLY, payload };
+}
+
 export function updateProductQuantity(payload) {
   return { type: UPDATE_PRODUCT_QUANTITY, payload };
 }
@@ -66,6 +71,8 @@ export default function state(state = initialState, action = {}) {
   const { payload, type } = action;
   const { cart } = state;
   switch (type) {
+    case FETCH_LOCALLY:
+      return payload;
     case ADD_CURRENCIES:
       return { ...state, currencies: payload };
     case ADD_TO_CART:

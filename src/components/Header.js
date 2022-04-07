@@ -30,6 +30,10 @@ class Header extends PureComponent {
     dispatch(fetchProducts());
   }
 
+  componentWillUnmount() {
+    localStorage.setItem('e-commerce-scandi', JSON.stringify(this.props));
+  }
+
   handleBodyScroll = () => {
     const { overlayOpen } = this.state;
     const { stopScrolling } = styles;
