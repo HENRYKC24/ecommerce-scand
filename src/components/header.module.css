@@ -147,7 +147,6 @@
   .navBar {
     width: 90%;
     height: 30px;
-    padding-top: 0;
     display: flex;
     flex-direction: row;
     margin: 10px auto;
@@ -155,13 +154,13 @@
     padding-top: 40px;
     background-color: #fff;
   }
-  
+
   .header {
     position: sticky;
     top: -2px;
     z-index: 20;
   }
-  
+
   .navList {
     list-style-type: none;
     margin: 0;
@@ -169,7 +168,7 @@
     display: flex;
     flex-direction: row;
   }
-  
+
   .navItem {
     margin-right: 20px;
     font-size: 0.9rem;
@@ -178,32 +177,32 @@
     text-decoration: none;
     color: unset;
   }
-  
+
   .navItem:hover {
     color: #5ece7b;
   }
-  
+
   .active {
     border-bottom: solid 2px #5ece7b;
     color: #5ece7b;
   }
-  
+
   .catCurrency {
     display: flex;
     flex-direction: row;
   }
-  
+
   .currencyStyle {
     margin: 0;
     border: none;
     background-color: white;
     font-size: 1.2rem;
   }
-  
+
   .arrow {
     width: 15px;
   }
-  
+
   .currencyListWrapper {
     position: absolute;
     left: -10px;
@@ -211,7 +210,7 @@
     height: 100vh;
     background-color: transparent;
   }
-  
+
   .currencyList {
     position: absolute;
     right: 5%;
@@ -223,7 +222,7 @@
     text-align: center;
     z-index: 10;
   }
-  
+
   .currencyList button {
     display: block;
     margin: 0 auto;
@@ -234,17 +233,17 @@
     border: none;
     background-color: #fff;
   }
-  
+
   .currencyList button:hover {
     color: #fff;
     background-color: #5ece7b;
   }
-  
+
   .dollarDiv {
     display: inline-block;
     margin: 0;
   }
-  
+
   .cartStyle {
     position: relative;
     top: 5px;
@@ -254,11 +253,11 @@
     margin-top: -10px;
     cursor: pointer;
   }
-  
+
   .catWrapper {
     cursor: pointer;
   }
-  
+
   .numOfItemsInCat {
     display: inline-block;
     position: relative;
@@ -274,7 +273,7 @@
     text-align: center;
     font-size: 0.8rem;
   }
-  
+
   .logo {
     position: relative;
     left: calc(-15%);
@@ -282,7 +281,6 @@
     margin-top: 5px;
   }
 }
-
 
 @media screen and (max-width: 370px) {
   .currencyArrow {
