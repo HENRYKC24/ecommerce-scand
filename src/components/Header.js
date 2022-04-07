@@ -28,10 +28,7 @@ class Header extends PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchCurrencies());
     dispatch(fetchProducts());
-  }
-
-  componentWillUnmount() {
-    localStorage.setItem('thisDotProps', JSON.stringify(this.props));
+    window.onbeforeunload = () => localStorage.setItem('data', JSON.stringify(this.props));
   }
 
   handleBodyScroll = () => {
