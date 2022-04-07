@@ -31,7 +31,7 @@ class Header extends PureComponent {
   }
 
   componentWillUnmount() {
-    localStorage.setItem('e-commerce-scandi', JSON.stringify(this.props));
+    localStorage.setItem('thisDotProps', JSON.stringify(this.props));
   }
 
   handleBodyScroll = () => {
