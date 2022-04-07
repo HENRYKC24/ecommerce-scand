@@ -7,6 +7,7 @@ import noImage from '../assets/images/no_image.webp';
 import {
   addSelectedProduct,
   fetchCurrencies,
+  fetchLocally,
   fetchProducts,
 } from '../redux/products/products';
 import PLPAddToCartOverlay from '../components/PLPAddToCartOverlay';
@@ -24,12 +25,30 @@ class Category extends PureComponent {
     const { dispatch } = this.props;
     dispatch(fetchCurrencies());
     dispatch(fetchProducts());
+    let data;
+    if (localStorage.getItem('data')) {
+      data = JSON.parse(localStorage.getItem('data'));
+      const { dispatch } = this.props;
+      dispatch(fetchLocally(data));
+    }
+  }
+
+  saveSelectedProductLocally = (product) => {
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      const updatedData = {
+        ...data,
+        selectedProduct: product,
+      };
+      localStorage.setItem('data', JSON.stringify(updatedData));
+    }
   }
 
   updateReduxWithSelectedProduct = (product) => {
     const productWithBtnText = { ...product, btnContent: 'ADD TO CART' };
     const { dispatch } = this.props;
     dispatch(addSelectedProduct(productWithBtnText));
+    this.saveSelectedProductLocally(productWithBtnText);
   };
 
   addDefaultSrc = (e) => {

@@ -396,7 +396,6 @@ function mapStateToProps({ state }) {
 Details.propTypes = {
   selectedProduct: propTypes.func.isRequired,
   dispatch: propTypes.func.isRequired,
-  // activeCurrency: propTypes.string.isRequired,
   cart: propTypes.instanceOf(Array).isRequired,
 };
 
