@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import styles from './PLPAddToCartOverlay.module.css';
 import {
   addToCart,
-  fetchProducts,
   removeFromCart,
 } from '../redux/products/products';
 
@@ -60,7 +59,6 @@ class PLPAddToCartOverlay extends PureComponent {
   addProductToCart = (product) => {
     const { dispatch } = this.props;
     dispatch(addToCart(product));
-    dispatch(fetchProducts());
   };
 
   removeProductFromCart = (id) => {

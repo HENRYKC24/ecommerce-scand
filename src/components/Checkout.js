@@ -58,10 +58,8 @@ export class Checkout extends PureComponent {
 
 Checkout.propTypes = {
   cart: PropTypes.instanceOf(Object).isRequired,
-  // history: PropTypes.instanceOf(Object).isRequired,
   activeCurrency: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
-  // total: PropTypes.number.isRequired,
 };
 
 function mapStateToProps({ state }) {
