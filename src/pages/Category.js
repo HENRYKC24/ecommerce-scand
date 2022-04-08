@@ -6,9 +6,7 @@ import styles from './category.module.css';
 import noImage from '../assets/images/no_image.webp';
 import {
   addSelectedProduct,
-  fetchCurrencies,
   fetchLocally,
-  fetchProducts,
 } from '../redux/products/products';
 import PLPAddToCartOverlay from '../components/PLPAddToCartOverlay';
 import formatFigure from '../utils/formatFigure';
@@ -22,9 +20,6 @@ class Category extends PureComponent {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(fetchCurrencies());
-    dispatch(fetchProducts());
     let data;
     if (localStorage.getItem('data')) {
       data = JSON.parse(localStorage.getItem('data'));
