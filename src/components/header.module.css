@@ -145,103 +145,15 @@
 
 @media screen and (max-width: 800px) {
   .navBar {
-    width: 90%;
     height: 30px;
-    display: flex;
-    flex-direction: row;
     margin: 10px auto;
-    justify-content: space-between;
     padding-top: 40px;
-    background-color: #fff;
-  }
-
-  .header {
-    position: sticky;
-    top: -2px;
-    z-index: 20;
-  }
-
-  .navList {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
   }
 
   .navItem {
     margin-right: 20px;
     font-size: 0.9rem;
     font-weight: 900;
-    cursor: pointer;
-    text-decoration: none;
-    color: unset;
-  }
-
-  .navItem:hover {
-    color: #5ece7b;
-  }
-
-  .active {
-    border-bottom: solid 2px #5ece7b;
-    color: #5ece7b;
-  }
-
-  .catCurrency {
-    display: flex;
-    flex-direction: row;
-  }
-
-  .currencyStyle {
-    margin: 0;
-    border: none;
-    background-color: white;
-    font-size: 1.2rem;
-  }
-
-  .arrow {
-    width: 15px;
-  }
-
-  .currencyListWrapper {
-    position: absolute;
-    left: -10px;
-    width: 98vw;
-    height: 100vh;
-    background-color: transparent;
-  }
-
-  .currencyList {
-    position: absolute;
-    right: 5%;
-    margin: 20px 0 0 -25px;
-    list-style: none;
-    padding: 0;
-    width: 114px;
-    box-shadow: 1px 1px 5px 2px rgb(230, 224, 224);
-    text-align: center;
-    z-index: 10;
-  }
-
-  .currencyList button {
-    display: block;
-    margin: 0 auto;
-    cursor: pointer;
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
-    border: none;
-    background-color: #fff;
-  }
-
-  .currencyList button:hover {
-    color: #fff;
-    background-color: #5ece7b;
-  }
-
-  .dollarDiv {
-    display: inline-block;
-    margin: 0;
   }
 
   .cartStyle {
@@ -251,27 +163,12 @@
     height: 32px;
     margin-left: -10px;
     margin-top: -10px;
-    cursor: pointer;
-  }
-
-  .catWrapper {
-    cursor: pointer;
   }
 
   .numOfItemsInCat {
-    display: inline-block;
-    position: relative;
     top: -40px;
     right: -15px;
-    min-width: 18px;
     height: 18px;
-    line-height: 1.5;
-    background-color: black;
-    color: white;
-    font-weight: 900;
-    border-radius: 100%;
-    text-align: center;
-    font-size: 0.8rem;
   }
 
   .logo {

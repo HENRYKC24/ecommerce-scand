@@ -103,9 +103,11 @@ p.prize {
 }
 
 .imageStyle {
-  max-height: 193px;
+  max-height: 220px;
   margin-left: 12px;
-  width: 200px;
+  width: 350px;
+  margin: auto;
+  margin-left: 8px;
 }
 
 .remove {
@@ -130,9 +132,6 @@ p.prize {
 @media only screen and (max-width: 800px) {
   .cartItem {
     grid-template-columns: 100%;
-    justify-content: space-between;
-    padding-top: 20px;
-    margin: 20px 0;
   }
 
   .right {
@@ -150,7 +149,7 @@ p.prize {
 
   .imageStyle {
     max-height: 90%;
-    margin: auto;
+    margin: 10px auto;
     width: 100%;
   }
 
@@ -158,7 +157,6 @@ p.prize {
     font-size: 1.5rem;
     height: 50px;
     width: 100%;
-    margin-top: 15px;
     margin-bottom: 50px;
   }
 

@@ -14,7 +14,6 @@
   right: 7%;
   background-color: #fff;
   width: 325px;
-  height: 90%;
   padding: 10px;
 }
 
@@ -88,19 +87,9 @@
 }
 
 @media screen and (max-width: 800px) {
-  .overlay {
-    position: absolute;
-    right: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(57, 55, 72, 0.22);
-    font-family: 'Raleway', sans-serif;
-  }
-
   .card {
     position: relative;
     right: -0.5%;
-    background-color: #fff;
     width: 100%;
     height: auto;
     padding: 0;
@@ -110,36 +99,14 @@
     margin-left: 10px;
   }
 
-  .cartList {
-    padding: 0;
-    margin: 0;
-    max-height: 65vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-
-  .totalContainer,
-  .buttonsContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
   .totalContainer {
     padding: 10px;
     margin-top: 10px;
-    border-top: 1px solid rgb(165, 148, 148);
   }
 
   .buttonsContainer {
     margin-top: 10px;
     padding: 10px;
-  }
-
-  .buttonsContainer button {
-    height: 43px;
-    width: 42%;
-    cursor: pointer;
   }
 }
 

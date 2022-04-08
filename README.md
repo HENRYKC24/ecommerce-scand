@@ -10,17 +10,13 @@ This is an e-commerce website where users can buy different categories of food. 
 - You can switch the currencies.
 - When you close the app, your cart data persists.
 
-## Available Scripts
-
-In the project directory, you can run:
-
 ## Getting Started
 
 - Click on the `Code` green drop down button then COPY.
 - In your local PC, open your terminal in the folder you would like to clone the repository into
 - Clone the repository with the command: `git clone (copied link)`; like so: `git clone https://github.com/HENRYKC24/ecommerce-scand.git`
 - After the clone, type in the command `cd ecommerce-scand` to access the app directory on the terminal
-- Run `npm install` to get all the project dependancies.
+- Run `npm install` to get all the project dependencies.
 - Run `npm start` to start the dev-server.
 
 Runs the app in the development mode.\
@@ -72,7 +68,8 @@ Feel free to check the [issues page](https://github.com/HENRYKC24/ecommerce-scan
 Give a ⭐️ if you like this project!
 
 ## Acknowledgments
-- I remain indepted to the Facebook team that develop create-react-app as open source.
+- I remain indebted to the Facebook team that developed create-react-app as open source.
+To all software engineers, who have impacted on my journey in one way or the other, I say thank you.
 
 ## 📝 License
 
