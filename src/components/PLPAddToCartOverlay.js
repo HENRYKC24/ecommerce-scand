@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import styles from './PLPAddToCartOverlay.module.css';
 import {
   addToCart,
+  fetchProducts,
   removeFromCart,
 } from '../redux/products/products';
 
@@ -59,11 +60,28 @@ class PLPAddToCartOverlay extends PureComponent {
   addProductToCart = (product) => {
     const { dispatch } = this.props;
     dispatch(addToCart(product));
+    dispatch(fetchProducts());
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      const updatedData = {
+        ...data,
+        cart: [...data.cart, product],
+      };
+      localStorage.setItem('data', JSON.stringify(updatedData));
+    }
   };
 
   removeProductFromCart = (id) => {
     const { dispatch } = this.props;
     dispatch(removeFromCart(id));
+    if (localStorage.getItem('data')) {
+      const data = JSON.parse(localStorage.getItem('data'));
+      const updatedData = {
+        ...data,
+        cart: data.cart.filter((item) => item.id !== id),
+      };
+      localStorage.setItem('data', JSON.stringify(updatedData));
+    }
   };
 
   showStatus = (text, minutes, isSuccess) => {
@@ -282,7 +300,7 @@ function mapStateToProps({ state }) {
 }
 
 PLPAddToCartOverlay.propTypes = {
-  selectedProduct: propTypes.func.isRequired,
+  selectedProduct: propTypes.instanceOf(Object).isRequired,
   dispatch: propTypes.func.isRequired,
   setState: propTypes.func.isRequired,
   cart: propTypes.instanceOf(Array).isRequired,
