@@ -39,6 +39,11 @@
   text-align: center;
   background-color: white;
   padding: 10px;
+  min-width: 300px;
+}
+
+.inner > div {
+  margin: auto;
 }
 
 .size {
@@ -97,7 +102,8 @@
   color: #fff;
   height: 52px;
   width: 100%;
-  margin: 10px 0;
+  margin: 10px auto;
+  align-self: center;
 }
 
 .addToCart2 {
