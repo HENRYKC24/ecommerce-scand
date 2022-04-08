@@ -103,9 +103,11 @@ p.prize {
 }
 
 .imageStyle {
-  max-height: 193px;
+  max-height: 220px;
   margin-left: 12px;
-  width: 200px;
+  width: 80%;
+  margin: auto;
+  margin-left: 8px;
 }
 
 .remove {
