@@ -33,6 +33,7 @@ export class CartItem extends Component {
       remove,
       itemCount,
       imageStyle,
+      secondWord,
     } = styles;
 
     const {
@@ -90,9 +91,12 @@ export class CartItem extends Component {
             className={remove}
             type="button"
           >
-            Remove Item
-            {' '}
-            {quant > 1 && 's'}
+            Remove
+            <span className={secondWord}>
+              {' '}
+              Item
+              {quant > 1 && 's'}
+            </span>
 
           </button>
         </div>
@@ -125,7 +129,7 @@ export class CartItem extends Component {
 }
 
 CartItem.propTypes = {
-  data: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
   cart: PropTypes.instanceOf(Array).isRequired,
   activeCurrency: PropTypes.string.isRequired,
   itemId: PropTypes.string.isRequired,

@@ -122,7 +122,7 @@ export class CartItemMini extends PureComponent {
 }
 
 CartItemMini.propTypes = {
-  data: PropTypes.instanceOf(Array).isRequired,
+  data: PropTypes.instanceOf(Object).isRequired,
   cart: PropTypes.instanceOf(Array).isRequired,
   activeCurrency: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,

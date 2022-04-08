@@ -205,9 +205,9 @@ Header.propTypes = {
   dispatch: PropTypes.func.isRequired,
   activeCurrency: PropTypes.string.isRequired,
   activeCategory: PropTypes.string.isRequired,
-  currencies: PropTypes.instanceOf(Array).isRequired,
-  categories: PropTypes.instanceOf(Array).isRequired,
-  cart: PropTypes.instanceOf(Array).isRequired,
+  currencies: PropTypes.instanceOf(Object).isRequired,
+  categories: PropTypes.instanceOf(Object).isRequired,
+  cart: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps)(Header);

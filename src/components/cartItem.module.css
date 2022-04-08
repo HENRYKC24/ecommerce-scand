@@ -123,7 +123,11 @@ p.prize {
   background-color: rgb(199, 58, 58);
 }
 
-@media only screen and (max-width: 756px) {
+.secondWord {
+  display: none;
+}
+
+@media only screen and (max-width: 800px) {
   .cartItem {
     grid-template-columns: 100%;
     justify-content: space-between;
@@ -156,5 +160,9 @@ p.prize {
     width: 100%;
     margin-top: 15px;
     margin-bottom: 50px;
+  }
+
+  .secondWord {
+    display: inline;
   }
 }

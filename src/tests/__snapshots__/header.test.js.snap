@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login renders the UI as expected 1`] = `
+<section
+  className="header"
+  onClick={[Function]}
+  onKeyDown={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <nav
+    className="navBar"
+  >
+    <ul
+      className="navList"
+    />
+    <img
+      alt="app logo"
+      className="logo"
+      src="logo.svg"
+    />
+    <div
+      className="catCurrency"
+    >
+      <div
+        className="dollarDiv"
+      >
+        <div
+          className="currencyArrow"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <p
+            className="currencyStyle"
+          >
+            $
+          </p>
+          <img
+            alt="down arrow"
+            className="arrow"
+            src="down.svg"
+          />
+        </div>
+      </div>
+      <div>
+        <div
+          className="catWrapper"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <img
+            alt="app logo"
+            className="cartStyle"
+            src="cat.svg"
+          />
+        </div>
+        <span
+          className="numOfItemsInCat"
+        >
+          0
+        </span>
+      </div>
+    </div>
+  </nav>
+</section>
+`;

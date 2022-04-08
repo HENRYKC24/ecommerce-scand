@@ -45,8 +45,8 @@ class Details extends PureComponent {
       this.changeButtonContent('OUT OF STOCK');
     }
     const choices = [];
-    choices.length = attributes.length;
-    attributes.forEach((attribute, index) => {
+    choices.length = attributes ? attributes.length : 0;
+    (attributes || []).forEach((attribute, index) => {
       const { type, name } = attribute;
       choices[index] = { name, type, value: '' };
     });
@@ -227,7 +227,7 @@ class Details extends PureComponent {
 
     return (
       <>
-        {data.categories ? (
+        {(data.categories && gallery) ? (
           <section className={detailsContainer}>
             <p
               className={`${statusBar} ${isSuccess ? success : failure}`}
@@ -410,9 +410,9 @@ function mapStateToProps({ state }) {
 }
 
 Details.propTypes = {
-  selectedProduct: propTypes.func.isRequired,
+  selectedProduct: propTypes.instanceOf(Object).isRequired,
   dispatch: propTypes.func.isRequired,
-  cart: propTypes.instanceOf(Array).isRequired,
+  cart: propTypes.instanceOf(Object).isRequired,
 };
 
 export default connect(mapStateToProps)(Details);
