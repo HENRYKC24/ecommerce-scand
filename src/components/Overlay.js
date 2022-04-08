@@ -105,6 +105,14 @@ export class Overlay extends PureComponent {
                 if (cart.length > 0) {
                   setState();
                   this.setState({ checkout: true });
+                  if (localStorage.getItem('data')) {
+                    const data = JSON.parse(localStorage.getItem('data'));
+                    const updatedData = {
+                      ...data,
+                      cart: [],
+                    };
+                    localStorage.setItem('data', JSON.stringify(updatedData));
+                  }
                 }
               }}
               type="button"

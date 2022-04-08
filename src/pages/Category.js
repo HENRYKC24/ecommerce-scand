@@ -181,7 +181,7 @@ Category.propTypes = {
   dispatch: PropTypes.func.isRequired,
   activeCurrency: PropTypes.string.isRequired,
   activeCategory: PropTypes.string.isRequired,
-  products: PropTypes.instanceOf(Array).isRequired,
+  products: PropTypes.instanceOf(Object).isRequired,
   categories: PropTypes.instanceOf(Array).isRequired,
 };
 
