@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login renders the UI as expected 1`] = `
+<section
+  className="cartContainer"
+>
+  <div
+    className="noProductContainer"
+  >
+    <p
+      className="noProduct"
+    >
+      No product in the cart.
+    </p>
+  </div>
+</section>
+`;
