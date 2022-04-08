@@ -1,5 +1,14 @@
-# E-Commerce-Scand
-This is an e-commerce website where users can buy add items to cart and know the total amount of money for all the items in the cart. This will help the user not to spend above budget. It fetches data from a graphQL API.
+# E-Commerce-website
+This is an e-commerce website where users can buy different categories of food. You can add items to cart and know the total amount of money for all the items in the cart before checking out. It fetches data from a graphQL API.
+
+## Interesting Features
+- When an item is of different sizes, colors, etc, you can add the same product with a different attribute as a different product in the cart.
+- You can remove an Item from the cart.
+- When you choose a combination of attributes for a particular product and that product with the same combination of chosen attribute is in the cart, the 'Add To Cart' button changes to 'Remove Item' if it is only one or 'Remove Items' it more than one. Immediately, you will be presented with increase and decrease buttons as well.
+- Items that are out of stock can not be added to the cart.
+- The total money payable changes as you change the quantities in the mini cart pop up, which shows when you click the cart icon at the top right corner of the navigation bar.
+- You can switch the currencies.
+- When you close the app, your cart data persists.
 
 ## Available Scripts
 
