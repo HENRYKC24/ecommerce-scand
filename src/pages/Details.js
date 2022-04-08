@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
+import parse from 'html-react-parser';
 import styles from './details.module.css';
 import {
   addToCart,
@@ -395,8 +396,9 @@ class Details extends PureComponent {
               </button>
               <div
                 className={descriptionStyle}
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
+              >
+                {parse(description)}
+              </div>
             </div>
           </section>
         ) : <p>Loading...</p>}
