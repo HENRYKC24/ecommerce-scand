@@ -12,7 +12,7 @@ const UPDATE_PRODUCT_QUANTITY = 'ecommerce_scandi/product/UPDATE_PRODUCT_QUANTIT
 const EMPTY_CART = 'ecommerce_scandi/product/EMPTY_CART';
 
 // Create actions
-export function fetchLocally(payload) {
+export function changeReduxStateToLocalData(payload) {
   return { type: FETCH_LOCALLY, payload };
 }
 

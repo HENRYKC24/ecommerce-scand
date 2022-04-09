@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import OneCartItem from '../components/CartItem';
 import styles from './cart.module.css';
-import { fetchLocally, removeFromCart } from '../redux/products/products';
+import { changeReduxStateToLocalData, removeFromCart } from '../redux/products/products';
 
 class Cart extends PureComponent {
   constructor(props) {
@@ -17,7 +17,7 @@ class Cart extends PureComponent {
     const { cart, dispatch } = this.props;
     if (localStorage.getItem('data')) {
       const data = JSON.parse(localStorage.getItem('data'));
-      dispatch(fetchLocally(data));
+      dispatch(changeReduxStateToLocalData(data));
       this.setState(data.cart);
     } else {
       this.setState({ cart });
