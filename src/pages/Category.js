@@ -10,6 +10,7 @@ import {
 } from '../redux/products/products';
 import PLPAddToCartOverlay from '../components/PLPAddToCartOverlay';
 import formatFigure from '../utils/formatFigure';
+import isInCartIcon from '../assets/images/in_cart.svg';
 
 class Category extends PureComponent {
   constructor(props) {
@@ -65,10 +66,11 @@ class Category extends PureComponent {
       outOfStock,
       under,
       addToCart,
+      InCartCartIcon,
     } = styles;
 
     const state = this.props;
-    const { activeCategory } = state;
+    const { activeCategory, cart } = state;
     const { all } = state.products;
     let currentProducts;
     let activeCurrency;
@@ -88,75 +90,88 @@ class Category extends PureComponent {
             <h3 className={catName}>{activeCategory.toUpperCase()}</h3>
             <ul className={listItems}>
               {state.categories[0]
-                ? currentProducts.map((singleData) => (
-                  <li
-                    className={`${listItem} ${
-                      singleData.inStock ? '' : grey
-                    }`}
-                    key={Math.random()}
-                  >
-
-                    <div
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={() => this.updateReduxWithSelectedProduct(singleData)}
-                      onClick={() => this.updateReduxWithSelectedProduct(singleData)}
-                      className={imageOut}
+                ? currentProducts.map((singleData) => {
+                  const inCart = cart.some((item) => item.id.includes(singleData.id));
+                  console.log('Is in car=> ', inCart);
+                  return (
+                    <li
+                      className={`${listItem} ${
+                        singleData.inStock ? '' : grey
+                      }`}
+                      key={Math.random()}
                     >
 
-                      {!singleData.inStock && (
-                        <p className={outOfStock}>OUT OF STOCK</p>
-                      )}
-                      <div className={image}>
-                        <NavLink
-                          className={link}
-                          exact="true"
-                          to="/detail"
-                        >
-                          <img
-                            onError={this.addDefaultSrc}
-                            className={image}
-                            src={singleData.gallery[0]}
-                            alt={singleData.name}
-                          />
-                        </NavLink>
-                      </div>
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={() => this.updateReduxWithSelectedProduct(singleData)}
+                        onClick={() => this.updateReduxWithSelectedProduct(singleData)}
+                        className={imageOut}
+                      >
 
-                    </div>
-                    <div className={under}>
-                      <div>
-                        <p className={dataName}>{singleData.name}</p>
-                        <p className={amount}>
-                          <strong>
-                            {activeCurrency}
-                            {' '}
-                            {
-                               formatFigure(
-                                 singleData.prices.filter(
-                                   (price) => price.currency.symbol === activeCurrency,
-                                 )[0].amount,
-                               )
-                              }
-                          </strong>
-                        </p>
+                        {!singleData.inStock && (
+                          <p className={outOfStock}>OUT OF STOCK</p>
+                        )}
+                        <div className={image}>
+                          <NavLink
+                            className={link}
+                            exact="true"
+                            to="/detail"
+                          >
+                            <img
+                              onError={this.addDefaultSrc}
+                              className={image}
+                              src={singleData.gallery[0]}
+                              alt={singleData.name}
+                            />
+                          </NavLink>
+                        </div>
+
                       </div>
                       <div>
-                        {singleData.inStock && (
-                        <button
-                          onClick={() => {
-                            this.updateReduxWithSelectedProduct(singleData);
-                            this.setState({ showAddToCartOverlay: true });
-                          }}
-                          className={addToCart}
-                          type="button"
-                        >
-                          Add To Cart
-                        </button>
+                        {inCart && (
+                          <img
+                            className={InCartCartIcon}
+                            src={isInCartIcon}
+                            alt="Product in cart"
+                          />
                         )}
                       </div>
-                    </div>
-                  </li>
-                ))
+                      <div className={under}>
+                        <div>
+                          <p className={dataName}>{singleData.name}</p>
+                          <p className={amount}>
+                            <strong>
+                              {activeCurrency}
+                              {' '}
+                              {
+                                 formatFigure(
+                                   singleData.prices.filter(
+                                     (price) => price.currency.symbol === activeCurrency,
+                                   )[0].amount,
+                                 )
+                                }
+                            </strong>
+                          </p>
+                        </div>
+                        <div>
+                          {singleData.inStock && (
+                          <button
+                            onClick={() => {
+                              this.updateReduxWithSelectedProduct(singleData);
+                              this.setState({ showAddToCartOverlay: true });
+                            }}
+                            className={addToCart}
+                            type="button"
+                          >
+                            Add To Cart
+                          </button>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })
                 : null}
             </ul>
           </>
@@ -178,6 +193,7 @@ Category.propTypes = {
   activeCategory: PropTypes.string.isRequired,
   products: PropTypes.instanceOf(Object).isRequired,
   categories: PropTypes.instanceOf(Array).isRequired,
+  cart: PropTypes.instanceOf(Array).isRequired,
 };
 
 function mapStateToProps({ state }) {
