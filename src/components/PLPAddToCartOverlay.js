@@ -6,6 +6,7 @@ import {
   addToCart,
   fetchProducts,
   removeFromCart,
+  updateProductQuantity,
 } from '../redux/products/products';
 
 class PLPAddToCartOverlay extends PureComponent {
@@ -19,13 +20,28 @@ class PLPAddToCartOverlay extends PureComponent {
       queue: '',
       isSuccess: true,
       isInCart: false,
+      quantity: 1,
     };
   }
 
   componentDidMount() {
     const {
-      selectedProduct: { attributes },
+      selectedProduct: { attributes, id },
     } = this.props;
+
+    const { content } = this.state;
+    const attributesString = content.map((choice) => choice.value).join('');
+    const neededId = id + attributesString;
+
+    const { cart } = this.props;
+    const currentProduct = cart.filter((each) => each.id === neededId)[0];
+
+    if (currentProduct) {
+      const { quantity } = currentProduct;
+
+      this.setState({ quantity });
+    }
+
     const choices = [];
     choices.length = attributes.length;
     attributes.forEach((attribute, index) => {
@@ -33,6 +49,23 @@ class PLPAddToCartOverlay extends PureComponent {
       choices[index] = { name, type, value: '' };
     });
     this.setState({ content: choices });
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const {
+      cart,
+      selectedProduct,
+    } = props;
+    const { attributes } = selectedProduct;
+    if (attributes.length === 0) {
+      const isInCart = cart.find((item) => item.id === selectedProduct.id) !== undefined;
+      return {
+        ...state,
+        isInCart,
+        buttonContent: isInCart ? 'REMOVE ITEM' : 'ADD TO CART',
+      };
+    }
+    return state;
   }
 
   checkProductInCart = (allChoices) => {
@@ -57,6 +90,28 @@ class PLPAddToCartOverlay extends PureComponent {
     }
   };
 
+  updateQuantity = (type) => {
+    const {
+      selectedProduct: { id },
+    } = this.props;
+    const { content } = this.state;
+    const attributesString = content.map((choice) => choice.value).join('');
+    const neededId = id + attributesString;
+
+    const { cart, dispatch } = this.props;
+    const currentProduct = cart.filter((each) => each.id === neededId)[0];
+    const { quantity } = currentProduct;
+    if (type === 'add') {
+      dispatch(updateProductQuantity({ id: neededId, quantity: quantity + 1 }));
+      this.setState({ quantity: quantity + 1 });
+    } else {
+      if (quantity === 1) return;
+      this.setState({ quantity: quantity - 1 });
+      dispatch(updateProductQuantity({ id: neededId, quantity: quantity - 1 }));
+    }
+    // this.setState({ productId: neededId });
+  };
+
   addProductToCart = (product) => {
     const { dispatch } = this.props;
     dispatch(addToCart(product));
@@ -69,6 +124,7 @@ class PLPAddToCartOverlay extends PureComponent {
       };
       localStorage.setItem('data', JSON.stringify(updatedData));
     }
+    this.changeButtonContent('REMOVE ITEM');
   };
 
   removeProductFromCart = (id) => {
@@ -82,6 +138,7 @@ class PLPAddToCartOverlay extends PureComponent {
       };
       localStorage.setItem('data', JSON.stringify(updatedData));
     }
+    this.changeButtonContent('ADD TO CART');
   };
 
   showStatus = (text, minutes, isSuccess) => {
@@ -139,13 +196,15 @@ class PLPAddToCartOverlay extends PureComponent {
       remove,
       pointer,
       greyedOut,
+      buttonsContainer,
+      button,
+      itemCount,
     } = styles;
 
     const { selectedProduct, setState } = this.props;
-
     const { attributes, inStock } = selectedProduct;
 
-    const { isInCart } = this.state;
+    const { isInCart, quantity } = this.state;
     const {
       buttonContent, info, display, isSuccess,
     } = this.state;
@@ -212,6 +271,25 @@ class PLPAddToCartOverlay extends PureComponent {
                 </div>
               );
             })}
+            {isInCart && (
+            <div className={buttonsContainer}>
+              <button
+                onClick={() => this.updateQuantity('subtract')}
+                className={button}
+                type="button"
+              >
+                -
+              </button>
+              <p className={itemCount}>{quantity}</p>
+              <button
+                onClick={() => this.updateQuantity('add')}
+                className={button}
+                type="button"
+              >
+                +
+              </button>
+            </div>
+            )}
             <button
               className={`${isInCart && inStock && remove} ${
                 inStock && !isInCart && addToCart
@@ -287,6 +365,7 @@ class PLPAddToCartOverlay extends PureComponent {
               }
             >
               {buttonContent}
+              {quantity > 1 ? 'S' : ''}
             </button>
           </div>
         </div>
