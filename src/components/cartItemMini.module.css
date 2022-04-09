@@ -106,11 +106,8 @@ p.prize {
 
 @media screen and (max-width: 800px) {
   .cartItem {
-    padding: 10px 0 0 10px;
-  }
-
-  .cartItem {
     grid-template-columns: 100%;
+    padding: 10px 0 0 10px;
   }
 
   .right {
@@ -121,7 +118,6 @@ p.prize {
 
   .buttonsContainer {
     flex-direction: row-reverse;
-    /* padding: 0 20px; */
   }
 
   .cartContainer {
