@@ -24,6 +24,16 @@ class Cart extends PureComponent {
     }
   }
 
+  // componentWillUnmount() {
+  //   const { dispatch } = this.props;
+  //   if (localStorage.getItem('data')) {
+  //     const data = JSON.parse(localStorage.getItem('data'));
+  //     dispatch(changeReduxStateToLocalData(data));
+  //     this.setState(data.cart);
+  //   }
+  //   localStorage.setItem('data', JSON.stringify(this.props));
+  // }
+
   render() {
     const {
       cartContainer,

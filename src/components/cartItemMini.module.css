@@ -108,4 +108,44 @@ p.prize {
   .cartItem {
     padding: 10px 0 0 10px;
   }
+
+  .cartItem {
+    grid-template-columns: 100%;
+  }
+
+  .right {
+    flex-direction: column;
+    justify-content: flex-start;
+    order: -1;
+  }
+
+  .buttonsContainer {
+    flex-direction: row-reverse;
+    /* padding: 0 20px; */
+  }
+
+  .cartContainer {
+    width: 100%;
+  }
+
+  .imageStyle {
+    max-height: 55%;
+    margin: 10px auto;
+    width: 70%;
+  }
+
+  .remove {
+    font-size: 1.5rem;
+    height: 50px;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+
+  .nameStyle {
+    margin-top: -20vw;
+  }
+
+  .secondWord {
+    display: inline;
+  }
 }

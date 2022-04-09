@@ -38,13 +38,18 @@ class Category extends PureComponent {
       };
       localStorage.setItem('data', JSON.stringify(updatedData));
     }
+    const { dispatch } = this.props;
+    dispatch(addSelectedProduct(product));
   }
 
   updateReduxWithSelectedProduct = (product) => {
     const productWithBtnText = { ...product, btnContent: 'ADD TO CART' };
     const { dispatch } = this.props;
     dispatch(addSelectedProduct(productWithBtnText));
-    this.saveSelectedProductLocally(productWithBtnText);
+    localStorage.setItem('data', JSON.stringify({
+      ...this.props,
+      selectedProduct: productWithBtnText,
+    }));
   };
 
   addDefaultSrc = (e) => {
