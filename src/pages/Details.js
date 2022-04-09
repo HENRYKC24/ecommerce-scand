@@ -5,18 +5,19 @@ import parse from 'html-react-parser';
 import styles from './details.module.css';
 import {
   addToCart,
-  fetchLocally,
+  // changeReduxStateToLocalData,
   fetchProducts,
   removeFromCart,
   updateProductQuantity,
 } from '../redux/products/products';
 import formatFigure from '../utils/formatFigure';
+import history from '../history';
 
 class Details extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      data: {},
+      // data: {},
       content: [],
       buttonContent: 'ADD TO CART',
       info: '',
@@ -29,16 +30,18 @@ class Details extends PureComponent {
   }
 
   componentDidMount() {
-    let data;
-    if (localStorage.getItem('data')) {
-      data = JSON.parse(localStorage.getItem('data'));
-      const { dispatch } = this.props;
-      dispatch(fetchLocally(data));
-      this.setState({ data });
+    const { selectedProduct } = this.props;
+    const { name } = selectedProduct;
+    if (name) {
+      const currentData = {
+        ...this.props,
+        selectedProduct,
+      };
+      localStorage.setItem('data', JSON.stringify(currentData));
+    } else {
+      const local = JSON.parse(localStorage.getItem('data'));
+      localStorage.setItem('data', JSON.stringify(local));
     }
-    const {
-      selectedProduct,
-    } = data || this.props;
 
     const { inStock, attributes } = selectedProduct;
 
@@ -52,10 +55,6 @@ class Details extends PureComponent {
       choices[index] = { name, type, value: '' };
     });
     this.setState({ content: choices });
-  }
-
-  componentDidUpdate() {
-    this.setState({ data: this.props });
   }
 
   updateQuantity = (type) => {
@@ -202,13 +201,30 @@ class Details extends PureComponent {
       itemCount,
     } = styles;
 
-    const { data } = this.state;
+    let selectedProductMain;
+    let cart;
+    let activeCurrency;
 
-    const { selectedProduct, activeCurrency, cart } = data;
+    const { selectedProduct: product } = this.props;
+    const { cart: ct, activeCurrency: actCur } = this.props;
+    const data = JSON.parse(localStorage.getItem('data'));
+    if (product.name) {
+      selectedProductMain = product;
+      cart = ct;
+      activeCurrency = actCur;
+      localStorage.setItem('data', JSON.stringify(this.props));
+    } else if (data) {
+      const { selectedProduct: product2, cart: ct2, activeCurrency: actCur2 } = data;
+      selectedProductMain = product2;
+      cart = ct2;
+      activeCurrency = actCur2;
+    } else {
+      history.push('/');
+    }
 
     const {
       attributes, brand, description, gallery, inStock, name, prices,
-    } = selectedProduct || {};
+    } = selectedProductMain || {};
 
     const { isInCart } = this.state;
     const {
@@ -228,102 +244,102 @@ class Details extends PureComponent {
 
     return (
       <>
-        {(data.categories && gallery) ? (
-          <section className={detailsContainer}>
-            <p
-              className={`${statusBar} ${isSuccess ? success : failure}`}
-              style={{
-                display: display ? 'block' : 'none',
-                padding: display ? '5px' : '0',
-              }}
-            >
-              {info}
-            </p>
-            <div className={leftSection}>
-              <ul className={thumbnailList}>
-                {gallery.map((picture) => (
-                  <li key={Math.random()} className={thumbnail}>
-                    <img src={picture} alt="thumbnail" />
-                  </li>
-                ))}
-              </ul>
-              <img className={image} src={gallery[0]} alt="thumbnail" />
-            </div>
-            <div className={rightSection}>
-              <h2 className={nameStyle}>{name}</h2>
-              <p className={status}>{brand}</p>
-              {attributes.map((attr, index) => {
-                const { name, type, items } = attr;
-                const isSwatch = type === 'swatch';
-                return (
-                  <div key={Math.random()} className={sizeContainer}>
-                    <h5 className={size}>
-                      {name}
-                      :
-                    </h5>
-                    <div className={sizeList}>
-                      {items.map((item) => {
-                        const { content } = this.state;
-                        const currentChoices = content[index] || { value: '*****' };
-                        const currentValue = currentChoices.value;
-                        const isSelected = currentValue === item.value;
-                        return (
-                          <button
-                            type="button"
-                            onClick={() => this.setSelectedValue(index, item.value)}
-                            key={Math.random()}
-                            style={{ backgroundColor: isSwatch ? item.value : '' }}
-                            className={`${sizeItem} ${isSelected ? '' : pointer} ${
-                              isSelected ? '' : greyedOut
-                            }`}
-                          >
-                            {isSwatch ? '' : item.value}
-                          </button>
-                        );
-                      })}
-                    </div>
+        {(gallery && gallery[0]) && (
+        <section className={detailsContainer}>
+          <p
+            className={`${statusBar} ${isSuccess ? success : failure}`}
+            style={{
+              display: display ? 'block' : 'none',
+              padding: display ? '5px' : '0',
+            }}
+          >
+            {info}
+          </p>
+          <div className={leftSection}>
+            <ul className={thumbnailList}>
+              {gallery.map((picture) => (
+                <li key={Math.random()} className={thumbnail}>
+                  <img src={picture} alt="thumbnail" />
+                </li>
+              ))}
+            </ul>
+            <img className={image} src={gallery[0]} alt="thumbnail" />
+          </div>
+          <div className={rightSection}>
+            <h2 className={nameStyle}>{name}</h2>
+            <p className={status}>{brand}</p>
+            {attributes.map((attr, index) => {
+              const { name, type, items } = attr;
+              const isSwatch = type === 'swatch';
+              return (
+                <div key={Math.random()} className={sizeContainer}>
+                  <h5 className={size}>
+                    {name}
+                    :
+                  </h5>
+                  <div className={sizeList}>
+                    {items.map((item) => {
+                      const { content } = this.state;
+                      const currentChoices = content[index] || { value: '*****' };
+                      const currentValue = currentChoices.value;
+                      const isSelected = currentValue === item.value;
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => this.setSelectedValue(index, item.value)}
+                          key={Math.random()}
+                          style={{ backgroundColor: isSwatch ? item.value : '' }}
+                          className={`${sizeItem} ${isSelected ? '' : pointer} ${
+                            isSelected ? '' : greyedOut
+                          }`}
+                        >
+                          {isSwatch ? '' : item.value}
+                        </button>
+                      );
+                    })}
                   </div>
-                );
-              })}
-              <div className={prizeContainer}>
-                <h5 className={prizeHeading}>Prize:</h5>
-                <p className={prize}>
-                  {activeCurrency}
-                  {' '}
-                  {
+                </div>
+              );
+            })}
+            <div className={prizeContainer}>
+              <h5 className={prizeHeading}>Prize:</h5>
+              <p className={prize}>
+                {activeCurrency}
+                {' '}
+                {
                 formatFigure(
                   prices.filter(
                     (price) => price.currency.symbol === activeCurrency,
                   )[0].amount,
                 )
               }
-                </p>
-              </div>
-              {isInCart && (
-              <div className={buttonsContainer}>
-                <button
-                  onClick={() => this.updateQuantity('subtract')}
-                  className={button}
-                  type="button"
-                >
-                  -
-                </button>
-                <p className={itemCount}>{quant || 1}</p>
-                <button
-                  onClick={() => this.updateQuantity('add')}
-                  className={button}
-                  type="button"
-                >
-                  +
-                </button>
-              </div>
-              )}
+              </p>
+            </div>
+            {isInCart && (
+            <div className={buttonsContainer}>
               <button
-                className={`${isInCart && inStock && remove} ${
-                  inStock && !isInCart && addToCart
-                } ${!inStock && addToCart2}`}
+                onClick={() => this.updateQuantity('subtract')}
+                className={button}
                 type="button"
-                onClick={
+              >
+                -
+              </button>
+              <p className={itemCount}>{quant || 1}</p>
+              <button
+                onClick={() => this.updateQuantity('add')}
+                className={button}
+                type="button"
+              >
+                +
+              </button>
+            </div>
+            )}
+            <button
+              className={`${isInCart && inStock && remove} ${
+                inStock && !isInCart && addToCart
+              } ${!inStock && addToCart2}`}
+              type="button"
+              onClick={
               !isInCart && inStock
                 ? () => {
                   const { content } = this.state;
@@ -350,7 +366,7 @@ class Details extends PureComponent {
                   }
                   const {
                     brand, id, name, prices, gallery,
-                  } = selectedProduct;
+                  } = selectedProductMain;
                   const attributesString = content
                     .map((choice) => choice.value)
                     .join('');
@@ -375,7 +391,7 @@ class Details extends PureComponent {
                 }
                 : () => {
                   if (inStock) {
-                    const { id } = selectedProduct;
+                    const { id } = selectedProductMain;
                     const { content } = this.state;
                     const attributesString = content
                       .map((choice) => choice.value)
@@ -391,17 +407,17 @@ class Details extends PureComponent {
                   }
                 }
             }
-              >
-                {buttonContent + (quant > '1' ? 'S' : '')}
-              </button>
-              <div
-                className={descriptionStyle}
-              >
-                {parse(description)}
-              </div>
+            >
+              {buttonContent + (quant > '1' ? 'S' : '')}
+            </button>
+            <div
+              className={descriptionStyle}
+            >
+              {parse(description)}
             </div>
-          </section>
-        ) : <p>Loading...</p>}
+          </div>
+        </section>
+        )}
       </>
     );
   }
@@ -415,6 +431,7 @@ Details.propTypes = {
   selectedProduct: propTypes.instanceOf(Object).isRequired,
   dispatch: propTypes.func.isRequired,
   cart: propTypes.instanceOf(Object).isRequired,
+  activeCurrency: propTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(Details);

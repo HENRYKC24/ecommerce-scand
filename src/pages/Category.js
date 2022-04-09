@@ -6,7 +6,7 @@ import styles from './category.module.css';
 import noImage from '../assets/images/no_image.webp';
 import {
   addSelectedProduct,
-  fetchLocally,
+  changeReduxStateToLocalData,
 } from '../redux/products/products';
 import PLPAddToCartOverlay from '../components/PLPAddToCartOverlay';
 import formatFigure from '../utils/formatFigure';
@@ -25,7 +25,7 @@ class Category extends PureComponent {
     if (localStorage.getItem('data')) {
       data = JSON.parse(localStorage.getItem('data'));
       const { dispatch } = this.props;
-      dispatch(fetchLocally(data));
+      dispatch(changeReduxStateToLocalData(data));
     }
   }
 
@@ -38,13 +38,18 @@ class Category extends PureComponent {
       };
       localStorage.setItem('data', JSON.stringify(updatedData));
     }
+    const { dispatch } = this.props;
+    dispatch(addSelectedProduct(product));
   }
 
   updateReduxWithSelectedProduct = (product) => {
     const productWithBtnText = { ...product, btnContent: 'ADD TO CART' };
     const { dispatch } = this.props;
     dispatch(addSelectedProduct(productWithBtnText));
-    this.saveSelectedProductLocally(productWithBtnText);
+    localStorage.setItem('data', JSON.stringify({
+      ...this.props,
+      selectedProduct: productWithBtnText,
+    }));
   };
 
   addDefaultSrc = (e) => {
@@ -92,7 +97,6 @@ class Category extends PureComponent {
               {state.categories[0]
                 ? currentProducts.map((singleData) => {
                   const inCart = cart.some((item) => item.id.includes(singleData.id));
-                  console.log('Is in car=> ', inCart);
                   return (
                     <li
                       className={`${listItem} ${
