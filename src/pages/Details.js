@@ -228,8 +228,6 @@ class Details extends PureComponent {
       history.push('/');
     }
 
-    console.log('cart>>', cart, selectedProductMain);
-
     const {
       attributes, brand, description, gallery, inStock, name, prices,
     } = selectedProductMain || {};
