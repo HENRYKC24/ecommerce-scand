@@ -5,7 +5,6 @@ import parse from 'html-react-parser';
 import styles from './details.module.css';
 import {
   addToCart,
-  // changeReduxStateToLocalData,
   fetchProducts,
   removeFromCart,
   updateProductQuantity,
@@ -17,7 +16,6 @@ class Details extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      // data: {},
       content: [],
       buttonContent: 'ADD TO CART',
       info: '',
@@ -26,6 +24,7 @@ class Details extends PureComponent {
       isSuccess: true,
       isInCart: false,
       productId: '',
+      notAttributeItem: {},
     };
   }
 
@@ -44,6 +43,11 @@ class Details extends PureComponent {
     }
 
     const { inStock, attributes } = selectedProduct;
+    if (attributes && attributes.length === 0) {
+      const { cart } = this.props;
+      const cartItem = cart.find((item) => selectedProduct.id === item.id);
+      this.setState({ isInCart: cartItem !== undefined, notAttributeItem: cartItem });
+    }
 
     if (!inStock) {
       this.changeButtonContent('OUT OF STOCK');
@@ -70,9 +74,11 @@ class Details extends PureComponent {
     const { quantity } = currentProduct;
     if (type === 'add') {
       dispatch(updateProductQuantity({ id: neededId, quantity: quantity + 1 }));
+      this.setState({ quantity: quantity + 1 });
     } else {
       if (quantity === 1) return;
       dispatch(updateProductQuantity({ id: neededId, quantity: quantity - 1 }));
+      this.setState({ quantity: quantity - 1 });
     }
     this.setState({ productId: neededId });
   };
@@ -222,6 +228,8 @@ class Details extends PureComponent {
       history.push('/');
     }
 
+    console.log('cart>>', cart, selectedProductMain);
+
     const {
       attributes, brand, description, gallery, inStock, name, prices,
     } = selectedProductMain || {};
@@ -240,6 +248,17 @@ class Details extends PureComponent {
     if (currentProduct) {
       const { quantity } = currentProduct;
       quant = quantity || 1;
+    }
+
+    if (!selectedProductMain || !selectedProductMain.attributes) {
+      history.push('/');
+    }
+
+    if (selectedProductMain && selectedProductMain.attributes.length === 0 && isInCart) {
+      const { cart } = this.props;
+      const { notAttributeItem, quantity } = this.state;
+      const cartItemFromProps = cart.find((item) => item.id === notAttributeItem.id);
+      quant = cartItemFromProps.quantity || quantity || notAttributeItem.quantity;
     }
 
     return (
