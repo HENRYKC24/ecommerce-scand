@@ -78,6 +78,10 @@ class PLPAddToCartOverlay extends PureComponent {
       const attributesString = allChoices
         .map((choice) => choice.value)
         .join('');
+      const currentProduct = cart.filter((each) => each.id === id + attributesString)[0];
+      if (currentProduct) {
+        this.setState({ quantity: currentProduct.quantity });
+      }
       return each.id === id + attributesString;
     }) !== undefined;
 
@@ -109,7 +113,6 @@ class PLPAddToCartOverlay extends PureComponent {
       this.setState({ quantity: quantity - 1 });
       dispatch(updateProductQuantity({ id: neededId, quantity: quantity - 1 }));
     }
-    // this.setState({ productId: neededId });
   };
 
   addProductToCart = (product) => {
