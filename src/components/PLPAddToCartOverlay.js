@@ -113,7 +113,6 @@ class PLPAddToCartOverlay extends PureComponent {
       this.setState({ quantity: quantity - 1 });
       dispatch(updateProductQuantity({ id: neededId, quantity: quantity - 1 }));
     }
-    // this.setState({ productId: neededId });
   };
 
   addProductToCart = (product) => {
