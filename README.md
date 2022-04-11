@@ -2,6 +2,8 @@
 This is an e-commerce website where users can buy different categories of food. You can add items to cart and know the total amount of money for all the items in the cart before checking out. It fetches data from a graphQL API.
 
 ## Interesting Features
+- Mobile friendly
+- Unit tests
 - When an item is of different sizes, colors, etc, you can add the same product with a different attribute as a different product in the cart.
 - You can remove an Item from the cart.
 - When you choose a combination of attributes for a particular product and that product with the same combination of chosen attribute is in the cart, the 'Add To Cart' button changes to 'Remove Item' if it is only one or 'Remove Items' it more than one. Immediately, you will be presented with increase and decrease buttons as well.
