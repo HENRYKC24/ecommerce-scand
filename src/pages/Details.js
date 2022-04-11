@@ -24,7 +24,7 @@ class Details extends PureComponent {
       isSuccess: true,
       isInCart: false,
       productId: '',
-      notAttributeItem: {},
+      noAttributeProduct: {},
     };
   }
 
@@ -46,7 +46,11 @@ class Details extends PureComponent {
     if (attributes && attributes.length === 0) {
       const { cart } = this.props;
       const cartItem = cart.find((item) => selectedProduct.id === item.id);
-      this.setState({ isInCart: cartItem !== undefined, notAttributeItem: cartItem });
+      this.setState({
+        isInCart: cartItem !== undefined,
+        noAttributeProduct: cartItem,
+        buttonContent: cartItem !== undefined ? 'REMOVE ITEM' : 'ADD TO CART',
+      });
     }
 
     if (!inStock) {
@@ -207,6 +211,11 @@ class Details extends PureComponent {
       itemCount,
     } = styles;
 
+    const { selectedProduct: prod } = this.props;
+    if (!prod.name) {
+      history.push('/');
+    }
+
     let selectedProductMain;
     let cart;
     let activeCurrency;
@@ -252,11 +261,14 @@ class Details extends PureComponent {
       history.push('/');
     }
 
-    if (selectedProductMain && selectedProductMain.attributes.length === 0 && isInCart) {
+    if (selectedProductMain
+      && selectedProductMain.attributes
+      && selectedProductMain.attributes.length === 0
+      && isInCart) {
       const { cart } = this.props;
-      const { notAttributeItem, quantity } = this.state;
-      const cartItemFromProps = cart.find((item) => item.id === notAttributeItem.id);
-      quant = cartItemFromProps.quantity || quantity || notAttributeItem.quantity;
+      const { noAttributeProduct, quantity } = this.state;
+      const cartItemFromProps = cart.find((item) => item.id === noAttributeProduct.id);
+      quant = cartItemFromProps.quantity || quantity || noAttributeProduct.quantity;
     }
 
     return (

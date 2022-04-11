@@ -125,6 +125,7 @@
   height: 52px;
   width: 100%;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .addToCart2 {
@@ -136,6 +137,7 @@
   height: 52px;
   width: 100%;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .remove {
@@ -148,6 +150,7 @@
   background-color: rgb(105, 33, 33);
   cursor: pointer;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .buttonsContainer {
@@ -165,6 +168,7 @@
   background-color: #fff;
   font-size: 30px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .button:hover {
