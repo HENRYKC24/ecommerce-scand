@@ -104,6 +104,7 @@
   width: 100%;
   margin: 10px auto;
   align-self: center;
+  border-radius: 5px;
 }
 
 .addToCart2 {
@@ -115,6 +116,7 @@
   height: 52px;
   width: 100%;
   margin: 10px 0;
+  border-radius: 5px;
 }
 
 .remove {
@@ -127,6 +129,7 @@
   background-color: rgb(105, 33, 33);
   cursor: pointer;
   margin: 10px 0;
+  border-radius: 5px;
 }
 
 .addToCart:hover {

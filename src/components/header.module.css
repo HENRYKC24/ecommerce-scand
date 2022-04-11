@@ -1,15 +1,16 @@
 .navBar {
-  padding: 0 20px 20px;
-  width: 90%;
+  width: 95%;
   display: flex;
   flex-direction: row;
   margin: auto;
+  margin: 0;
   justify-content: space-between;
   padding-top: 30px;
   background-color: #fff;
 }
 
 .header {
+  margin-left: 5%;
   position: sticky;
   top: -2px;
   z-index: 20;
@@ -148,6 +149,7 @@
     height: 30px;
     margin: 10px auto;
     padding-top: 40px;
+    margin: 0;
   }
 
   .navItem {
@@ -180,6 +182,10 @@
 }
 
 @media screen and (max-width: 370px) {
+  .navBar {
+    margin: 0;
+  }
+  
   .currencyArrow {
     width: 30px;
   }
@@ -201,6 +207,6 @@
   }
 
   .logo {
-    left: calc(-15%);
+    left: calc(-9%);
   }
 }

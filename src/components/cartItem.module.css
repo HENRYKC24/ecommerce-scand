@@ -82,6 +82,7 @@ p.prize {
   background-color: #fff;
   font-size: 30px;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .button:hover {
@@ -118,6 +119,7 @@ p.prize {
   background-color: rgb(105, 33, 33);
   cursor: pointer;
   margin-top: 15px;
+  border-radius: 5px;
 }
 
 .remove:hover {
