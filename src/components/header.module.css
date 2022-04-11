@@ -147,7 +147,6 @@
 @media screen and (max-width: 800px) {
   .navBar {
     height: 30px;
-    margin: 10px auto;
     padding-top: 40px;
     margin: 0;
   }
@@ -185,7 +184,7 @@
   .navBar {
     margin: 0;
   }
-  
+
   .currencyArrow {
     width: 30px;
   }
