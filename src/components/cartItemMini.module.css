@@ -107,7 +107,7 @@ p.prize {
 @media screen and (max-width: 800px) {
   .cartItem {
     grid-template-columns: 100%;
-    padding: 10px 0 0 10px;
+    padding: 10px;
   }
 
   .right {
