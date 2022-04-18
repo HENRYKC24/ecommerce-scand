@@ -409,7 +409,7 @@ class Details extends PureComponent {
                     quantity: 1,
                   };
                   this.addProductToCart(cartItem);
-                  this.setState({ isInCart: true });
+                  this.setState({ noAttributeProduct: cartItem, isInCart: true });
                   this.changeButtonContent('REMOVE ITEM');
                   this.showStatus(
                     'Product successfully added to cart!',
